@@ -19,13 +19,13 @@ android {
         debug {
             //自定义Gradle常量
             buildConfigField "boolean", "LOG_DEBUG", "true"
-            buildConfigField "String", "LOG_TAG", "\"CommonUI\""
-            buildConfigField "String", "SP_NAME", "\"CommonUI\""
+            buildConfigField "String", "LOG_TAG", "\"UILibrary\""
+            buildConfigField "String", "SP_NAME", "\"UILibrary\""
         }
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
-            buildConfigField "String", "LOG_TAG", "\"CommonUI\""
-            buildConfigField "String", "SP_NAME", "\"CommonUI\""
+            buildConfigField "String", "LOG_TAG", "\"UILibrary\""
+            buildConfigField "String", "SP_NAME", "\"UILibrary\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -44,8 +44,4 @@ dependencies {
     //
     api rootProject.ext.dependencies["material"]
     api rootProject.ext.dependencies["constraintlayout"]
-    //
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
