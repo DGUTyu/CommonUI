@@ -1,2 +1,3 @@
+include ':UIlibrary'
 include ':app'
 rootProject.name = "CommonUI"

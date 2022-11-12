@@ -2,3 +2,5 @@
 /.idea/
 /app/src/androidTest/
 /app/src/test/
+/UIlibrary/src/androidTest/
+/UIlibrary/src/test/

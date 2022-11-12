@@ -18,4 +18,9 @@ ext {
     maven = [
             "jitpack": "https://www.jitpack.io",
     ]
+    //其他设置
+    setting = [
+            APK_NAME: "\"UI\"",
+            BASE_URI: "\"http://www.wxdgut.com/\"",
+    ]
 }
