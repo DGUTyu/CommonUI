@@ -44,4 +44,5 @@ dependencies {
     //
     api rootProject.ext.dependencies["material"]
     api rootProject.ext.dependencies["constraintlayout"]
+    api rootProject.ext.dependencies["picasso"]
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- BannerView 轮播图控件  -->
+    <declare-styleable name="bannerM">
+        <attr name="defaultImageDrawable" format="reference" />
+        <attr name="intervalTime" format="integer" />
+        <attr name="indexPosition">
+            <enum name="right" value="0x100" />
+            <enum name="bottom" value="0x101" />
+        </attr>
+        <attr name="indexColor" format="color" />
+    </declare-styleable>
+</resources>
