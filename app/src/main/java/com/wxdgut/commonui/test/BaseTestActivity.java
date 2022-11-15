@@ -2,11 +2,11 @@ package com.wxdgut.commonui.test;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.wxdgut.commonui.BuildConfig;
 import com.wxdgut.commonui.R;

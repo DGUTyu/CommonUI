@@ -20,6 +20,7 @@ static def buildTime() {
 }
 
 android {
+
     buildFeatures {
         viewBinding = true
     }
@@ -38,7 +39,7 @@ android {
         // Android Studio 3.0 之后 多渠道需要配置方向
         flavorDimensions "default"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
             //"armeabi", "x86","x86_64"
