@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -64,7 +65,9 @@ public class CommonViewHolder extends RecyclerView.ViewHolder {
      * @return
      */
     public static CommonViewHolder getViewHolder(ViewGroup parent, int layoutId) {
-        View itemView = View.inflate(parent.getContext(), layoutId, null);
+        //View itemView = View.inflate(parent.getContext(), layoutId, null);
+        //return new CommonViewHolder(itemView);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
         return new CommonViewHolder(itemView);
     }
 
