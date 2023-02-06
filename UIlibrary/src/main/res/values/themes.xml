@@ -16,4 +16,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!--  弹窗动画效果 向上弹出，向下退出  -->
+    <style name="anim_dialog_upIn_downOut">
+        <item name="android:windowEnterAnimation">@anim/anim_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_dialog_out</item>
+    </style>
+
 </resources>

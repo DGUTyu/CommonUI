@@ -85,6 +85,7 @@ public class DialogTestActivity extends BaseTestActivity implements View.OnClick
                         //.widthMatch(false)
                         .gravity(Gravity.TOP)
                         .draggable(true)
+                        .anim(R.style.anim_dialog_upIn_downOut)
                         .build();
                 dialog1.show();
                 dialog1.setMyCancelListener(new CommonDialog.MyCancelListener() {
@@ -109,7 +110,7 @@ public class DialogTestActivity extends BaseTestActivity implements View.OnClick
                 break;
             case R.id.btn2:
                 //toast("btn2");
-                CommonDialog dialog2 = new CommonDialog.Builder(baseContext).cancelable(false).build();
+                CommonDialog dialog2 = new CommonDialog.Builder(baseContext).cancelable(false).anim(R.style.anim_dialog_upIn_downOut).build();
                 dialog2.show();
                 dialog2.setImageResource(R.id.iv_fingerprint, R.drawable.img_rv_icon_3);
                 dialog2.setClick(R.id.tv_cancel, v -> {

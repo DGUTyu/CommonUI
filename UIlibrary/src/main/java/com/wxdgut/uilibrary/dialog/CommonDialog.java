@@ -38,6 +38,8 @@ import static android.content.Context.WINDOW_SERVICE;
 public class CommonDialog extends Dialog {
     //TAG
     protected String TAG = CommonDialog.class.getCanonicalName();
+    //默认弹窗无动画效果，用-1表示
+    protected static final int DEFAULT_ANIM = -1;
     //取消类型
     public static final int NORMAL_CANCEL = 1;
     public static final int BACK_CANCEL = 2;
@@ -61,6 +63,7 @@ public class CommonDialog extends Dialog {
     //用于获取Builder 参数
     final Context context; //上下文
     final int layout; //Dialog 布局文件id
+    final int animId; //动画效果id
     final boolean widthMatch; //弹窗宽度是否MATCH_PARENT
     final int gravity; //居中方式
     final int styleId; //Dialog 默认样式id
@@ -401,6 +404,7 @@ public class CommonDialog extends Dialog {
         //获取参数
         this.context = builder.context;
         this.layout = builder.layout;
+        this.animId = builder.animId;
         this.widthMatch = builder.widthMatch;
         this.gravity = builder.gravity;
         this.styleId = builder.styleId;
@@ -416,6 +420,7 @@ public class CommonDialog extends Dialog {
         layoutParams.width = widthMatch ? WindowManager.LayoutParams.MATCH_PARENT : WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.gravity = gravity;
+        if (animId != DEFAULT_ANIM) layoutParams.windowAnimations = animId;
         window.setAttributes(layoutParams);
         setCancelable(cancelable);
         //初始化事件
@@ -457,6 +462,7 @@ public class CommonDialog extends Dialog {
         int styleId;
         boolean draggable;
         boolean cancelable;
+        int animId;
 
         /**
          * 默认配置
@@ -468,6 +474,7 @@ public class CommonDialog extends Dialog {
             this.widthMatch = false;
             this.gravity = Gravity.CENTER;
             this.layout = R.layout.dialog_fingerprint;
+            this.animId = DEFAULT_ANIM;
             //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //API 21
             //this.styleId = android.R.style.Theme_Material_Dialog_NoActionBar;
             //}
@@ -482,6 +489,15 @@ public class CommonDialog extends Dialog {
          */
         public Builder layout(int layout) {
             this.layout = layout;
+            return this;
+        }
+
+        /**
+         * @param animId 动画效果id
+         * @return
+         */
+        public Builder anim(int animId) {
+            this.animId = animId;
             return this;
         }
 
