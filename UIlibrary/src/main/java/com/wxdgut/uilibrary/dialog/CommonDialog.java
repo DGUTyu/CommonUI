@@ -1,5 +1,6 @@
 package com.wxdgut.uilibrary.dialog;
 
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -19,9 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wxdgut.uilibrary.R;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 import static android.content.Context.WINDOW_SERVICE;
 
@@ -50,6 +48,8 @@ public class CommonDialog extends Dialog {
     //用于更新移动后的View
     private final WindowManager.LayoutParams layoutParams;
     private final WindowManager wm;
+    //用于缓存子view的动画设置
+    private ObjectAnimator mAnim = null;
     //是否移动
     private boolean isMove = false;
     //是否拖拽
@@ -372,10 +372,47 @@ public class CommonDialog extends Dialog {
         }
     }
 
+    /**
+     * 字符串是否为空
+     *
+     * @param str
+     * @return
+     */
+    public boolean isEmptyOrNull(String str) {
+        if (null == str || "".equals(str) || " ".equals(str) || "null".equals(str)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 设置Dialog中某个控件的动画效果
+     * 最好在showDialog之前设置setAnimView
+     * @param viewId
+     * @param model
+     */
+    public ObjectAnimator setAnimView(int viewId, final AnimModel model) {
+        View view = getView(viewId);
+        String name = model.getPropertyName();
+        if (view == null || isEmptyOrNull(name)) return new ObjectAnimator();
+        ObjectAnimator animator = ObjectAnimator.ofFloat(view, name, model.getStartValues(), model.getEndValues());
+        //动画时长
+        animator.setDuration(model.getDuration());
+        //重复模式与重复次数缺一不可
+        animator.setRepeatMode(model.getRepeatMode());
+        animator.setRepeatCount(model.getRepeatCount());
+        //设置 Interpolator 插值器
+        animator.setInterpolator(model.getInterpolator());
+        //缓存
+        mAnim = animator;
+        if (isShowing()) mAnim.start();
+        return animator;
+    }
 
     //显示Dialog
     public void showDialog() {
         if (this != null && !isShowing()) {
+            if (mAnim != null) mAnim.start();
             Log.i(TAG, "show");
             show();
         }
@@ -384,6 +421,7 @@ public class CommonDialog extends Dialog {
     //隐藏Dialog
     public void hideDialog() {
         if (this != null && isShowing()) {
+            if (mAnim != null) mAnim.pause();
             Log.i(TAG, "hide");
             hide();
         }
@@ -392,9 +430,11 @@ public class CommonDialog extends Dialog {
     //销毁Dialog
     public void dismissDialog() {
         if (this != null) {
+            if (mAnim != null) mAnim.cancel();
             Log.i(TAG, "dismiss");
             dismiss();
             mViews = null;
+            mAnim = null;
         }
     }
 

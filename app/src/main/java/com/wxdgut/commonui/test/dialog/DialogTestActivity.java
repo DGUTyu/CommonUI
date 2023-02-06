@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
+import com.wxdgut.uilibrary.dialog.AnimModel;
 import com.wxdgut.uilibrary.dialog.CommonDialog;
 
 
@@ -87,7 +88,7 @@ public class DialogTestActivity extends BaseTestActivity implements View.OnClick
                         .draggable(true)
                         .anim(R.style.anim_dialog_upIn_downOut)
                         .build();
-                dialog1.show();
+                dialog1.showDialog();
                 dialog1.setMyCancelListener(new CommonDialog.MyCancelListener() {
                     @Override
                     public void afterCancel(int cancelType) {
@@ -111,7 +112,8 @@ public class DialogTestActivity extends BaseTestActivity implements View.OnClick
             case R.id.btn2:
                 //toast("btn2");
                 CommonDialog dialog2 = new CommonDialog.Builder(baseContext).cancelable(false).anim(R.style.anim_dialog_upIn_downOut).build();
-                dialog2.show();
+                dialog2.showDialog();
+                dialog2.setAnimView(R.id.iv_fingerprint, new AnimModel(1));
                 dialog2.setImageResource(R.id.iv_fingerprint, R.drawable.img_rv_icon_3);
                 dialog2.setClick(R.id.tv_cancel, v -> {
                     dialog2.dismissDialog();
