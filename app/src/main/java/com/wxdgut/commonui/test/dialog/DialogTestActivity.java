@@ -1,5 +1,6 @@
 package com.wxdgut.commonui.test.dialog;
 
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -111,12 +112,30 @@ public class DialogTestActivity extends BaseTestActivity implements View.OnClick
                 break;
             case R.id.btn2:
                 //toast("btn2");
-                CommonDialog dialog2 = new CommonDialog.Builder(baseContext).cancelable(false).anim(R.style.anim_dialog_upIn_downOut).build();
-                dialog2.showDialog();
-                dialog2.setAnimView(R.id.iv_fingerprint, new AnimModel(1));
+                CommonDialog dialog2 = new CommonDialog.Builder(baseContext).cancelable(true).build();
+                dialog2.showDialog(); //不论顺序
+                AnimModel model = new AnimModel(1);
+                dialog2.setAnimView(R.id.iv_fingerprint, model);
+                dialog2.setAnimView(R.id.tv_sure, model);
+                //dialog2.setAnimView(R.id.ll_root, model);
                 dialog2.setImageResource(R.id.iv_fingerprint, R.drawable.img_rv_icon_3);
-                dialog2.setClick(R.id.tv_cancel, v -> {
-                    dialog2.dismissDialog();
+                dialog2.setClick(R.id.tv_cancel, new CommonDialog.MyListener() {
+                    @Override
+                    public void click(View view, boolean isChange) {
+                        ObjectAnimator animator = dialog2.getAnimator(R.id.iv_fingerprint);
+                        if (animator == null) return;
+                        if (isChange) animator.pause();
+                        else animator.start();
+                    }
+                });
+                dialog2.setClick(R.id.tv_sure, new CommonDialog.MyListener() {
+                    @Override
+                    public void click(View view, boolean isChange) {
+                        ObjectAnimator animator = dialog2.getAnimator(R.id.tv_sure);
+                        if (animator == null) return;
+                        if (isChange) animator.pause();
+                        else animator.start();
+                    }
                 });
                 break;
             case R.id.btn3:

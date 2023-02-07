@@ -44,12 +44,13 @@ public class CommonDialog extends Dialog {
 
     //子View的集合
     private SparseArray<View> mViews;
+    //用于缓存子view的动画
+    private SparseArray<ObjectAnimator> mAnims;
 
     //用于更新移动后的View
     private final WindowManager.LayoutParams layoutParams;
     private final WindowManager wm;
-    //用于缓存子view的动画设置
-    private ObjectAnimator mAnim = null;
+
     //是否移动
     private boolean isMove = false;
     //是否拖拽
@@ -105,6 +106,17 @@ public class CommonDialog extends Dialog {
             mViews.put(viewId, view);
         }
         return (T) view;
+    }
+
+    /**
+     * 提供给外部访问View动画的方法
+     *  也可以使用 setAnimView的方式获取
+     * @param viewId
+     * @return
+     */
+    public ObjectAnimator getAnimator(int viewId) {
+        ObjectAnimator animator = mAnims.get(viewId);
+        return animator;
     }
 
     //-------> 注意：以下方法都可以不写，可以先调用getView(R.id.exampleID)获取到控件再进行想要的操作 <-------
@@ -404,15 +416,15 @@ public class CommonDialog extends Dialog {
         //设置 Interpolator 插值器
         animator.setInterpolator(model.getInterpolator());
         //缓存
-        mAnim = animator;
-        if (isShowing()) mAnim.start();
+        mAnims.put(viewId, animator);
+        if (isShowing()) animator.start();
         return animator;
     }
 
     //显示Dialog
     public void showDialog() {
         if (this != null && !isShowing()) {
-            if (mAnim != null) mAnim.start();
+            handleAnim(1);
             Log.i(TAG, "show");
             show();
         }
@@ -421,7 +433,7 @@ public class CommonDialog extends Dialog {
     //隐藏Dialog
     public void hideDialog() {
         if (this != null && isShowing()) {
-            if (mAnim != null) mAnim.pause();
+            handleAnim(2);
             Log.i(TAG, "hide");
             hide();
         }
@@ -430,11 +442,37 @@ public class CommonDialog extends Dialog {
     //销毁Dialog
     public void dismissDialog() {
         if (this != null) {
-            if (mAnim != null) mAnim.cancel();
+            handleAnim(0);
             Log.i(TAG, "dismiss");
             dismiss();
             mViews = null;
-            mAnim = null;
+            mAnims = null;
+        }
+    }
+
+    /**
+     * 处理 mAnim 对象
+     *
+     * @param type 0：取消；1：开始；2：暂停
+     */
+    private void handleAnim(int type) {
+        if (mAnims != null) {
+            for (int i = 0; i < mAnims.size(); i++) {
+                switch (type) {
+                    case 0:
+                        mAnims.valueAt(i).cancel();
+                        Log.i(TAG, "mAnim cancel：" + i);
+                        break;
+                    case 1:
+                        mAnims.valueAt(i).start();
+                        Log.i(TAG, "mAnim start：" + i);
+                        break;
+                    case 2:
+                        mAnims.valueAt(i).pause();
+                        Log.i(TAG, "mAnim pause：" + i);
+                        break;
+                }
+            }
         }
     }
 
@@ -453,6 +491,7 @@ public class CommonDialog extends Dialog {
         //设置布局
         setContentView(layout);
         mViews = new SparseArray<>();
+        mAnims = new SparseArray<>();
         //获取父容器
         Window window = getWindow();
         layoutParams = window.getAttributes();
