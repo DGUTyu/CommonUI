@@ -43,18 +43,35 @@ public class AnimModel {
      * @param nameType
      */
     public AnimModel(int nameType) {
+        boolean flag = true;
         switch (nameType) {
+            //动画属性名 如 translationX，translationY，rotation，rotationX，rotationY
             case ROTATION:
                 this.propertyName = "rotation";
-                this.startValues = 0f;
-                this.endValues = 360f;
-                this.duration = 2 * 1000L;
-                this.repeatMode = ValueAnimator.RESTART;
-                this.repeatCount = ValueAnimator.INFINITE;
-                this.interpolator = new LinearInterpolator();
+                break;
+            case ROTATION_X:
+                this.propertyName = "rotationX";
+                break;
+            case ROTATION_Y:
+                this.propertyName = "rotationY";
+                break;
+            case TRANSLATION_X:
+                this.propertyName = "translationX";
+                break;
+            case TRANSLATION_Y:
+                this.propertyName = "translationY";
                 break;
             default:
+                flag = false;
                 break;
+        }
+        if (flag) {
+            this.startValues = 0f;
+            this.endValues = 360f;
+            this.duration = 2 * 1000L;
+            this.repeatMode = ValueAnimator.RESTART;
+            this.repeatCount = ValueAnimator.INFINITE;
+            this.interpolator = new LinearInterpolator();
         }
     }
 
