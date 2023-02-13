@@ -112,7 +112,7 @@ public class DialogTestActivity extends BaseTestActivity implements View.OnClick
                 break;
             case R.id.btn2:
                 //toast("btn2");
-                CommonDialog dialog2 = new CommonDialog.Builder(baseContext).cancelable(true).build();
+                CommonDialog dialog2 = new CommonDialog.Builder(baseContext).cancelable(true).draggable(true).clearShadow(true).build();
                 dialog2.showDialog(); //不论顺序
                 AnimModel model = new AnimModel(1);
                 dialog2.setAnimView(R.id.iv_fingerprint, model);

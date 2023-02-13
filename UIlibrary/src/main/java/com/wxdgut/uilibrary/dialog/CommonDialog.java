@@ -70,6 +70,7 @@ public class CommonDialog extends Dialog {
     final int styleId; //Dialog 默认样式id
     final boolean draggable; //Dialog 是否支持拖拽
     final boolean cancelable; //Dialog 是否支持自动关闭
+    final boolean clearShadow; //Dialog 是否去除阴影
 
     //处理点击事件的接口,isChange用于记录点击状态（按需采用）
     public interface MyListener {
@@ -488,6 +489,7 @@ public class CommonDialog extends Dialog {
         this.styleId = builder.styleId;
         this.draggable = builder.draggable;
         this.cancelable = builder.cancelable;
+        this.clearShadow = builder.clearShadow;
         //设置布局
         setContentView(layout);
         mViews = new SparseArray<>();
@@ -500,6 +502,7 @@ public class CommonDialog extends Dialog {
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.gravity = gravity;
         if (animId != DEFAULT_ANIM) layoutParams.windowAnimations = animId;
+        if (clearShadow) window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         window.setAttributes(layoutParams);
         setCancelable(cancelable);
         //初始化事件
@@ -541,6 +544,7 @@ public class CommonDialog extends Dialog {
         int styleId;
         boolean draggable;
         boolean cancelable;
+        boolean clearShadow;
         int animId;
 
         /**
@@ -560,6 +564,7 @@ public class CommonDialog extends Dialog {
             this.styleId = R.style.My_Dialog_Theme;
             this.draggable = false;
             this.cancelable = true;
+            this.clearShadow = false;
         }
 
         /**
@@ -625,6 +630,18 @@ public class CommonDialog extends Dialog {
          */
         public Builder cancelable(boolean cancelable) {
             this.cancelable = cancelable;
+            return this;
+        }
+
+
+        /**
+         * 是否清除阴影
+         *
+         * @param clearShadow
+         * @return
+         */
+        public Builder clearShadow(boolean clearShadow) {
+            this.clearShadow = clearShadow;
             return this;
         }
 
