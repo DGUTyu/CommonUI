@@ -71,6 +71,7 @@ public class CommonDialog extends Dialog {
     final boolean draggable; //Dialog 是否支持拖拽
     final boolean cancelable; //Dialog 是否支持自动关闭
     final boolean clearShadow; //Dialog 是否去除阴影
+    final float dimAmount; //Dialog 明暗度
 
     //处理点击事件的接口,isChange用于记录点击状态（按需采用）
     public interface MyListener {
@@ -490,6 +491,7 @@ public class CommonDialog extends Dialog {
         this.draggable = builder.draggable;
         this.cancelable = builder.cancelable;
         this.clearShadow = builder.clearShadow;
+        this.dimAmount = builder.dimAmount;
         //设置布局
         setContentView(layout);
         mViews = new SparseArray<>();
@@ -503,6 +505,10 @@ public class CommonDialog extends Dialog {
         layoutParams.gravity = gravity;
         if (animId != DEFAULT_ANIM) layoutParams.windowAnimations = animId;
         if (clearShadow) window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        if (dimAmount > -0.01f && dimAmount < 1.01f) { //限定取值 完全透明不变暗是0.0f，完全变暗不透明是1.0f
+            layoutParams.dimAmount = dimAmount;
+        }
+        //if (clearShadow) window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); //相对顺序与dimAmount的设置无关
         window.setAttributes(layoutParams);
         setCancelable(cancelable);
         //初始化事件
@@ -546,6 +552,7 @@ public class CommonDialog extends Dialog {
         boolean cancelable;
         boolean clearShadow;
         int animId;
+        float dimAmount;
 
         /**
          * 默认配置
@@ -565,6 +572,7 @@ public class CommonDialog extends Dialog {
             this.draggable = false;
             this.cancelable = true;
             this.clearShadow = false;
+            this.dimAmount = 0.1f;  //完全透明不变暗是0.0f，完全变暗不透明是1.0f
         }
 
         /**
@@ -642,6 +650,18 @@ public class CommonDialog extends Dialog {
          */
         public Builder clearShadow(boolean clearShadow) {
             this.clearShadow = clearShadow;
+            return this;
+        }
+
+        /**
+         * 调整明暗度，float值，完全透明不变暗是0.0f，完全变暗不透明是1.0f
+         * 根据谷歌文档，给对应的Window添加FLAG_DIM_BEHIND标志位，dimAmount值才有效。
+         *
+         * @param dimAmount 0.0f-1.0f
+         * @return
+         */
+        public Builder dimAmount(float dimAmount) {
+            this.dimAmount = dimAmount;
             return this;
         }
 

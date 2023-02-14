@@ -112,7 +112,7 @@ public class DialogTestActivity extends BaseTestActivity implements View.OnClick
                 break;
             case R.id.btn2:
                 //toast("btn2");
-                CommonDialog dialog2 = new CommonDialog.Builder(baseContext).cancelable(true).draggable(true).clearShadow(true).build();
+                CommonDialog dialog2 = new CommonDialog.Builder(baseContext).cancelable(true).draggable(true).build();
                 dialog2.showDialog(); //不论顺序
                 AnimModel model = new AnimModel(1);
                 dialog2.setAnimView(R.id.iv_fingerprint, model);
@@ -139,7 +139,7 @@ public class DialogTestActivity extends BaseTestActivity implements View.OnClick
                 });
                 break;
             case R.id.btn3:
-                CommonDialog dialog3 = new CommonDialog.Builder(baseContext).draggable(true).build();
+                CommonDialog dialog3 = new CommonDialog.Builder(baseContext).dimAmount(1f).draggable(true).build();
                 dialog3.show();
                 dialog3.setImageResource(R.id.iv_fingerprint, R.drawable.img_rv_icon_2);
                 dialog3.setText(R.id.tv_title, "我在下面，设置了可移动");
@@ -147,7 +147,7 @@ public class DialogTestActivity extends BaseTestActivity implements View.OnClick
                     dialog3.dismissDialog();
                 });
 
-                CommonDialog dialog4 = new CommonDialog.Builder(baseContext).build();
+                CommonDialog dialog4 = new CommonDialog.Builder(baseContext).dimAmount(0f).build();
                 dialog4.show();
                 dialog4.setImageResource(R.id.iv_fingerprint, R.drawable.img_rv_icon_1);
                 dialog4.setText(R.id.tv_title, "我在上面，设置了不可移动");
