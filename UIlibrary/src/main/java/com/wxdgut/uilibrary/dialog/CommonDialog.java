@@ -77,6 +77,8 @@ public class CommonDialog extends Dialog {
     final float dimAmount; //Dialog 明暗度
     WeakReference<View> anchorWR;
     int anchorGravity;
+    int xOff;
+    int yOff;
 
     //处理点击事件的接口,isChange用于记录点击状态（按需采用）
     public interface MyListener {
@@ -505,6 +507,8 @@ public class CommonDialog extends Dialog {
         this.dimAmount = builder.dimAmount;
         this.anchorWR = builder.anchorWR;
         this.anchorGravity = builder.anchorGravity;
+        this.xOff = builder.xOff;
+        this.yOff = builder.yOff;
         //设置布局
         setContentView(layout);
         mViews = new SparseArray<>();
@@ -523,7 +527,7 @@ public class CommonDialog extends Dialog {
         }
         //if (clearShadow) window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); //相对顺序与dimAmount的设置无关
         //window.setAttributes(layoutParams);
-        window.setAttributes(getShowAsDropDownLp(layoutParams, anchorWR, anchorGravity));
+        window.setAttributes(getShowAsDropDownLp(layoutParams, anchorWR, anchorGravity, xOff, yOff));
         if (builder.anchorWR != null) {
             builder.anchorWR.clear();
             builder.anchorWR = null;
@@ -539,9 +543,11 @@ public class CommonDialog extends Dialog {
      * @param wlp      Dialog当前的WindowManager.LayoutParams
      * @param anchorWR 控件view
      * @param gravity  相对于view的上下左右
+     * @param xOff
+     * @param yOff
      * @return
      */
-    public WindowManager.LayoutParams getShowAsDropDownLp(WindowManager.LayoutParams wlp, WeakReference<View> anchorWR, int gravity) {
+    public WindowManager.LayoutParams getShowAsDropDownLp(WindowManager.LayoutParams wlp, WeakReference<View> anchorWR, int gravity, int xOff, int yOff) {
         if (anchorWR == null) return wlp;
         View view = anchorWR.get();
         //location [0] 为x绝对坐标;location [1] 为y绝对坐标
@@ -555,17 +561,43 @@ public class CommonDialog extends Dialog {
         if (gravity == Gravity.TOP) { //Dialog上边与view上边对齐
             wlp.gravity = Gravity.TOP;
             wlp.y = location[1] - notificationBar;
+            if (xOff != 0) {
+                wlp.gravity = Gravity.TOP | Gravity.START;
+                wlp.x = location[0] + xOff;
+            }
+            if (yOff != 0) {
+                wlp.y += yOff;
+            }
         } else if (gravity == Gravity.BOTTOM) { //Dialog上边与view下边对齐
             wlp.gravity = Gravity.TOP;
             wlp.y = location[1] + view.getHeight() - notificationBar;
+            if (xOff != 0) {
+                wlp.gravity = Gravity.TOP | Gravity.START;
+                wlp.x = location[0] + xOff;
+            }
+            if (yOff != 0) {
+                wlp.y += yOff;
+            }
         } else if (gravity == Gravity.LEFT) { //Dialog左边与view左边对齐
             wlp.gravity = Gravity.TOP | Gravity.START;
             wlp.y = location[1] + view.getHeight() - notificationBar;
             wlp.x = location[0];
+            if (xOff != 0) {
+                wlp.x = location[0] + xOff;
+            }
+            if (yOff != 0) {
+                wlp.y += yOff;
+            }
         } else if (gravity == Gravity.RIGHT) { //Dialog左边与view右边对齐
             wlp.gravity = Gravity.TOP | Gravity.START;
             wlp.y = location[1] + view.getHeight() - notificationBar;
             wlp.x = location[0] + view.getWidth();
+            if (xOff != 0) {
+                wlp.x += xOff;
+            }
+            if (yOff != 0) {
+                wlp.y += yOff;
+            }
         }
         return wlp;
     }
@@ -610,6 +642,8 @@ public class CommonDialog extends Dialog {
         float dimAmount;
         WeakReference<View> anchorWR;
         int anchorGravity;
+        int xOff;
+        int yOff;
 
         /**
          * 默认配置
@@ -723,14 +757,27 @@ public class CommonDialog extends Dialog {
         }
 
         public Builder showAsDropDown(View anchor) {
-            this.anchorWR = new WeakReference<View>(anchor);
-            this.anchorGravity = Gravity.BOTTOM;
-            return this;
+            return showAsDropDown(anchor, Gravity.BOTTOM, 0, 0);
         }
 
         public Builder showAsDropDown(View anchor, int anchorGravity) {
+            return showAsDropDown(anchor, anchorGravity, 0, 0);
+        }
+
+        /**
+         * 设置Dialog显示的参考点（某个view的相对位置）
+         *
+         * @param anchor
+         * @param anchorGravity
+         * @param xOff
+         * @param yOff
+         * @return
+         */
+        public Builder showAsDropDown(View anchor, int anchorGravity, int xOff, int yOff) {
             this.anchorWR = new WeakReference<View>(anchor);
             this.anchorGravity = anchorGravity;
+            this.xOff = xOff;
+            this.yOff = yOff;
             return this;
         }
 
