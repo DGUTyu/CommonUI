@@ -112,6 +112,7 @@ public class DialogTestActivity extends BaseTestActivity implements View.OnClick
                 break;
             case R.id.btn2:
                 //toast("btn2");
+                TextView tv_pop=findViewById(R.id.tv_pop);
                 CommonDialog dialog2 = new CommonDialog.Builder(baseContext).cancelable(true).draggable(true).build();
                 dialog2.showDialog(); //不论顺序
                 AnimModel model = new AnimModel(1);
@@ -137,6 +138,7 @@ public class DialogTestActivity extends BaseTestActivity implements View.OnClick
                         else animator.start();
                     }
                 });
+
                 break;
             case R.id.btn3:
                 CommonDialog dialog3 = new CommonDialog.Builder(baseContext).dimAmount(1f).draggable(true).build();

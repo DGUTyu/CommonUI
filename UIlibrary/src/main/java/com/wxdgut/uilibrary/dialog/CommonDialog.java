@@ -3,6 +3,7 @@ package com.wxdgut.uilibrary.dialog;
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wxdgut.uilibrary.R;
+
+import java.lang.ref.WeakReference;
 
 import static android.content.Context.WINDOW_SERVICE;
 
@@ -61,7 +64,7 @@ public class CommonDialog extends Dialog {
     private int mLastY;
     private int mLastX;
 
-    //用于获取Builder 参数
+    //用于获取Builder 参数，不公开
     final Context context; //上下文
     final int layout; //Dialog 布局文件id
     final int animId; //动画效果id
@@ -72,6 +75,8 @@ public class CommonDialog extends Dialog {
     final boolean cancelable; //Dialog 是否支持自动关闭
     final boolean clearShadow; //Dialog 是否去除阴影
     final float dimAmount; //Dialog 明暗度
+    WeakReference<View> anchorWR;
+    int anchorGravity;
 
     //处理点击事件的接口,isChange用于记录点击状态（按需采用）
     public interface MyListener {
@@ -112,7 +117,8 @@ public class CommonDialog extends Dialog {
 
     /**
      * 提供给外部访问View动画的方法
-     *  也可以使用 setAnimView的方式获取
+     * 也可以使用 setAnimView的方式获取
+     *
      * @param viewId
      * @return
      */
@@ -402,6 +408,7 @@ public class CommonDialog extends Dialog {
     /**
      * 设置Dialog中某个控件的动画效果
      * 最好在showDialog之前设置setAnimView
+     *
      * @param viewId
      * @param model
      */
@@ -449,6 +456,10 @@ public class CommonDialog extends Dialog {
             dismiss();
             mViews = null;
             mAnims = null;
+            if (anchorWR != null) {
+                anchorWR.clear();
+                anchorWR = null;
+            }
         }
     }
 
@@ -492,6 +503,8 @@ public class CommonDialog extends Dialog {
         this.cancelable = builder.cancelable;
         this.clearShadow = builder.clearShadow;
         this.dimAmount = builder.dimAmount;
+        this.anchorWR = builder.anchorWR;
+        this.anchorGravity = builder.anchorGravity;
         //设置布局
         setContentView(layout);
         mViews = new SparseArray<>();
@@ -509,10 +522,52 @@ public class CommonDialog extends Dialog {
             layoutParams.dimAmount = dimAmount;
         }
         //if (clearShadow) window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); //相对顺序与dimAmount的设置无关
-        window.setAttributes(layoutParams);
+        //window.setAttributes(layoutParams);
+        window.setAttributes(getShowAsDropDownLp(layoutParams, anchorWR, anchorGravity));
+        if (builder.anchorWR != null) {
+            builder.anchorWR.clear();
+            builder.anchorWR = null;
+        }
         setCancelable(cancelable);
         //初始化事件
         initEvent(window.getDecorView());
+    }
+
+    /**
+     * 返回Dialog调整后的的WindowManager.LayoutParams
+     *
+     * @param wlp      Dialog当前的WindowManager.LayoutParams
+     * @param anchorWR 控件view
+     * @param gravity  相对于view的上下左右
+     * @return
+     */
+    public WindowManager.LayoutParams getShowAsDropDownLp(WindowManager.LayoutParams wlp, WeakReference<View> anchorWR, int gravity) {
+        if (anchorWR == null) return wlp;
+        View view = anchorWR.get();
+        //location [0] 为x绝对坐标;location [1] 为y绝对坐标
+        int[] location = new int[2];
+        //获取通知栏高度  重要的在这，获取到通知栏高度
+        int notificationBar = Resources.getSystem().getDimensionPixelSize(Resources.getSystem().getIdentifier("status_bar_height", "dimen", "android"));
+        //获取控件 view 的绝对坐标,( y 轴坐标是控件上部到屏幕最顶部（不包括控件本身）)
+        view.getLocationInWindow(location); //获取在当前窗体内的绝对坐标
+        view.getLocationOnScreen(location);//获取在整个屏幕内的绝对坐标
+        //对dialog设置y轴坐标
+        if (gravity == Gravity.TOP) { //Dialog上边与view上边对齐
+            wlp.gravity = Gravity.TOP;
+            wlp.y = location[1] - notificationBar;
+        } else if (gravity == Gravity.BOTTOM) { //Dialog上边与view下边对齐
+            wlp.gravity = Gravity.TOP;
+            wlp.y = location[1] + view.getHeight() - notificationBar;
+        } else if (gravity == Gravity.LEFT) { //Dialog左边与view左边对齐
+            wlp.gravity = Gravity.TOP | Gravity.START;
+            wlp.y = location[1] + view.getHeight() - notificationBar;
+            wlp.x = location[0];
+        } else if (gravity == Gravity.RIGHT) { //Dialog左边与view右边对齐
+            wlp.gravity = Gravity.TOP | Gravity.START;
+            wlp.y = location[1] + view.getHeight() - notificationBar;
+            wlp.x = location[0] + view.getWidth();
+        }
+        return wlp;
     }
 
     //初始化事件
@@ -553,6 +608,8 @@ public class CommonDialog extends Dialog {
         boolean clearShadow;
         int animId;
         float dimAmount;
+        WeakReference<View> anchorWR;
+        int anchorGravity;
 
         /**
          * 默认配置
@@ -662,6 +719,18 @@ public class CommonDialog extends Dialog {
          */
         public Builder dimAmount(float dimAmount) {
             this.dimAmount = dimAmount;
+            return this;
+        }
+
+        public Builder showAsDropDown(View anchor) {
+            this.anchorWR = new WeakReference<View>(anchor);
+            this.anchorGravity = Gravity.BOTTOM;
+            return this;
+        }
+
+        public Builder showAsDropDown(View anchor, int anchorGravity) {
+            this.anchorWR = new WeakReference<View>(anchor);
+            this.anchorGravity = anchorGravity;
             return this;
         }
 
