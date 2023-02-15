@@ -113,7 +113,7 @@ public class DialogTestActivity extends BaseTestActivity implements View.OnClick
             case R.id.btn2:
                 //toast("btn2");
                 TextView tv_pop=findViewById(R.id.tv_pop);
-                CommonDialog dialog2 = new CommonDialog.Builder(baseContext).cancelable(true).draggable(true).showAsDropDown(tv_pop, Gravity.RIGHT, 100, 0).build();
+                CommonDialog dialog2 = new CommonDialog.Builder(baseContext).cancelable(true).draggable(true).showAsDropDown(tv_pop, Gravity.TOP, 0, 0).build();
                 dialog2.showDialog(); //不论顺序
                 AnimModel model = new AnimModel(1);
                 dialog2.setAnimView(R.id.iv_fingerprint, model);

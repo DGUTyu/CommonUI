@@ -561,39 +561,25 @@ public class CommonDialog extends Dialog {
         if (gravity == Gravity.TOP) { //Dialog上边与view上边对齐
             wlp.gravity = Gravity.TOP;
             wlp.y = location[1] - notificationBar;
-            if (xOff != 0) {
-                wlp.gravity = Gravity.TOP | Gravity.START;
-                wlp.x = location[0] + xOff;
-            }
-            if (yOff != 0) {
-                wlp.y += yOff;
-            }
         } else if (gravity == Gravity.BOTTOM) { //Dialog上边与view下边对齐
             wlp.gravity = Gravity.TOP;
             wlp.y = location[1] + view.getHeight() - notificationBar;
-            if (xOff != 0) {
-                wlp.gravity = Gravity.TOP | Gravity.START;
-                wlp.x = location[0] + xOff;
-            }
-            if (yOff != 0) {
-                wlp.y += yOff;
-            }
         } else if (gravity == Gravity.LEFT) { //Dialog左边与view左边对齐
             wlp.gravity = Gravity.TOP | Gravity.START;
             wlp.y = location[1] + view.getHeight() - notificationBar;
             wlp.x = location[0];
-            if (xOff != 0) {
-                wlp.x = location[0] + xOff;
-            }
-            if (yOff != 0) {
-                wlp.y += yOff;
-            }
         } else if (gravity == Gravity.RIGHT) { //Dialog左边与view右边对齐
             wlp.gravity = Gravity.TOP | Gravity.START;
             wlp.y = location[1] + view.getHeight() - notificationBar;
             wlp.x = location[0] + view.getWidth();
+        }
+        //如果有坐标设置，更新坐标
+        if (gravity == Gravity.TOP || gravity == Gravity.BOTTOM || gravity == Gravity.LEFT || gravity == Gravity.RIGHT) {
             if (xOff != 0) {
-                wlp.x += xOff;
+                //统一对齐方式
+                wlp.gravity = Gravity.TOP | Gravity.START;
+                wlp.x = location[0] + xOff;
+                if (gravity == Gravity.RIGHT) wlp.x += view.getWidth();
             }
             if (yOff != 0) {
                 wlp.y += yOff;
