@@ -10,4 +10,35 @@
         </attr>
         <attr name="indexColor" format="color" />
     </declare-styleable>
+
+    <!--指示器视图-->
+    <declare-styleable name="PatternIndicatorView">
+        <attr name="piv_color" format="color|reference" />
+        <attr name="piv_hitColor" format="color|reference" />
+        <attr name="piv_errorColor" format="color|reference" />
+        <attr name="piv_fillColor" format="color|reference" />
+        <attr name="piv_lineWidth" format="dimension|reference" />
+    </declare-styleable>
+
+    <!--锁屏视图-->
+    <declare-styleable name="PatternLockerView">
+        <!--默认不动时图案的颜色，即外圈颜色-->
+        <attr name="plv_color" format="color|reference" />
+        <!--动时图案的颜色，即外圈颜色加内点颜色-->
+        <attr name="plv_hitColor" format="color|reference" />
+        <!--动时下错误图案的颜色，即外圈颜色加内点颜色-->
+        <attr name="plv_errorColor" format="color|reference" />
+        <!--图案填充色，即中间的颜色-->
+        <attr name="plv_fillColor" format="color|reference" />
+        <!--图案的线宽-->
+        <attr name="plv_lineWidth" format="dimension|reference" />
+        <!--操作完延迟自动清除时长(单位ms)-->
+        <attr name="plv_freezeDuration" format="integer|reference" />
+        <!--自动清除绘制图案-->
+        <attr name="plv_enableAutoClean" format="boolean|reference" />
+        <!--是否跳过中间点-->
+        <attr name="plv_enableSkip" format="boolean|reference" />
+        <!--是否使用触碰震动反馈-->
+        <attr name="plv_enableHapticFeedback" format="boolean|reference" />
+    </declare-styleable>
 </resources>
