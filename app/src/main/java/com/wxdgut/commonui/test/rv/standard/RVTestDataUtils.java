@@ -105,6 +105,16 @@ public class RVTestDataUtils {
     }
 
     //返回数据集list
+    public static List<RVTestModel> getMultipleList(int multiple) {
+        List<RVTestModel> list = baseGetList(-1, null);
+        List<RVTestModel> listTemp = list;
+        for (int i = 0; i < multiple; i++) {
+            list.addAll(listTemp);
+        }
+        return list;
+    }
+
+    //返回数据集list
     public static List<RVTestModel> getList(int specialHandlePos, RVTestModel specialModel) {
         return baseGetList(specialHandlePos, specialModel);
     }
