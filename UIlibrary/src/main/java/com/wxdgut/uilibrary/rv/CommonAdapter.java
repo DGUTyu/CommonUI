@@ -1,4 +1,4 @@
-package com.wxdgut.uilibrary.rv.pro;
+package com.wxdgut.uilibrary.rv;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,15 +7,14 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wxdgut.uilibrary.rv.free.CommonAdapter;
-import com.wxdgut.uilibrary.rv.standard.CommonViewHolder;
+import com.wxdgut.uilibrary.rv.free.BaseAdapter;
 
 import java.util.List;
 
 /**
  * 可以添加头部和底部的RecyclerView适配器
  */
-public class CommonWrapAdapter<T> extends CommonAdapter {
+public class CommonAdapter<T> extends BaseAdapter {
     private SparseArray<View> mHeaderViews;
     private SparseArray<View> mFooterViews;
     // 基本的头部类型开始位置  用于viewType
@@ -23,13 +22,13 @@ public class CommonWrapAdapter<T> extends CommonAdapter {
     // 基本的底部类型开始位置  用于viewType
     private static int BASE_ITEM_TYPE_FOOTER = 20000000;
 
-    public CommonWrapAdapter(List<T> mList, OnBindDataListener<T> onBindDataListener) {
+    public CommonAdapter(List<T> mList, OnBindDataListener<T> onBindDataListener) {
         super(mList, onBindDataListener);
         mHeaderViews = new SparseArray<>();
         mFooterViews = new SparseArray<>();
     }
 
-    public CommonWrapAdapter(List<T> mList, OnMoreBindDataListener<T> onMoreBindDataListener) {
+    public CommonAdapter(List<T> mList, OnMoreBindDataListener<T> onMoreBindDataListener) {
         super(mList, onMoreBindDataListener);
         mHeaderViews = new SparseArray<>();
         mFooterViews = new SparseArray<>();

@@ -1,7 +1,7 @@
 package com.wxdgut.commonui.test.rv.standard;
 
 import com.wxdgut.commonui.R;
-import com.wxdgut.uilibrary.rv.standard.RVTestModel;
+import com.wxdgut.uilibrary.rv.test_model.RVTestModel;
 
 import java.util.ArrayList;
 import java.util.List;

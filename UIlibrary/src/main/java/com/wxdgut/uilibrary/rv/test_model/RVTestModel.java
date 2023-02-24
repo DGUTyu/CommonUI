@@ -1,4 +1,6 @@
-package com.wxdgut.uilibrary.rv.standard;
+package com.wxdgut.uilibrary.rv.test_model;
+
+import com.wxdgut.uilibrary.rv.standard.CommonItemModel;
 
 /**
  * FileName: TestModel

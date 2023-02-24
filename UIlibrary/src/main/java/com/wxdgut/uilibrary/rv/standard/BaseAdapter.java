@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.wxdgut.uilibrary.rv.CommonViewHolder;
+
 import java.util.List;
 
 /**
@@ -17,7 +19,7 @@ import java.util.List;
  * Profile: 万能的RecyclerView适配器
  * item的布局类型由依赖库限定，item的数据model需要继承CommonItemModel才可以使用
  */
-public class CommonAdapter<T extends CommonItemModel> extends RecyclerView.Adapter<CommonViewHolder> {
+public class BaseAdapter<T extends CommonItemModel> extends RecyclerView.Adapter<CommonViewHolder> {
     //列表数据
     private List<T> mList;
 
@@ -65,12 +67,12 @@ public class CommonAdapter<T extends CommonItemModel> extends RecyclerView.Adapt
         int getItemType(int position);
     }
 
-    public CommonAdapter(List<T> mList, OnBindDataListener<T> onBindDataListener) {
+    public BaseAdapter(List<T> mList, OnBindDataListener<T> onBindDataListener) {
         this.mList = mList;
         this.onBindDataListener = onBindDataListener;
     }
 
-    public CommonAdapter(List<T> mList, OnMoreBindDataListener<T> onMoreBindDataListener) {
+    public BaseAdapter(List<T> mList, OnMoreBindDataListener<T> onMoreBindDataListener) {
         this.mList = mList;
         this.onBindDataListener = onMoreBindDataListener;
         this.onMoreBindDataListener = onMoreBindDataListener;

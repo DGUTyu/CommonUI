@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
-import com.wxdgut.uilibrary.rv.standard.CommonAdapter;
+import com.wxdgut.uilibrary.rv.standard.BaseAdapter;
 import com.wxdgut.uilibrary.rv.standard.CommonItemModel;
-import com.wxdgut.uilibrary.rv.standard.CommonViewHolder;
-import com.wxdgut.uilibrary.rv.standard.RVTestModel;
+import com.wxdgut.uilibrary.rv.CommonViewHolder;
+import com.wxdgut.uilibrary.rv.test_model.RVTestModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class RVTestActivity extends BaseTestActivity implements View.OnClickList
     private Button btn1, btn2, btn3, btn4;
 
     private RecyclerView recyclerView;
-    private CommonAdapter<RVTestModel> commonAdapter;
+    private BaseAdapter<RVTestModel> commonAdapter;
     private List<RVTestModel> mList = new ArrayList<>();
 
     @Override
@@ -64,7 +64,7 @@ public class RVTestActivity extends BaseTestActivity implements View.OnClickList
         //设置下划线
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        commonAdapter = new CommonAdapter<RVTestModel>(mList, new CommonAdapter.OnMoreBindDataListener<RVTestModel>() {
+        commonAdapter = new BaseAdapter<RVTestModel>(mList, new BaseAdapter.OnMoreBindDataListener<RVTestModel>() {
             @Override
             public int getItemType(int position) {
                 return mList.get(position).getType().getValue();
@@ -122,14 +122,14 @@ public class RVTestActivity extends BaseTestActivity implements View.OnClickList
         });
         recyclerView.setAdapter(commonAdapter);
         //Item点击事件
-        commonAdapter.setOnItemClickListener(new CommonAdapter.MyItemClickListener() {
+        commonAdapter.setOnItemClickListener(new BaseAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 toast("点击Item：" + position);
             }
         });
         //Item长按事件
-        commonAdapter.setOnItemLongClickListener(new CommonAdapter.MyItemLongClickListener() {
+        commonAdapter.setOnItemLongClickListener(new BaseAdapter.MyItemLongClickListener() {
             @Override
             public void onItemLongClick(View view, int position) {
                 toast("长按Item：" + position);

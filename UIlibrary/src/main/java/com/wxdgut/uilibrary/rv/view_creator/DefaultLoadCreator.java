@@ -1,4 +1,4 @@
-package com.wxdgut.uilibrary.rv.pro;
+package com.wxdgut.uilibrary.rv.view_creator;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.TextView;
 
 import com.wxdgut.uilibrary.R;
+import com.wxdgut.uilibrary.rv.CommonRecyclerView;
 
 /**
  * Created by Darren on 2017/1/3.
@@ -32,10 +33,10 @@ public class DefaultLoadCreator extends LoadViewCreator {
 
     @Override
     public void onPull(int currentDragHeight, int refreshViewHeight, int currentRefreshStatus) {
-        if (currentRefreshStatus == LoadRefreshRecyclerView.LOAD_STATUS_PULL_DOWN_REFRESH) {
+        if (currentRefreshStatus == CommonRecyclerView.LOAD_STATUS_PULL_DOWN_REFRESH) {
             mLoadTv.setText("上拉加载更多");
         }
-        if (currentRefreshStatus == LoadRefreshRecyclerView.LOAD_STATUS_LOOSEN_LOADING) {
+        if (currentRefreshStatus == CommonRecyclerView.LOAD_STATUS_LOOSEN_LOADING) {
             mLoadTv.setText("松开加载更多");
         }
     }

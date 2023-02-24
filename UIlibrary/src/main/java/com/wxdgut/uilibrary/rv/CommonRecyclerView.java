@@ -1,4 +1,4 @@
-package com.wxdgut.uilibrary.rv.pro;
+package com.wxdgut.uilibrary.rv;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -9,7 +9,13 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class LoadRefreshRecyclerView extends RefreshRecyclerView {
+import com.wxdgut.uilibrary.rv.view_creator.LoadViewCreator;
+import com.wxdgut.uilibrary.rv.widget.RefreshRecyclerView;
+
+/**
+ * LoadRefreshRecyclerView
+ */
+public class CommonRecyclerView extends RefreshRecyclerView {
     // 上拉加载更多的辅助类
     private LoadViewCreator mLoadCreator;
     // 上拉加载更多头部的高度
@@ -43,15 +49,15 @@ public class LoadRefreshRecyclerView extends RefreshRecyclerView {
     }
 
 
-    public LoadRefreshRecyclerView(@NonNull Context context) {
+    public CommonRecyclerView(@NonNull Context context) {
         super(context);
     }
 
-    public LoadRefreshRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public CommonRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public LoadRefreshRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public CommonRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -118,7 +124,7 @@ public class LoadRefreshRecyclerView extends RefreshRecyclerView {
 
     //添加底部加载更多View
     private void addRefreshView() {
-        CommonWrapAdapter adapter = getAdapter();
+        CommonAdapter adapter = getAdapter();
         if (adapter != null && mLoadCreator != null) {
             // 添加底部加载更多View
             View loadView = mLoadCreator.getLoadView(getContext(), this);

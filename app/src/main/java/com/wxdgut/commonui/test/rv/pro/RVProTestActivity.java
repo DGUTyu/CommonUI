@@ -2,7 +2,6 @@ package com.wxdgut.commonui.test.rv.pro;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -11,24 +10,22 @@ import android.view.View;
 import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
 import com.wxdgut.commonui.test.rv.standard.RVTestDataUtils;
-import com.wxdgut.uilibrary.rv.free.CommonAdapter;
-import com.wxdgut.uilibrary.rv.pro.CategoryItemDecoration;
-import com.wxdgut.uilibrary.rv.pro.CommonWrapAdapter;
-import com.wxdgut.uilibrary.rv.pro.CommonRecyclerView;
-import com.wxdgut.uilibrary.rv.pro.DefaultLoadCreator;
-import com.wxdgut.uilibrary.rv.pro.DefaultRefreshCreator;
-import com.wxdgut.uilibrary.rv.pro.LoadRefreshRecyclerView;
-import com.wxdgut.uilibrary.rv.pro.RefreshRecyclerView;
-import com.wxdgut.uilibrary.rv.standard.CommonViewHolder;
-import com.wxdgut.uilibrary.rv.standard.RVTestModel;
+import com.wxdgut.uilibrary.rv.free.BaseAdapter;
+import com.wxdgut.uilibrary.rv.CommonAdapter;
+import com.wxdgut.uilibrary.rv.view_creator.DefaultLoadCreator;
+import com.wxdgut.uilibrary.rv.view_creator.DefaultRefreshCreator;
+import com.wxdgut.uilibrary.rv.CommonRecyclerView;
+import com.wxdgut.uilibrary.rv.widget.RefreshRecyclerView;
+import com.wxdgut.uilibrary.rv.CommonViewHolder;
+import com.wxdgut.uilibrary.rv.test_model.RVTestModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RVProTestActivity extends BaseTestActivity implements RefreshRecyclerView.OnRefreshListener, LoadRefreshRecyclerView.OnLoadMoreListener {
-    private LoadRefreshRecyclerView mRecyclerView;
+public class RVProTestActivity extends BaseTestActivity implements RefreshRecyclerView.OnRefreshListener, CommonRecyclerView.OnLoadMoreListener {
+    private CommonRecyclerView mRecyclerView;
     private List<RVTestModel> mList = new ArrayList<>();
-    private CommonWrapAdapter<RVTestModel> commonAdapter;
+    private CommonAdapter<RVTestModel> commonAdapter;
     private List<RVTestModel> multipleList;
 
     @Override
@@ -57,8 +54,8 @@ public class RVProTestActivity extends BaseTestActivity implements RefreshRecycl
     private void testStandardRvPro() {
         multipleList = RVTestDataUtils.getMultipleList(0);
         //mList = RVTestDataUtils.getMultipleList(0); //此种写法，上拉加载时mList始终不会变
-        mList.addAll( multipleList);
-        commonAdapter = new CommonWrapAdapter<>(mList, new CommonAdapter.OnBindDataListener<RVTestModel>() {
+        mList.addAll(multipleList);
+        commonAdapter = new CommonAdapter<>(mList, new BaseAdapter.OnBindDataListener<RVTestModel>() {
             @Override
             public int getLayoutId(int layoutType) {
                 return R.layout.layout_rv_item_content;
@@ -81,25 +78,29 @@ public class RVProTestActivity extends BaseTestActivity implements RefreshRecycl
                 viewHolder.setText(R.id.tv_phone, model.getPhone());
                 //设置描述
                 viewHolder.setText(R.id.tv_desc, model.getDesc());
+                //设置分割线颜色
+                viewHolder.setBackgroundColor(R.id.split_v, "#00ff00");
             }
         });
         mRecyclerView.setAdapter(commonAdapter);
 
-        commonAdapter.setOnItemClickListener(new CommonAdapter.MyItemClickListener() {
+        commonAdapter.setOnItemClickListener(new BaseAdapter.MyItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                toast("点击Item：" + position);
+            public void onItemClick(View view, int position, boolean isChange) {
+                toast("点击Item：" + position + ",头部" + commonAdapter.getHeaderCounts() + ",底部" + commonAdapter.getFooterCounts());
+                view.findViewById(R.id.split_v).setBackgroundColor(isChange ? getResources().getColor(R.color.blue) : getResources().getColor(R.color.black));
             }
         });
-        commonAdapter.setOnItemLongClickListener(new CommonAdapter.MyItemLongClickListener() {
+        commonAdapter.setOnItemLongClickListener(new BaseAdapter.MyItemLongClickListener() {
             @Override
-            public void onItemLongClick(View view, int position) {
-                toast("长击Item：" + position);
+            public void onItemLongClick(View view, int position, boolean isChange) {
+                toast("长按Item：" + position);
+                view.setBackgroundColor(isChange ? getResources().getColor(R.color.blue) : getResources().getColor(R.color.black));
             }
         });
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new CategoryItemDecoration(getResources().getDrawable(R.drawable.category_list_divider_blue)));
+        //mRecyclerView.addItemDecoration(new CategoryItemDecoration(getResources().getDrawable(R.drawable.category_list_divider_blue)));
 
         mRecyclerView.addRefreshViewCreator(new DefaultRefreshCreator());
         mRecyclerView.setOnRefreshListener(this);
@@ -109,20 +110,20 @@ public class RVProTestActivity extends BaseTestActivity implements RefreshRecycl
         mRecyclerView.addLoadingView(findViewById(R.id.load_view));
         mRecyclerView.addEmptyView(findViewById(R.id.empty_view));
 
-//        // 添加头部和底部
-//        View titleView = LayoutInflater.from(this).inflate(R.layout.layout_rv_item_title, mRecyclerView, false);
-//        titleView.setOnClickListener(v -> {
-//            toast("头部" + commonAdapter.getHeaderCounts() + ",底部" + commonAdapter.getFooterCounts());
-//        });
-//        commonAdapter.addHeaderView(titleView);
-//        commonAdapter.addFooterView(LayoutInflater.from(this).inflate(R.layout.layout_rv_item_title, mRecyclerView, false));
-//        View view2 = LayoutInflater.from(this).inflate(R.layout.dialog_fingerprint, mRecyclerView, false);
-//        commonAdapter.addFooterView(view2);
-//        SparseArray<View> footers = commonAdapter.getFooters();
-//        footers.valueAt(0).setOnClickListener(v -> {
-//            toast("底部");
-//        });
-//        commonAdapter.removeFooterView(view2);
+        // 添加头部和底部
+        View titleView = LayoutInflater.from(this).inflate(R.layout.layout_rv_item_title, mRecyclerView, false);
+        titleView.setOnClickListener(v -> {
+            toast("头部" + commonAdapter.getHeaderCounts() + ",底部" + commonAdapter.getFooterCounts());
+        });
+        commonAdapter.addHeaderView(titleView);
+        commonAdapter.addFooterView(LayoutInflater.from(this).inflate(R.layout.layout_rv_item_title, mRecyclerView, false));
+        View view2 = LayoutInflater.from(this).inflate(R.layout.dialog_fingerprint, mRecyclerView, false);
+        commonAdapter.addFooterView(view2);
+        SparseArray<View> footers = commonAdapter.getFooters();
+        footers.valueAt(0).setOnClickListener(v -> {
+            toast("底部");
+        });
+        commonAdapter.removeFooterView(view2);
     }
 
     @Override

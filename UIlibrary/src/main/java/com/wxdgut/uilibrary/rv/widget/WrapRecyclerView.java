@@ -1,4 +1,4 @@
-package com.wxdgut.uilibrary.rv.pro;
+package com.wxdgut.uilibrary.rv.widget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,35 +7,37 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.wxdgut.uilibrary.rv.CommonAdapter;
+
 
 /**
  * 可以添加头部和底部的RecyclerView
  */
-public class CommonRecyclerView extends RecyclerView {
+public class WrapRecyclerView extends RecyclerView {
     // 包裹了一层的头部底部Adapter
-    private CommonWrapAdapter mAdapter;
+    private CommonAdapter mAdapter;
 
     // 增加一些通用功能
     // 空列表数据应该显示的空View
     // 正在加载数据页面，也就是正在获取后台接口页面
     private View mEmptyView, mLoadingView;
 
-    public CommonRecyclerView(@NonNull Context context) {
+    public WrapRecyclerView(@NonNull Context context) {
         super(context);
     }
 
-    public CommonRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public WrapRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CommonRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public WrapRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
     //重写方法
     @Override
     public void setAdapter(@Nullable Adapter adapter) {
-        mAdapter = (CommonWrapAdapter) adapter;
+        mAdapter = (CommonAdapter) adapter;
         //设置适配器
         super.setAdapter(mAdapter);
         // 解决GridLayout添加头部和底部也要占据一行
@@ -46,7 +48,7 @@ public class CommonRecyclerView extends RecyclerView {
         }
     }
 
-    public CommonWrapAdapter getAdapter() {
+    public CommonAdapter getAdapter() {
         return mAdapter;
     }
 

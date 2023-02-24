@@ -1,4 +1,4 @@
-package com.wxdgut.uilibrary.rv.standard;
+package com.wxdgut.uilibrary.rv;
 
 import android.content.Context;
 import android.graphics.Color;

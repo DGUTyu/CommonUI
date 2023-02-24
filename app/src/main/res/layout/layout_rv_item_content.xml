@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorAccent"
     android:orientation="vertical">
 
     <LinearLayout
@@ -112,10 +111,11 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/split_v"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@color/red"
-        android:visibility="gone" />
+        android:visibility="visible" />
 </LinearLayout>

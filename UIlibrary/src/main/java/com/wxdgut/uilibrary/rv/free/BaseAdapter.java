@@ -5,8 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-
-import com.wxdgut.uilibrary.rv.standard.CommonViewHolder;
+import com.wxdgut.uilibrary.rv.CommonViewHolder;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ import java.util.List;
  * Profile: 万能的RecyclerView适配器
  * item的布局类型由用户自行区分，建议使用枚举类型或静态常量
  */
-public class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
+public class BaseAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
     //列表数据
     private List<T> mList;
 
@@ -34,12 +33,12 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
 
     //点击事件接口
     public interface MyItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, int position, boolean isChange);
     }
 
     //长点击事件接口
     public interface MyItemLongClickListener {
-        void onItemLongClick(View view, int position);
+        void onItemLongClick(View view, int position, boolean isChange);
     }
 
     //统一对item设置点击事件
@@ -68,12 +67,12 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
         int getItemType(int position);
     }
 
-    public CommonAdapter(List<T> mList, OnBindDataListener<T> onBindDataListener) {
+    public BaseAdapter(List<T> mList, OnBindDataListener<T> onBindDataListener) {
         this.mList = mList;
         this.onBindDataListener = onBindDataListener;
     }
 
-    public CommonAdapter(List<T> mList, OnMoreBindDataListener<T> onMoreBindDataListener) {
+    public BaseAdapter(List<T> mList, OnMoreBindDataListener<T> onMoreBindDataListener) {
         this.mList = mList;
         this.onBindDataListener = onMoreBindDataListener;
         this.onMoreBindDataListener = onMoreBindDataListener;
@@ -100,11 +99,13 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
     //实现点击事件回调
     private void handleClick(MyItemClickListener listener, CommonViewHolder holder) {
         if (listener == null || holder == null || holder.itemView == null) return;
+        final boolean[] state = {false};
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = holder.getLayoutPosition();
-                myItemClickListener.onItemClick(holder.itemView, position);
+                state[0] = !state[0];
+                myItemClickListener.onItemClick(holder.itemView, position, state[0]);
             }
         });
     }
@@ -112,11 +113,13 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
     //实现长点击事件回调
     private void handleLongClick(MyItemLongClickListener listener, CommonViewHolder holder) {
         if (listener == null || holder == null || holder.itemView == null) return;
+        final boolean[] state = {false};
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 int position = holder.getLayoutPosition();
-                myItemLongClickListener.onItemLongClick(holder.itemView, position);
+                state[0] = !state[0];
+                myItemLongClickListener.onItemLongClick(holder.itemView, position, state[0]);
                 //返回true 表示消耗了事件 事件不会继续传递
                 return true;
             }

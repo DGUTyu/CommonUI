@@ -1,17 +1,18 @@
-package com.wxdgut.uilibrary.rv.pro;
+package com.wxdgut.uilibrary.rv.widget;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class RefreshRecyclerView extends CommonRecyclerView {
+import com.wxdgut.uilibrary.rv.CommonAdapter;
+import com.wxdgut.uilibrary.rv.view_creator.RefreshViewCreator;
+
+public class RefreshRecyclerView extends WrapRecyclerView {
     // 下拉刷新的辅助类
     private RefreshViewCreator mRefreshCreator;
     // 下拉刷新头部的高度
@@ -134,7 +135,7 @@ public class RefreshRecyclerView extends CommonRecyclerView {
     //************************* 私有方法 *************************
     //添加头部的刷新View
     private void addRefreshView() {
-        CommonWrapAdapter adapter = getAdapter();
+        CommonAdapter adapter = getAdapter();
         if (adapter != null && mRefreshCreator != null) {
             // 添加头部的刷新View
             View refreshView = mRefreshCreator.getRefreshView(getContext(), this);

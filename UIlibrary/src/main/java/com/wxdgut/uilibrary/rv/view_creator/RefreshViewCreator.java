@@ -1,4 +1,4 @@
-package com.wxdgut.uilibrary.rv.pro;
+package com.wxdgut.uilibrary.rv.view_creator;
 
 import android.content.Context;
 import android.view.View;
