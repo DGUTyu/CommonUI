@@ -1,8 +1,7 @@
 package com.wxdgut.commonui.test.rv.pro;
 
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -12,6 +11,7 @@ import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
 import com.wxdgut.commonui.test.rv.standard.RVTestDataUtils;
 import com.wxdgut.uilibrary.rv.free.CommonAdapter;
+import com.wxdgut.uilibrary.rv.pro.CategoryItemDecoration;
 import com.wxdgut.uilibrary.rv.pro.CommonWrapAdapter;
 import com.wxdgut.uilibrary.rv.pro.CommonRecyclerView;
 import com.wxdgut.uilibrary.rv.standard.CommonViewHolder;
@@ -29,14 +29,21 @@ public class RVProTestActivity extends BaseTestActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rv_pro_test);
         mRecyclerView = findViewById(R.id.recycler_view);
+        /*
         // 设置显示分割 ListView样式
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         // 添加分割线
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+         */
         /*
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
          */
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //mRecyclerView.addItemDecoration(new CategoryItemDecoration(ContextCompat.getDrawable(this, R.drawable.category_list_divider_red)));
+        //mRecyclerView.addItemDecoration(new CategoryItemDecoration(getResources().getColor(R.color.black),20));
+        mRecyclerView.addItemDecoration(new CategoryItemDecoration(getResources().getDrawable(R.drawable.category_list_divider_blue)));
+        //mRecyclerView.addItemDecoration(new CategoryItemDecoration(getResources().getColor(R.color.white),10));
         testStandardRvPro();
     }
 
