@@ -7,7 +7,7 @@
     android:background="@color/white"
     tools:context=".test.rv.pro.RVProTestActivity">
 
-    <android.support.v7.widget.RecyclerView
+    <com.wxdgut.uilibrary.rv.pro.CommonRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

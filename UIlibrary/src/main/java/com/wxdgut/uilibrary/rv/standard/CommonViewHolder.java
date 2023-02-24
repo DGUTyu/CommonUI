@@ -1,6 +1,5 @@
 package com.wxdgut.uilibrary.rv.standard;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +25,6 @@ public class CommonViewHolder extends RecyclerView.ViewHolder {
 
     //子View的集合
     private SparseArray<View> mViews;
-    private View mContentView;
 
     //处理点击事件的接口,isChange用于记录点击状态（按需采用）
     public interface MyListener {
@@ -34,10 +32,9 @@ public class CommonViewHolder extends RecyclerView.ViewHolder {
         void click(boolean isChange);
     }
 
-    private CommonViewHolder(View itemView) {
+    protected CommonViewHolder(View itemView) {
         super(itemView);
         mViews = new SparseArray<>();
-        mContentView = itemView;
     }
 
     /**
@@ -51,7 +48,7 @@ public class CommonViewHolder extends RecyclerView.ViewHolder {
     public <T extends View> T getView(final int viewId) {
         View view = mViews.get(viewId);
         if (view == null) {
-            view = mContentView.findViewById(viewId);
+            view = itemView.findViewById(viewId);
             mViews.put(viewId, view);
         }
         return (T) view;

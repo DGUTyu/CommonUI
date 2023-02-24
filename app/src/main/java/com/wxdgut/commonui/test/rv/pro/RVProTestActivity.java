@@ -2,14 +2,18 @@ package com.wxdgut.commonui.test.rv.pro;
 
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
 import com.wxdgut.commonui.test.rv.standard.RVTestDataUtils;
 import com.wxdgut.uilibrary.rv.free.CommonAdapter;
+import com.wxdgut.uilibrary.rv.pro.CommonWrapAdapter;
+import com.wxdgut.uilibrary.rv.pro.CommonRecyclerView;
 import com.wxdgut.uilibrary.rv.standard.CommonViewHolder;
 import com.wxdgut.uilibrary.rv.standard.RVTestModel;
 
@@ -17,24 +21,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RVProTestActivity extends BaseTestActivity {
-    private RecyclerView mRecyclerView;
+    private CommonRecyclerView mRecyclerView;
     private List<RVTestModel> mList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_r_v_pro_test);
+        setContentView(R.layout.activity_rv_pro_test);
         mRecyclerView = findViewById(R.id.recycler_view);
         // 设置显示分割 ListView样式
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         // 添加分割线
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        /*
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
+         */
         testStandardRvPro();
     }
 
     private void testStandardRvPro() {
         mList = RVTestDataUtils.getMultipleList(0);
-        CommonAdapter<RVTestModel> commonAdapter = new CommonAdapter<>(mList, new CommonAdapter.OnBindDataListener<RVTestModel>() {
+        CommonWrapAdapter<RVTestModel> commonAdapter = new CommonWrapAdapter<>(mList, new CommonAdapter.OnBindDataListener<RVTestModel>() {
             @Override
             public int getLayoutId(int layoutType) {
                 return R.layout.layout_rv_item_content;
@@ -73,5 +81,20 @@ public class RVProTestActivity extends BaseTestActivity {
                 toast("长击Item：" + position);
             }
         });
+
+        // 添加头部和底部
+        View titleView = LayoutInflater.from(this).inflate(R.layout.layout_rv_item_title, mRecyclerView, false);
+        titleView.setOnClickListener(v -> {
+            toast("头部" + commonAdapter.getHeaderCounts() + ",底部" + commonAdapter.getFooterCounts());
+        });
+        commonAdapter.addHeaderView(titleView);
+        commonAdapter.addFooterView(LayoutInflater.from(this).inflate(R.layout.layout_rv_item_title, mRecyclerView, false));
+        View view2 = LayoutInflater.from(this).inflate(R.layout.dialog_fingerprint, mRecyclerView, false);
+        commonAdapter.addFooterView(view2);
+        SparseArray<View> footers = commonAdapter.getFooters();
+        footers.valueAt(0).setOnClickListener(v -> {
+            toast("底部");
+        });
+        commonAdapter.removeFooterView(view2);
     }
 }
