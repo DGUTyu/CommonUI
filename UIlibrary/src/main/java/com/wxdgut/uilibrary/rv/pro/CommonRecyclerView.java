@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
 
 
 /**
@@ -13,6 +14,11 @@ import android.util.AttributeSet;
 public class CommonRecyclerView extends RecyclerView {
     // 包裹了一层的头部底部Adapter
     private CommonWrapAdapter mAdapter;
+
+    // 增加一些通用功能
+    // 空列表数据应该显示的空View
+    // 正在加载数据页面，也就是正在获取后台接口页面
+    private View mEmptyView, mLoadingView;
 
     public CommonRecyclerView(@NonNull Context context) {
         super(context);
@@ -34,5 +40,28 @@ public class CommonRecyclerView extends RecyclerView {
         super.setAdapter(mAdapter);
         // 解决GridLayout添加头部和底部也要占据一行
         mAdapter.adjustSpanSize(this);
+        // 加载数据页面
+        if (mLoadingView != null && mLoadingView.getVisibility() == View.VISIBLE) {
+            mLoadingView.setVisibility(View.GONE);
+        }
+    }
+
+    public CommonWrapAdapter getAdapter() {
+        return mAdapter;
+    }
+
+    /**
+     * 添加一个正在加载数据的页面
+     */
+    public void addLoadingView(View loadingView) {
+        this.mLoadingView = loadingView;
+        mLoadingView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 添加一个空列表数据页面
+     */
+    public void addEmptyView(View emptyView) {
+        this.mEmptyView = emptyView;
     }
 }
