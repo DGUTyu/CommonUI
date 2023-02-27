@@ -33,12 +33,12 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
 
     //点击事件接口
     public interface MyItemClickListener {
-        void onItemClick(View view, int position, boolean isChange);
+        void onItemClick(View view, int actualPosition, boolean isChange);
     }
 
     //长点击事件接口
     public interface MyItemLongClickListener {
-        void onItemLongClick(View view, int position, boolean isChange);
+        void onItemLongClick(View view, int actualPosition, boolean isChange);
     }
 
     //统一对item设置点击事件
@@ -58,7 +58,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
         //item为多布局样式时，则需要根据type的类型给Adapter传递不同的布局文件
         int getLayoutId(int layoutType);
 
-        void onBindViewHolder(T model, CommonViewHolder viewHolder, int type, int position);
+        void onBindViewHolder(T model, CommonViewHolder viewHolder, int type, int originalPosition);
     }
 
     //绑定多类型的数据接口（item多布局样式，如标题栏、内容item）
@@ -89,8 +89,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
 
     @Override
     public void onBindViewHolder(CommonViewHolder holder, int position) {
-        onBindDataListener.onBindViewHolder(mList.get(position), holder,
-                getItemViewType(position), position);
+        onBindDataListener.onBindViewHolder(mList.get(position), holder, getItemViewType(position), position);
         //点击事件回调
         handleClick(myItemClickListener, holder);
         handleLongClick(myItemLongClickListener, holder);
@@ -103,9 +102,9 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = holder.getLayoutPosition();
+                int actualPosition = holder.getLayoutPosition();
                 state[0] = !state[0];
-                myItemClickListener.onItemClick(holder.itemView, position, state[0]);
+                myItemClickListener.onItemClick(holder.itemView, actualPosition, state[0]);
             }
         });
     }
@@ -117,9 +116,9 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                int position = holder.getLayoutPosition();
+                int actualPosition = holder.getLayoutPosition();
                 state[0] = !state[0];
-                myItemLongClickListener.onItemLongClick(holder.itemView, position, state[0]);
+                myItemLongClickListener.onItemLongClick(holder.itemView, actualPosition, state[0]);
                 //返回true 表示消耗了事件 事件不会继续传递
                 return true;
             }

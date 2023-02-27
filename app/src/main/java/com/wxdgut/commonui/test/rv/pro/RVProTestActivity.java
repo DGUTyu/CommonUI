@@ -22,7 +22,7 @@ import com.wxdgut.uilibrary.rv.test_model.RVTestModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RVProTestActivity extends BaseTestActivity implements RefreshRecyclerView.OnRefreshListener, CommonRecyclerView.OnLoadMoreListener {
+public class RVProTestActivity extends BaseTestActivity implements CommonRecyclerView.OnRefreshListener, CommonRecyclerView.OnLoadMoreListener {
     private CommonRecyclerView mRecyclerView;
     private List<RVTestModel> mList = new ArrayList<>();
     private CommonAdapter<RVTestModel> commonAdapter;
@@ -62,7 +62,7 @@ public class RVProTestActivity extends BaseTestActivity implements RefreshRecycl
             }
 
             @Override
-            public void onBindViewHolder(RVTestModel model, CommonViewHolder viewHolder, int type, int position) {
+            public void onBindViewHolder(RVTestModel model, CommonViewHolder viewHolder, int type, int originalPosition) {
                 //设置头像
                 viewHolder.setImageResource(R.id.iv_photo, model.getPhoto());
                 //设置性别
@@ -80,22 +80,27 @@ public class RVProTestActivity extends BaseTestActivity implements RefreshRecycl
                 viewHolder.setText(R.id.tv_desc, model.getDesc());
                 //设置分割线颜色
                 viewHolder.setBackgroundColor(R.id.split_v, "#00ff00");
+                e("onBindViewHolder originalPosition:" + originalPosition);
             }
         });
         mRecyclerView.setAdapter(commonAdapter);
 
         commonAdapter.setOnItemClickListener(new BaseAdapter.MyItemClickListener() {
             @Override
-            public void onItemClick(View view, int position, boolean isChange) {
-                toast("点击Item：" + position + ",头部" + commonAdapter.getHeaderCounts() + ",底部" + commonAdapter.getFooterCounts());
+            public void onItemClick(View view, int actualPosition, boolean isChange) {
+                toast("点击Item：" + actualPosition + ",头部" + commonAdapter.getHeaderCounts() + ",底部" + commonAdapter.getFooterCounts());
                 view.findViewById(R.id.split_v).setBackgroundColor(isChange ? getResources().getColor(R.color.blue) : getResources().getColor(R.color.black));
+                int originalPosition = actualPosition - commonAdapter.getHeaderCounts();
+                e("onItemClick originalPosition:" + originalPosition + "，actualPosition:" + actualPosition);
             }
         });
         commonAdapter.setOnItemLongClickListener(new BaseAdapter.MyItemLongClickListener() {
             @Override
-            public void onItemLongClick(View view, int position, boolean isChange) {
-                toast("长按Item：" + position);
+            public void onItemLongClick(View view, int actualPosition, boolean isChange) {
+                toast("长按Item：" + actualPosition);
                 view.setBackgroundColor(isChange ? getResources().getColor(R.color.blue) : getResources().getColor(R.color.black));
+                int originalPosition = actualPosition - commonAdapter.getHeaderCounts();
+                e("onItemLongClick originalPosition:" + originalPosition + "，actualPosition:" + actualPosition);
             }
         });
 
