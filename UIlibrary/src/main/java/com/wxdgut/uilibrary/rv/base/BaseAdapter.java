@@ -41,13 +41,13 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<CommonViewHolder> {
         void onItemLongClick(View view, int listPosition, int layoutPosition, boolean isChange);
     }
 
-    //统一对item设置点击事件
+    //统一对item设置点击事件 不建议在点击事件里更新item UI
     public void setOnItemClickListener(MyItemClickListener listener) {
         if (listener == null) return;
         this.myItemClickListener = listener;
     }
 
-    //统一对item设置长点击事件
+    //统一对item设置长点击事件 不建议在长按事件里更新item UI
     public void setOnItemLongClickListener(MyItemLongClickListener listener) {
         if (listener == null) return;
         this.myItemLongClickListener = listener;
