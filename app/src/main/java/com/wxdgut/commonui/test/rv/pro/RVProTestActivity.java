@@ -52,21 +52,21 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
     }
 
     private void testStandardRvPro() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mList.addAll(RVTestDataUtils.getMultipleList(0));
-                commonAdapter.notifyDataSetChanged();
-
-                RecyclerView.Adapter realAdapter = mRecyclerView.getRealAdapter();
-                int itemCount = realAdapter.getItemCount();
-                e("" + itemCount);
-            }
-        }, 5000);
-
+        // 设置布局管理器
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         // 设置正在获取数据页面和无数据页面
         mRecyclerView.addLoadingView(findViewById(R.id.load_view));
         mRecyclerView.addEmptyView(findViewById(R.id.empty_view));
+        // 设置上拉下拉
+//        mRecyclerView.addDefaultRefreshViewCreator();
+//        mRecyclerView.setOnRefreshListener(this);
+//        mRecyclerView.addDefaultLoadViewCreator();
+//        mRecyclerView.setOnLoadMoreListener(this);
+
+//        mRecyclerView.setOnRefreshListener(this, true);
+//        mRecyclerView.setOnLoadMoreListener(this, true);
+
+        mRecyclerView.setOnLoadRefreshListener(this,this);
 
         commonAdapter = new CommonAdapter<>(mList, new BaseAdapter.OnBindDataListener<RVTestModel>() {
             @Override
@@ -96,8 +96,9 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
                 e("onBindViewHolder listPosition:" + listPosition);
             }
         });
+        // 设置适配器
         mRecyclerView.setAdapter(commonAdapter);
-
+        //设置监听事件
         commonAdapter.setOnItemClickListener(new BaseAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int listPosition, int layoutPosition, boolean isChange) {
@@ -115,16 +116,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
             }
         });
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //mRecyclerView.addItemDecoration(new CategoryItemDecoration(getResources().getDrawable(R.drawable.category_list_divider_blue)));
-
-//        mRecyclerView.addRefreshViewCreator(new DefaultRefreshCreator());
-//        mRecyclerView.setOnRefreshListener(this);
-//        mRecyclerView.addLoadViewCreator(new DefaultLoadCreator());
-//        mRecyclerView.setOnLoadMoreListener(this);
-
         // 添加头部和底部
-        /*
         View titleView = LayoutInflater.from(this).inflate(R.layout.layout_rv_item_title, mRecyclerView, false);
         titleView.setOnClickListener(v -> {
             toast("头部" + commonAdapter.getHeaderCounts() + ",底部" + commonAdapter.getFooterCounts());
@@ -137,9 +129,21 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
         footers.valueAt(0).setOnClickListener(v -> {
             toast("底部");
         });
+        // 移除底部
         commonAdapter.removeFooterView(view2);
-         */
 
+        //模拟请求到数据
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mList.addAll(RVTestDataUtils.getMultipleList(0));
+                commonAdapter.notifyDataSetChanged();
+
+                RecyclerView.Adapter realAdapter = mRecyclerView.getRealAdapter();
+                int itemCount = realAdapter.getItemCount();
+                e("" + itemCount);
+            }
+        }, 5000);
 
     }
 

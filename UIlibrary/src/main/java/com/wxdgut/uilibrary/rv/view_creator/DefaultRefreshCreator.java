@@ -11,10 +11,8 @@ import com.wxdgut.uilibrary.R;
 
 
 /**
- * Created by Darren on 2017/1/3.
- * Email: 240336124@qq.com
  * Description: 默认样式的刷新头部辅助类
- *              如淘宝、京东、不同的样式可以自己去实现
+ * 如淘宝、京东、不同的样式可以自己去实现
  */
 
 public class DefaultRefreshCreator extends RefreshViewCreator {

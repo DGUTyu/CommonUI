@@ -21,7 +21,6 @@
         android:background="@color/white"
         android:gravity="center"
         android:visibility="gone"
-        android:src="@drawable/list_load_more"
         android:text="正在加载数据..." />
 
     <TextView
@@ -31,7 +30,6 @@
         android:background="@color/white"
         android:visibility="gone"
         android:gravity="center"
-        android:src="@drawable/list_load_more"
         android:text="当前暂无数据..." />
 
 </LinearLayout>

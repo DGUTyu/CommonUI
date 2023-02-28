@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.wxdgut.uilibrary.rv.view_creator.DefaultLoadCreator;
 import com.wxdgut.uilibrary.rv.view_creator.LoadViewCreator;
 import com.wxdgut.uilibrary.rv.refresh.RefreshRecyclerView;
 
@@ -48,6 +49,17 @@ public class CommonRecyclerView extends RefreshRecyclerView {
         this.mListener = listener;
     }
 
+    //设置上拉监听器的同时使用默认的上拉样式
+    public void setOnLoadMoreListener(OnLoadMoreListener listener, boolean useDefaultStyle) {
+        this.mListener = listener;
+        if (useDefaultStyle) addDefaultLoadViewCreator();
+    }
+
+    //设置上拉下拉监听器的同时使用默认的样式
+    public void setOnLoadRefreshListener(OnLoadMoreListener moreListener, OnRefreshListener refreshListener) {
+        setOnLoadMoreListener(moreListener, true);
+        setOnRefreshListener(refreshListener, true);
+    }
 
     public CommonRecyclerView(@NonNull Context context) {
         super(context);
@@ -204,6 +216,11 @@ public class CommonRecyclerView extends RefreshRecyclerView {
     public void addLoadViewCreator(LoadViewCreator loadCreator) {
         this.mLoadCreator = loadCreator;
         addRefreshView();
+    }
+
+    //添加默认上拉样式
+    public void addDefaultLoadViewCreator() {
+        addLoadViewCreator(new DefaultLoadCreator());
     }
 
     //停止加载更多

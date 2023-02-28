@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.wxdgut.uilibrary.rv.CommonAdapter;
+import com.wxdgut.uilibrary.rv.view_creator.DefaultRefreshCreator;
 import com.wxdgut.uilibrary.rv.wrap.WrapRecyclerView;
 import com.wxdgut.uilibrary.rv.view_creator.RefreshViewCreator;
 
@@ -47,6 +48,11 @@ public class RefreshRecyclerView extends WrapRecyclerView {
         this.mListener = listener;
     }
 
+    //设置下拉监听器的同时使用默认的下拉样式
+    public void setOnRefreshListener(OnRefreshListener listener, boolean useDefaultStyle) {
+        this.mListener = listener;
+        if (useDefaultStyle) addDefaultRefreshViewCreator();
+    }
 
     public RefreshRecyclerView(@NonNull Context context) {
         super(context);
@@ -217,6 +223,11 @@ public class RefreshRecyclerView extends WrapRecyclerView {
     public void addRefreshViewCreator(RefreshViewCreator refreshCreator) {
         this.mRefreshCreator = refreshCreator;
         addRefreshView();
+    }
+
+    //添加默认下拉样式
+    public void addDefaultRefreshViewCreator() {
+        addRefreshViewCreator(new DefaultRefreshCreator());
     }
 
     //停止刷新
