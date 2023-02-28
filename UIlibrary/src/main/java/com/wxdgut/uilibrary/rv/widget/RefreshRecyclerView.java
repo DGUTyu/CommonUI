@@ -63,7 +63,7 @@ public class RefreshRecyclerView extends WrapRecyclerView {
     @Override
     public void setAdapter(@Nullable Adapter adapter) {
         super.setAdapter(adapter);
-        addRefreshView();
+        addRefreshView(); //get CommonAdapter为null,不执行
     }
 
 

@@ -98,6 +98,7 @@ public class RVTestDataUtils {
     private static final String[] status = {
             "已婚", "单身", "热恋", "单身", "单身",
             "单身", "单身", "单身", "已婚", "单身"};
+    private static int idNum = 2000;
 
     //返回数据集list
     public static List<RVTestModel> getList() {
@@ -130,10 +131,18 @@ public class RVTestDataUtils {
         return list;
     }
 
-    //生成model并添加到列表中
     private static void createData(int specialPos, RVTestModel specialModel, int i, String photoUrl, String nickName, String name, int photo, boolean sex,
                                    String desc, String phone, int age, String birthday, String constellation, String hobby, String status) {
+        baseCreateData(String.valueOf(idNum++), specialPos, specialModel, i, photoUrl, nickName, name, photo, sex,
+                desc, phone, age, birthday, constellation, hobby, status);
+    }
+
+
+    //生成model并添加到列表中
+    private static void baseCreateData(String id, int specialPos, RVTestModel specialModel, int i, String photoUrl, String nickName, String name, int photo, boolean sex,
+                                       String desc, String phone, int age, String birthday, String constellation, String hobby, String status) {
         RVTestModel model = new RVTestModel();
+        model.setId(id);
         model.setTokenPhoto(photoUrl);
         model.setTokenNickName(nickName);
 

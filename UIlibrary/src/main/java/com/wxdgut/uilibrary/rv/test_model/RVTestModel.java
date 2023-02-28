@@ -12,6 +12,8 @@ import com.wxdgut.uilibrary.rv.standard.CommonItemModel;
  * Profile:
  */
 public class RVTestModel extends CommonItemModel {
+    //ID
+    private String mId;
     //Token属性
     //获取Token的头像地址
     private String tokenPhoto;
@@ -44,6 +46,14 @@ public class RVTestModel extends CommonItemModel {
     private String hobby;
     //单身状态
     private String status;
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String mId) {
+        this.mId = mId;
+    }
 
     public String getTokenPhoto() {
         return tokenPhoto;
@@ -149,5 +159,23 @@ public class RVTestModel extends CommonItemModel {
         this.status = status;
     }
 
-
+    @Override
+    public String toString() {
+        return "RVTestModel{" +
+                "mId='" + mId + '\'' +
+                ", tokenPhoto='" + tokenPhoto + '\'' +
+                ", tokenNickName='" + tokenNickName + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", photo=" + photo +
+                ", sex=" + sex +
+                ", desc='" + desc + '\'' +
+                ", phone='" + phone + '\'' +
+                ", age=" + age +
+                ", birthday='" + birthday + '\'' +
+                ", constellation='" + constellation + '\'' +
+                ", hobby='" + hobby + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

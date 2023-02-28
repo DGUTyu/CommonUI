@@ -37,14 +37,18 @@ public class WrapRecyclerView extends RecyclerView {
     //重写方法
     @Override
     public void setAdapter(@Nullable Adapter adapter) {
-        mAdapter = (CommonAdapter) adapter;
-        //设置适配器
-        super.setAdapter(mAdapter);
-        // 解决GridLayout添加头部和底部也要占据一行
-        mAdapter.adjustSpanSize(this);
-        // 加载数据页面
-        if (mLoadingView != null && mLoadingView.getVisibility() == View.VISIBLE) {
-            mLoadingView.setVisibility(View.GONE);
+        if (adapter instanceof CommonAdapter) {
+            mAdapter = (CommonAdapter) adapter;
+            //设置适配器
+            super.setAdapter(mAdapter);
+            // 解决GridLayout添加头部和底部也要占据一行
+            mAdapter.adjustSpanSize(this);
+            // 加载数据页面
+            if (mLoadingView != null && mLoadingView.getVisibility() == View.VISIBLE) {
+                mLoadingView.setVisibility(View.GONE);
+            }
+        } else {
+            super.setAdapter(adapter);
         }
     }
 

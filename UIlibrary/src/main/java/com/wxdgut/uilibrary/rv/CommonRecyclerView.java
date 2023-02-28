@@ -64,7 +64,7 @@ public class CommonRecyclerView extends RefreshRecyclerView {
     @Override
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
-        addRefreshView();
+        addRefreshView(); //get CommonAdapter为null,不执行
     }
 
     @Override

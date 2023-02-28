@@ -62,7 +62,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
             }
 
             @Override
-            public void onBindViewHolder(RVTestModel model, CommonViewHolder viewHolder, int type, int originalPosition) {
+            public void onBindViewHolder(RVTestModel model, CommonViewHolder viewHolder, int type, int listPosition) {
                 //设置头像
                 viewHolder.setImageResource(R.id.iv_photo, model.getPhoto());
                 //设置性别
@@ -80,27 +80,25 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
                 viewHolder.setText(R.id.tv_desc, model.getDesc());
                 //设置分割线颜色
                 viewHolder.setBackgroundColor(R.id.split_v, "#00ff00");
-                e("onBindViewHolder originalPosition:" + originalPosition);
+                e("onBindViewHolder listPosition:" + listPosition);
             }
         });
         mRecyclerView.setAdapter(commonAdapter);
 
         commonAdapter.setOnItemClickListener(new BaseAdapter.MyItemClickListener() {
             @Override
-            public void onItemClick(View view, int actualPosition, boolean isChange) {
-                toast("点击Item：" + actualPosition + ",头部" + commonAdapter.getHeaderCounts() + ",底部" + commonAdapter.getFooterCounts());
+            public void onItemClick(View view, int listPosition, int layoutPosition, boolean isChange) {
                 view.findViewById(R.id.split_v).setBackgroundColor(isChange ? getResources().getColor(R.color.blue) : getResources().getColor(R.color.black));
-                int originalPosition = actualPosition - commonAdapter.getHeaderCounts();
-                e("onItemClick originalPosition:" + originalPosition + "，actualPosition:" + actualPosition);
+                //toast("点击Item：" + listPosition + "/" + layoutPosition + ",头部" + commonAdapter.getHeaderCounts() + ",底部" + commonAdapter.getFooterCounts());
+                e("onItemClick listPosition:" + listPosition + "，layoutPosition:" + layoutPosition + "，id:" + mList.get(listPosition).getId());
             }
         });
         commonAdapter.setOnItemLongClickListener(new BaseAdapter.MyItemLongClickListener() {
             @Override
-            public void onItemLongClick(View view, int actualPosition, boolean isChange) {
-                toast("长按Item：" + actualPosition);
+            public void onItemLongClick(View view, int listPosition, int layoutPosition, boolean isChange) {
                 view.setBackgroundColor(isChange ? getResources().getColor(R.color.blue) : getResources().getColor(R.color.black));
-                int originalPosition = actualPosition - commonAdapter.getHeaderCounts();
-                e("onItemLongClick originalPosition:" + originalPosition + "，actualPosition:" + actualPosition);
+                toast("长按Item：" + listPosition + "/" + layoutPosition);
+                e("onItemLongClick listPosition:" + listPosition + "，layoutPosition:" + layoutPosition + "，id:" + mList.get(listPosition).getId());
             }
         });
 
@@ -116,6 +114,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
         mRecyclerView.addEmptyView(findViewById(R.id.empty_view));
 
         // 添加头部和底部
+
         View titleView = LayoutInflater.from(this).inflate(R.layout.layout_rv_item_title, mRecyclerView, false);
         titleView.setOnClickListener(v -> {
             toast("头部" + commonAdapter.getHeaderCounts() + ",底部" + commonAdapter.getFooterCounts());
@@ -129,6 +128,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
             toast("底部");
         });
         commonAdapter.removeFooterView(view2);
+
     }
 
     @Override
@@ -147,10 +147,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
             @Override
             public void run() {
                 e("mList前:" + mList.size());
-                e("multipleList:" + multipleList.size());
-                mList.add(multipleList.get(0));
-                mList.add(multipleList.get(1));
-                mList.add(multipleList.get(2));
+                mList.addAll(RVTestDataUtils.getMultipleList(0));
                 e("mList后:" + mList.size());
                 mRecyclerView.onStopLoad();
                 commonAdapter.notifyDataSetChanged();
