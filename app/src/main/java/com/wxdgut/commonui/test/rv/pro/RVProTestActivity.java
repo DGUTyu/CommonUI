@@ -3,6 +3,7 @@ package com.wxdgut.commonui.test.rv.pro;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,6 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
     private CommonRecyclerView mRecyclerView;
     private List<RVTestModel> mList = new ArrayList<>();
     private CommonAdapter<RVTestModel> commonAdapter;
-    private List<RVTestModel> multipleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +52,22 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
     }
 
     private void testStandardRvPro() {
-        multipleList = RVTestDataUtils.getMultipleList(0);
-        //mList = RVTestDataUtils.getMultipleList(0); //此种写法，上拉加载时mList始终不会变
-        mList.addAll(multipleList);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mList.addAll(RVTestDataUtils.getMultipleList(0));
+                commonAdapter.notifyDataSetChanged();
+
+                RecyclerView.Adapter realAdapter = mRecyclerView.getRealAdapter();
+                int itemCount = realAdapter.getItemCount();
+                e("" + itemCount);
+            }
+        }, 5000);
+
+        // 设置正在获取数据页面和无数据页面
+        mRecyclerView.addLoadingView(findViewById(R.id.load_view));
+        mRecyclerView.addEmptyView(findViewById(R.id.empty_view));
+
         commonAdapter = new CommonAdapter<>(mList, new BaseAdapter.OnBindDataListener<RVTestModel>() {
             @Override
             public int getLayoutId(int layoutType) {
@@ -105,16 +118,13 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //mRecyclerView.addItemDecoration(new CategoryItemDecoration(getResources().getDrawable(R.drawable.category_list_divider_blue)));
 
-        mRecyclerView.addRefreshViewCreator(new DefaultRefreshCreator());
-        mRecyclerView.setOnRefreshListener(this);
-        mRecyclerView.addLoadViewCreator(new DefaultLoadCreator());
-        mRecyclerView.setOnLoadMoreListener(this);
-        // 设置正在获取数据页面和无数据页面
-        mRecyclerView.addLoadingView(findViewById(R.id.load_view));
-        mRecyclerView.addEmptyView(findViewById(R.id.empty_view));
+//        mRecyclerView.addRefreshViewCreator(new DefaultRefreshCreator());
+//        mRecyclerView.setOnRefreshListener(this);
+//        mRecyclerView.addLoadViewCreator(new DefaultLoadCreator());
+//        mRecyclerView.setOnLoadMoreListener(this);
 
         // 添加头部和底部
-
+        /*
         View titleView = LayoutInflater.from(this).inflate(R.layout.layout_rv_item_title, mRecyclerView, false);
         titleView.setOnClickListener(v -> {
             toast("头部" + commonAdapter.getHeaderCounts() + ",底部" + commonAdapter.getFooterCounts());
@@ -128,6 +138,8 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
             toast("底部");
         });
         commonAdapter.removeFooterView(view2);
+         */
+
 
     }
 

@@ -183,4 +183,10 @@ public class CommonAdapter<T> extends BaseAdapter {
             });
         }
     }
+
+    //真实的getItemCount，不包含头部、尾部
+    public int getRealItemCount() {
+        //Adapter的条数，即mList.size
+        return super.getItemCount();
+    }
 }

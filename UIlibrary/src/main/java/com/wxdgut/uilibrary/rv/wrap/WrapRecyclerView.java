@@ -16,12 +16,67 @@ import com.wxdgut.uilibrary.rv.CommonAdapter;
  */
 public class WrapRecyclerView extends RecyclerView {
     // 包裹了一层的头部底部Adapter
-    private CommonAdapter mAdapter;
+    private CommonAdapter commonAdapter;
 
     // 增加一些通用功能
     // 空列表数据应该显示的空View
-    // 正在加载数据页面，也就是正在获取后台接口页面
+    // 加载页，也就是正在获取后台接口页面
     private View mEmptyView, mLoadingView;
+
+    //数据观察者
+    private AdapterDataObserver mDataObserver = new AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            dataChanged();
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            dataChanged();
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
+            dataChanged();
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            dataChanged();
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            dataChanged();
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            dataChanged();
+        }
+    };
+
+    /**
+     * Adapter数据改变的方法
+     */
+    private void dataChanged() {
+        if (mLoadingView != null) mLoadingView.setVisibility(GONE);
+        Adapter adapter = super.getAdapter();
+        int itemCount = adapter.getItemCount();
+        if (adapter instanceof CommonAdapter)
+            itemCount = ((CommonAdapter) adapter).getRealItemCount();
+        if (itemCount <= 0) { // 没有数据
+            if (mEmptyView != null) {
+                mEmptyView.setVisibility(VISIBLE);
+                if (getVisibility() == VISIBLE) setVisibility(GONE);
+            }
+        } else { // 有数据
+            if (mEmptyView != null) {
+                mEmptyView.setVisibility(GONE);
+                if (getVisibility() == INVISIBLE || getVisibility() == GONE) setVisibility(VISIBLE);
+            }
+        }
+    }
 
     public WrapRecyclerView(@NonNull Context context) {
         super(context);
@@ -39,22 +94,35 @@ public class WrapRecyclerView extends RecyclerView {
     @Override
     public void setAdapter(@Nullable Adapter adapter) {
         if (adapter instanceof CommonAdapter) {
-            mAdapter = (CommonAdapter) adapter;
+            commonAdapter = (CommonAdapter) adapter;
+
             //设置适配器
-            super.setAdapter(mAdapter);
+            super.setAdapter(commonAdapter);
+
+            // 注册一个观察者
+            commonAdapter.registerAdapterDataObserver(mDataObserver);
+
             // 解决GridLayout添加头部和底部也要占据一行
-            mAdapter.adjustSpanSize(this);
-            // 加载数据页面
-            if (mLoadingView != null && mLoadingView.getVisibility() == View.VISIBLE) {
-                mLoadingView.setVisibility(View.GONE);
-            }
+            commonAdapter.adjustSpanSize(this);
         } else {
             super.setAdapter(adapter);
+            adapter.registerAdapterDataObserver(mDataObserver);
+        }
+        // 加载页
+        if (mLoadingView != null) {
+            setVisibility(GONE); //不建议用INVISIBLE，如果该RecyclerView是match_parent时会覆盖其他布局
+            mLoadingView.setVisibility(View.VISIBLE);
         }
     }
 
-    public CommonAdapter getAdapter() {
-        return mAdapter;
+    //返回CommonAdapter
+    public CommonAdapter getCommonAdapter() {
+        return commonAdapter;
+    }
+
+    //返回真实的适配器
+    public Adapter getRealAdapter() {
+        return super.getAdapter();
     }
 
     /**
@@ -62,7 +130,6 @@ public class WrapRecyclerView extends RecyclerView {
      */
     public void addLoadingView(View loadingView) {
         this.mLoadingView = loadingView;
-        mLoadingView.setVisibility(View.VISIBLE);
     }
 
     /**

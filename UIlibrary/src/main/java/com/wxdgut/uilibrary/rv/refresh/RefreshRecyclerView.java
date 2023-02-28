@@ -136,7 +136,7 @@ public class RefreshRecyclerView extends WrapRecyclerView {
     //************************* 私有方法 *************************
     //添加头部的刷新View
     private void addRefreshView() {
-        CommonAdapter adapter = getAdapter();
+        CommonAdapter adapter = getCommonAdapter();
         if (adapter != null && mRefreshCreator != null) {
             // 添加头部的刷新View
             View refreshView = mRefreshCreator.getRefreshView(getContext(), this);

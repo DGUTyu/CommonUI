@@ -101,7 +101,7 @@ public class CommonRecyclerView extends RefreshRecyclerView {
                 }
                 // 解决上拉加载更多自动滚动问题
                 if (mCurrentDrag) {
-                    scrollToPosition(getAdapter().getItemCount() - 1);
+                    scrollToPosition(getCommonAdapter().getItemCount() - 1);
                 }
 
                 // 获取手指触摸拖拽的距离
@@ -124,7 +124,7 @@ public class CommonRecyclerView extends RefreshRecyclerView {
 
     //添加底部加载更多View
     private void addRefreshView() {
-        CommonAdapter adapter = getAdapter();
+        CommonAdapter adapter = getCommonAdapter();
         if (adapter != null && mLoadCreator != null) {
             // 添加底部加载更多View
             View loadView = mLoadCreator.getLoadView(getContext(), this);
