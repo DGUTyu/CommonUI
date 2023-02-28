@@ -1,4 +1,4 @@
-package com.wxdgut.uilibrary.rv.item_decoration;
+package com.wxdgut.uilibrary.rv.decoration;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

@@ -10,20 +10,18 @@ import android.view.View;
 import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
 import com.wxdgut.commonui.test.rv.standard.RVTestDataUtils;
-import com.wxdgut.uilibrary.rv.free.BaseAdapter;
+import com.wxdgut.uilibrary.rv.base.BaseAdapter;
 import com.wxdgut.uilibrary.rv.CommonAdapter;
-import com.wxdgut.uilibrary.rv.view_creator.DefaultLoadCreator;
-import com.wxdgut.uilibrary.rv.view_creator.DefaultRefreshCreator;
 import com.wxdgut.uilibrary.rv.CommonRecyclerView;
-import com.wxdgut.uilibrary.rv.widget.RefreshRecyclerView;
 import com.wxdgut.uilibrary.rv.CommonViewHolder;
 import com.wxdgut.uilibrary.rv.test_model.RVTestModel;
+import com.wxdgut.uilibrary.rv.wrap.WrapRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RVProTestActivity extends BaseTestActivity implements CommonRecyclerView.OnRefreshListener, CommonRecyclerView.OnLoadMoreListener {
-    private CommonRecyclerView mRecyclerView;
+    private WrapRecyclerView mRecyclerView;
     private List<RVTestModel> mList = new ArrayList<>();
     private CommonAdapter<RVTestModel> commonAdapter;
     private List<RVTestModel> multipleList;
@@ -105,10 +103,10 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //mRecyclerView.addItemDecoration(new CategoryItemDecoration(getResources().getDrawable(R.drawable.category_list_divider_blue)));
 
-        mRecyclerView.addRefreshViewCreator(new DefaultRefreshCreator());
-        mRecyclerView.setOnRefreshListener(this);
-        mRecyclerView.addLoadViewCreator(new DefaultLoadCreator());
-        mRecyclerView.setOnLoadMoreListener(this);
+//        mRecyclerView.addRefreshViewCreator(new DefaultRefreshCreator());
+//        mRecyclerView.setOnRefreshListener(this);
+//        mRecyclerView.addLoadViewCreator(new DefaultLoadCreator());
+//        mRecyclerView.setOnLoadMoreListener(this);
         // 设置正在获取数据页面和无数据页面
         mRecyclerView.addLoadingView(findViewById(R.id.load_view));
         mRecyclerView.addEmptyView(findViewById(R.id.empty_view));
@@ -136,7 +134,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mRecyclerView.onStopRefresh();
+                //mRecyclerView.onStopRefresh();
             }
         }, 2000);
     }
@@ -149,7 +147,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
                 e("mList前:" + mList.size());
                 mList.addAll(RVTestDataUtils.getMultipleList(0));
                 e("mList后:" + mList.size());
-                mRecyclerView.onStopLoad();
+                //mRecyclerView.onStopLoad();
                 commonAdapter.notifyDataSetChanged();
             }
         }, 2000);

@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.wxdgut.uilibrary.rv.view_creator.LoadViewCreator;
-import com.wxdgut.uilibrary.rv.widget.RefreshRecyclerView;
+import com.wxdgut.uilibrary.rv.refresh.RefreshRecyclerView;
 
 /**
  * LoadRefreshRecyclerView

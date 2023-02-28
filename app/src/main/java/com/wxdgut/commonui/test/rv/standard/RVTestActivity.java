@@ -83,13 +83,13 @@ public class RVTestActivity extends BaseTestActivity implements View.OnClickList
             }
 
             @Override
-            public void onBindViewHolder(RVTestModel model, CommonViewHolder viewHolder, int type, int position) {
+            public void onBindViewHolder(RVTestModel model, CommonViewHolder viewHolder, int type, int listPosition) {
                 if (type == CommonItemModel.Type.TITLE.getValue()) {
                     viewHolder.setText(R.id.tv_title, model.getInfo());
                     viewHolder.setClick(R.id.tv_title, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            toast("标题:" + position);
+                            toast("标题:" + listPosition);
                         }
                     });
                 } else if (type == CommonItemModel.Type.CONTENT.getValue()) {
@@ -112,7 +112,7 @@ public class RVTestActivity extends BaseTestActivity implements View.OnClickList
                     //昵称点击事件
                     viewHolder.setClick(R.id.tv_nickname, new CommonViewHolder.MyListener() {
                         @Override
-                        public void click(boolean isChange) {
+                        public void click(boolean isChange) { //不建议在点击事件里更细UI,因为RecyclerView会复用viewHolder
                             //动态来回改变昵称字体颜色
                             viewHolder.setTextColor(R.id.tv_nickname, baseContext, isChange ? R.color.black : R.color.theme_color);
                         }
@@ -124,15 +124,15 @@ public class RVTestActivity extends BaseTestActivity implements View.OnClickList
         //Item点击事件
         commonAdapter.setOnItemClickListener(new BaseAdapter.MyItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                toast("点击Item：" + position);
+            public void onItemClick(View view, int listPosition, int layoutPosition, boolean isChange) {
+                toast("点击Item：" + listPosition);
             }
         });
         //Item长按事件
         commonAdapter.setOnItemLongClickListener(new BaseAdapter.MyItemLongClickListener() {
             @Override
-            public void onItemLongClick(View view, int position) {
-                toast("长按Item：" + position);
+            public void onItemLongClick(View view, int listPosition, int layoutPosition, boolean isChange) {
+                toast("长按Item：" + listPosition);
             }
         });
         //commonAdapter.notifyDataSetChanged();

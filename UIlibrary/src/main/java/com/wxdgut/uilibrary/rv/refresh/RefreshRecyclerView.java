@@ -1,4 +1,4 @@
-package com.wxdgut.uilibrary.rv.widget;
+package com.wxdgut.uilibrary.rv.refresh;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.wxdgut.uilibrary.rv.CommonAdapter;
+import com.wxdgut.uilibrary.rv.wrap.WrapRecyclerView;
 import com.wxdgut.uilibrary.rv.view_creator.RefreshViewCreator;
 
 public class RefreshRecyclerView extends WrapRecyclerView {

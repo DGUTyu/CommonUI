@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".test.rv.pro.RVProTestActivity">
 
-    <com.wxdgut.uilibrary.rv.CommonRecyclerView
+    <com.wxdgut.uilibrary.rv.wrap.WrapRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

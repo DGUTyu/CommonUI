@@ -1,4 +1,4 @@
-package com.wxdgut.uilibrary.rv.widget;
+package com.wxdgut.uilibrary.rv.wrap;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,6 +12,7 @@ import com.wxdgut.uilibrary.rv.CommonAdapter;
 
 /**
  * 可以添加头部和底部的RecyclerView
+ * 与 CommonAdapter 搭配使用
  */
 public class WrapRecyclerView extends RecyclerView {
     // 包裹了一层的头部底部Adapter

@@ -7,7 +7,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wxdgut.uilibrary.rv.free.BaseAdapter;
+import com.wxdgut.uilibrary.rv.base.BaseAdapter;
 
 import java.util.List;
 
