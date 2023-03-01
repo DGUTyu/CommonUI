@@ -2,6 +2,7 @@ package com.wxdgut.commonui.test.rv.pro;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -27,12 +28,14 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
     private CommonRecyclerView mRecyclerView;
     private List<RVTestModel> mList = new ArrayList<>();
     private CommonAdapter<RVTestModel> commonAdapter;
+    private FloatingActionButton fb_square_top;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rv_pro_test);
         mRecyclerView = findViewById(R.id.recycler_view);
+        fb_square_top = findViewById(R.id.fb_square_top);
         /*
         // 设置显示分割 ListView样式
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -48,7 +51,12 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
         //mRecyclerView.addItemDecoration(new CategoryItemDecoration(getResources().getColor(R.color.black),20));
         //mRecyclerView.addItemDecoration(new CategoryItemDecoration(getResources().getDrawable(R.drawable.category_list_divider_blue)));
         //mRecyclerView.addItemDecoration(new CategoryItemDecoration(getResources().getColor(R.color.white),10));
+        initListener();
         testStandardRvPro();
+    }
+
+    private void initListener() {
+        mRecyclerView.addFloatActionButton(fb_square_top);
     }
 
     private void testStandardRvPro() {
@@ -136,14 +144,14 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mList.addAll(RVTestDataUtils.getMultipleList(0));
+                mList.addAll(RVTestDataUtils.getMultipleList(1));
                 commonAdapter.notifyDataSetChanged();
 
                 RecyclerView.Adapter realAdapter = mRecyclerView.getRealAdapter();
                 int itemCount = realAdapter.getItemCount();
                 e("" + itemCount);
             }
-        }, 5000);
+        }, 2000);
 
     }
 

@@ -3,8 +3,11 @@ package com.wxdgut.uilibrary.rv.wrap;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.wxdgut.uilibrary.rv.CommonAdapter;
@@ -137,5 +140,37 @@ public class WrapRecyclerView extends RecyclerView {
      */
     public void addEmptyView(View emptyView) {
         this.mEmptyView = emptyView;
+    }
+
+    /**
+     * 添加FloatingActionButton监听
+     */
+    public void addFloatActionButton(FloatingActionButton button, int firstVisibleItemPosition) {
+        if (button == null || firstVisibleItemPosition < 0) return;
+        button.setOnClickListener(v -> {
+            smoothScrollToPosition(0);
+        });
+        this.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                if (layoutManager != null) {
+                    if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+                        int position = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+                        Log.e("TAG", "onScrollStateChanged: position:" + position);
+                        if (position > 5) {
+                            button.show();
+                        } else {
+                            button.hide();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public void addFloatActionButton(FloatingActionButton button) {
+        addFloatActionButton(button, 5);
     }
 }
