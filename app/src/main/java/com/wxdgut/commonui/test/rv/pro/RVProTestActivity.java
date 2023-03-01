@@ -2,11 +2,15 @@ package com.wxdgut.commonui.test.rv.pro;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -70,7 +74,8 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
 
     private void testStandardRvPro() {
         // 设置布局管理器
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         // 设置正在获取数据页面和无数据页面
         mRecyclerView.addLoadingView(findViewById(R.id.load_view));
         mRecyclerView.addEmptyView(findViewById(R.id.empty_view));
@@ -186,5 +191,26 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
                 commonAdapter.notifyDataSetChanged();
             }
         }, 2000);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        //返回true表示允许创建的菜单显示出来，如果返回了false，创建的菜单将无法显示
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.id_action_gridview:
+                mRecyclerView.updateLayoutManager(new GridLayoutManager(this, 4));
+                break;
+            case R.id.id_action_listview:
+                mRecyclerView.updateLayoutManager(new LinearLayoutManager(this));
+                break;
+        }
+        return true;
     }
 }

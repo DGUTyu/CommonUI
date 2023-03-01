@@ -211,4 +211,15 @@ public class WrapRecyclerView extends RecyclerView {
     public void addToTopView(View view) {
         addToTopView(view, 5);
     }
+
+    //更新布局管理器，用于替换setLayoutManager方法
+    //可解决更新布局管理器时，GridLayoutManager添加头部和底部不占用一行的问题
+    public void updateLayoutManager(RecyclerView.LayoutManager layoutManager) {
+        if (layoutManager == null) return;
+        setLayoutManager(layoutManager);
+        Adapter adapter = getAdapter();
+        if (adapter instanceof CommonAdapter) {
+            ((CommonAdapter) adapter).adjustSpanSize(this);
+        }
+    }
 }
