@@ -9,5 +9,6 @@
     <color name="red">#ff0000</color>
     <color name="green">#00ff00</color>
     <color name="blue">#0000ff</color>
-    <color name="rv_to_top_press">#d4d4d4</color>
+    <color name="main_color">#2196F3</color>
+    <color name="dark">#d4d4d4</color>
 </resources>

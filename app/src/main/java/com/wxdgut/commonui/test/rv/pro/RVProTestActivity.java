@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
@@ -29,6 +30,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
     private List<RVTestModel> mList = new ArrayList<>();
     private CommonAdapter<RVTestModel> commonAdapter;
     private FloatingActionButton fb_square_top;
+    private ImageView iv_to_top;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
         setContentView(R.layout.activity_rv_pro_test);
         mRecyclerView = findViewById(R.id.recycler_view);
         fb_square_top = findViewById(R.id.fb_square_top);
+        iv_to_top = findViewById(R.id.iv_to_top);
         /*
         // 设置显示分割 ListView样式
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -56,7 +59,13 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
     }
 
     private void initListener() {
-        mRecyclerView.addFloatActionButton(fb_square_top);
+        mRecyclerView.addToTopView(iv_to_top);
+        mRecyclerView.addFloatActionButton(fb_square_top, new WrapRecyclerView.FloatBtnListener() {
+            @Override
+            public void click() {
+                toast("1");
+            }
+        });
     }
 
     private void testStandardRvPro() {
@@ -74,7 +83,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
 //        mRecyclerView.setOnRefreshListener(this, true);
 //        mRecyclerView.setOnLoadMoreListener(this, true);
 
-        mRecyclerView.setOnLoadRefreshListener(this,this);
+        mRecyclerView.setOnLoadRefreshListener(this, this);
 
         commonAdapter = new CommonAdapter<>(mList, new BaseAdapter.OnBindDataListener<RVTestModel>() {
             @Override

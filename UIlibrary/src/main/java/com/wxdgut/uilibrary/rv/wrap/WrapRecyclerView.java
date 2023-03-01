@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.wxdgut.uilibrary.rv.CommonAdapter;
@@ -25,6 +24,11 @@ public class WrapRecyclerView extends RecyclerView {
     // 空列表数据应该显示的空View
     // 加载页，也就是正在获取后台接口页面
     private View mEmptyView, mLoadingView;
+
+    // 处理FloatingActionButton的接口
+    public interface FloatBtnListener {
+        void click();
+    }
 
     //数据观察者
     private AdapterDataObserver mDataObserver = new AdapterDataObserver() {
@@ -145,11 +149,16 @@ public class WrapRecyclerView extends RecyclerView {
     /**
      * 添加FloatingActionButton监听
      */
-    public void addFloatActionButton(FloatingActionButton button, int firstVisibleItemPosition) {
+    public void addFloatActionButton(FloatingActionButton button, int firstVisibleItemPosition, FloatBtnListener listener) {
         if (button == null || firstVisibleItemPosition < 0) return;
+        if (button.getVisibility() != INVISIBLE) button.hide();
         button.setOnClickListener(v -> {
-            smoothScrollToPosition(0);
+            if (listener != null) listener.click();
         });
+        if (firstVisibleItemPosition < 2) {
+            button.show();
+            return;
+        }
         this.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -158,8 +167,7 @@ public class WrapRecyclerView extends RecyclerView {
                 if (layoutManager != null) {
                     if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
                         int position = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
-                        Log.e("TAG", "onScrollStateChanged: position:" + position);
-                        if (position > 5) {
+                        if (position >= firstVisibleItemPosition) {
                             button.show();
                         } else {
                             button.hide();
@@ -170,7 +178,37 @@ public class WrapRecyclerView extends RecyclerView {
         });
     }
 
-    public void addFloatActionButton(FloatingActionButton button) {
-        addFloatActionButton(button, 5);
+    public void addFloatActionButton(FloatingActionButton button, FloatBtnListener listener) {
+        addFloatActionButton(button, 5, listener);
+    }
+
+    public void addToTopView(View view, int firstVisibleItemPosition) {
+        if (view == null || firstVisibleItemPosition < 0) return;
+        //检查View是否已经隐藏
+        if (view.getVisibility() != INVISIBLE) view.setVisibility(INVISIBLE);
+        view.setOnClickListener(v -> {
+            smoothScrollToPosition(0);
+        });
+        if (firstVisibleItemPosition < 2) {
+            view.setVisibility(VISIBLE);
+            return;
+        }
+        this.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                if (layoutManager != null) {
+                    if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+                        int position = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+                        view.setVisibility(position >= firstVisibleItemPosition ? VISIBLE : INVISIBLE);
+                    }
+                }
+            }
+        });
+    }
+
+    public void addToTopView(View view) {
+        addToTopView(view, 5);
     }
 }
