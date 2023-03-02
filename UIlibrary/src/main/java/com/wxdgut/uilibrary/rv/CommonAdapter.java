@@ -105,13 +105,18 @@ public class CommonAdapter<T> extends BaseAdapter {
     }
 
     //是不是头部位置
-    private boolean isHeaderPosition(int position) {
+    public boolean isHeaderPosition(int position) {
         return position < mHeaderViews.size();
     }
 
     //是不是底部位置
-    private boolean isFooterPosition(int position) {
+    public boolean isFooterPosition(int position) {
         return position >= (mHeaderViews.size() + super.getItemCount());
+    }
+
+    //是不是头部或底部位置
+    public boolean isHeaderOrFooterPosition(int position) {
+        return isHeaderPosition(position) || isFooterPosition(position);
     }
 
     //************************* 公开方法 *************************
@@ -188,5 +193,11 @@ public class CommonAdapter<T> extends BaseAdapter {
     public int getRealItemCount() {
         //Adapter的条数，即mList.size
         return super.getItemCount();
+    }
+
+    //真实的Position
+    public int getListPosition(int position) {
+        if (isHeaderOrFooterPosition(position)) return position;
+        return position - getHeaderCounts();
     }
 }

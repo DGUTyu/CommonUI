@@ -76,7 +76,7 @@ public class CommonRecyclerView extends RefreshRecyclerView {
     @Override
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
-        addRefreshView(); //get CommonAdapter为null,不执行
+        addLoadMoreView(); //get CommonAdapter为null,不执行
     }
 
     @Override
@@ -135,7 +135,7 @@ public class CommonRecyclerView extends RefreshRecyclerView {
     //************************* 私有方法 *************************
 
     //添加底部加载更多View
-    private void addRefreshView() {
+    private void addLoadMoreView() {
         CommonAdapter adapter = getCommonAdapter();
         if (adapter != null && mLoadCreator != null) {
             // 添加底部加载更多View
@@ -215,7 +215,7 @@ public class CommonRecyclerView extends RefreshRecyclerView {
     // 所以我们不能直接添加View，需要利用辅助类
     public void addLoadViewCreator(LoadViewCreator loadCreator) {
         this.mLoadCreator = loadCreator;
-        addRefreshView();
+        addLoadMoreView();
     }
 
     //添加默认上拉样式

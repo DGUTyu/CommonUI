@@ -125,7 +125,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
             @Override
             public void onItemClick(View view, int listPosition, int layoutPosition, boolean isChange) {
                 view.findViewById(R.id.split_v).setBackgroundColor(isChange ? getResources().getColor(R.color.blue) : getResources().getColor(R.color.black));
-                toast("点击Item：" + listPosition + "/" + layoutPosition);
+                toast("点击Item：" + listPosition + "/" + layoutPosition + "/" + commonAdapter.getListPosition(layoutPosition));
                 e("onItemClick listPosition:" + listPosition + "，layoutPosition:" + layoutPosition + "，id:" + mList.get(listPosition).getId());
             }
         });
@@ -133,7 +133,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
             @Override
             public void onItemLongClick(View view, int listPosition, int layoutPosition, boolean isChange) {
                 view.setBackgroundColor(isChange ? getResources().getColor(R.color.blue) : getResources().getColor(R.color.black));
-                toast("长按Item：" + listPosition + "/" + layoutPosition);
+                toast("长按Item：" + listPosition + "/" + layoutPosition + "/" + commonAdapter.getListPosition(layoutPosition));
                 e("onItemLongClick listPosition:" + listPosition + "，layoutPosition:" + layoutPosition + "，id:" + mList.get(listPosition).getId());
             }
         });
@@ -148,17 +148,18 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
         View view2 = LayoutInflater.from(this).inflate(R.layout.dialog_fingerprint, mRecyclerView, false);
         commonAdapter.addFooterView(view2);
         SparseArray<View> footers = commonAdapter.getFooters();
-        footers.valueAt(0).setOnClickListener(v -> {
-            toast("底部");
-        });
         // 移除底部
         commonAdapter.removeFooterView(view2);
+        //避免先监听，然后又移除了底部
+        footers.valueAt(footers.size() - 1).setOnClickListener(v -> {
+            toast("底部");
+        });
 
         //模拟请求到数据
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mList.addAll(RVTestDataUtils.getMultipleList(1));
+                mList.addAll(RVTestDataUtils.getMultipleList(2));
                 commonAdapter.notifyDataSetChanged();
 
                 RecyclerView.Adapter realAdapter = mRecyclerView.getRealAdapter();
@@ -185,7 +186,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
             @Override
             public void run() {
                 e("mList前:" + mList.size());
-                mList.addAll(RVTestDataUtils.getMultipleList(0));
+                mList.addAll(RVTestDataUtils.getList());
                 e("mList后:" + mList.size());
                 mRecyclerView.onStopLoad();
                 commonAdapter.notifyDataSetChanged();
