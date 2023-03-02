@@ -1,12 +1,16 @@
 package com.wxdgut.commonui.test.rv.pro;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -135,6 +139,9 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
                 view.setBackgroundColor(isChange ? getResources().getColor(R.color.blue) : getResources().getColor(R.color.black));
                 toast("长按Item：" + listPosition + "/" + layoutPosition + "/" + commonAdapter.getListPosition(layoutPosition));
                 e("onItemLongClick listPosition:" + listPosition + "，layoutPosition:" + layoutPosition + "，id:" + mList.get(listPosition).getId());
+//                e(mList.get(listPosition).toString());
+//                mList.remove(listPosition);
+//                commonAdapter.notifyDataSetChanged();
             }
         });
 
@@ -159,7 +166,7 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mList.addAll(RVTestDataUtils.getMultipleList(2));
+                mList.addAll(RVTestDataUtils.getMultipleList(1));
                 commonAdapter.notifyDataSetChanged();
 
                 RecyclerView.Adapter realAdapter = mRecyclerView.getRealAdapter();
@@ -167,6 +174,73 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
                 e("" + itemCount);
             }
         }, 2000);
+
+        //**********************************有缺陷，删除后部分页面是空白的，没有及时填充
+        ItemTouchHelper itemTouchHelper=new ItemTouchHelper(new ItemTouchHelper.Callback() {
+            //设置可拖动和可删除的Flags
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                //return 0; //return makeMovementFlags(ItemTouchHelper.LEFT, ItemTouchHelper.LEFT);
+                //头部不可以移除
+                int position = viewHolder.getLayoutPosition();
+                if(commonAdapter.isHeaderOrFooterPosition(position)) return 0;
+
+                // 获取触摸响应的方向   包含两个 1.拖动dragFlags 2.侧滑删除swipeFlags
+                // 代表只能是向左侧滑删除，当前可以是这样ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT
+                int swipeFlags = ItemTouchHelper.LEFT;
+                int dragFlags = 0;
+                if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
+                    // GridView 样式四个方向都可以
+                    dragFlags = ItemTouchHelper.UP | ItemTouchHelper.LEFT |
+                            ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT;
+                } else {
+                    // ListView 样式不支持左右
+                    dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+                }
+                return makeMovementFlags(dragFlags, swipeFlags);
+            }
+
+            //拖动的时候不断的回调方法
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                //return false;
+                return false;
+            }
+
+            //侧滑删除后会回调的方法,direction=4代表是左边删除
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int layoutPosition = viewHolder.getLayoutPosition();
+                int listPosition = commonAdapter.getListPosition(layoutPosition);
+                e("layoutPosition:" + layoutPosition + " listPosition:" + listPosition + " id:" + mList.get(listPosition).getId());
+                e(mList.get(listPosition).toString());
+                mList.remove(listPosition);
+                commonAdapter.notifyDataSetChanged();
+            }
+
+            //拖动选择状态改变回调
+            @Override
+            public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
+                //super.onSelectedChanged(viewHolder, actionState);
+                if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+                    // ItemTouchHelper.ACTION_STATE_IDLE 看看源码解释就能理解了
+                    // 侧滑或者拖动的时候背景设置为灰色
+                    viewHolder.itemView.setBackgroundColor(Color.RED);
+                }
+            }
+
+            //回到正常状态的时候回调
+            @Override
+            public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                //super.clearView(recyclerView, viewHolder);
+                // 正常默认状态下背景恢复默认
+                viewHolder.itemView.setBackgroundColor(0);
+                viewHolder.itemView.setTranslationX(0);
+            }
+        });
+        //attach
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        //**********************************
 
     }
 
