@@ -78,8 +78,8 @@ public class RVProTestActivity extends BaseTestActivity implements CommonRecycle
 
     private void testStandardRvPro() {
         // 设置布局管理器
-        //mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //mRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         // 设置正在获取数据页面和无数据页面
         mRecyclerView.addLoadingView(findViewById(R.id.load_view));
         mRecyclerView.addEmptyView(findViewById(R.id.empty_view));

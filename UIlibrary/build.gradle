@@ -11,7 +11,8 @@ android {
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
-
+        // ...
+        buildConfigField("int", "IMG_PRO_COLOR", "R.color.green")
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
