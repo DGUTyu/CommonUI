@@ -2,27 +2,38 @@ package com.wxdgut.uilibrary.iv;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.wxdgut.uilibrary.BuildConfig;
-import com.wxdgut.uilibrary.R;
-
 /**
- * 支持变色的
- * 变色的方法调用示例：
- * iv_man.setImageResourceWithColor(R.drawable.img_man, R.color.red);
- * iv_data.setTint(R.color.red);
+ * 支持变色的ImageView
+ * 使用示例：
+ * 1.build.gradle(app)下的defaultConfig标签中添加
+ * buildConfigField("int", "IMG_PRO_COLOR", "R.color.img_theme")
+ * 请确保R.color.img_theme中有对应的颜色值
+ * 2.在Application的onCreate方法中初始化ImageViewPro
+ *         ImgProUtils.init(new AppConfig() {
+ *             @Override
+ *             public int getDefaultColor() {
+ *                 return BuildConfig.IMG_PRO_COLOR;
+ *             }
+ *         });
+ * 3.布局文件中使用ImageViewPro
+ *         <com.wxdgut.uilibrary.iv.ImageViewPro
+ *             android:id="@+id/iv_man"
+ *             android:layout_width="wrap_content"
+ *             android:layout_height="wrap_content"
+ *             android:src="@drawable/img_man" />
+ * 4.代码中初始化ImageViewPro
+ *         ImageViewPro iv_man = findViewById(R.id.iv_man);
+ * 5.代码中改ImageViewPro的颜色或图标及颜色
+ *         iv_man.setImageResourceWithColor(R.drawable.img_woman, R.color.red);
+ *         iv_data.setTint(R.color.red);
  */
 public class ImageViewPro extends ImageView {
     private int mImageResId = -1;
@@ -55,9 +66,8 @@ public class ImageViewPro extends ImageView {
         }
         if (mImageResId != -1) {
             //设置默认颜色
-            int themeColor = BuildConfig.IMG_PRO_COLOR;
-            //setImageResourceWithColor(mImageResId, R.color.green);
-            setImageResourceWithColor(mImageResId, themeColor);
+            int defaultColor = ImgProUtils.getDefaultColor();
+            setImageResourceWithColor(mImageResId, defaultColor);
         }
     }
 

@@ -34,7 +34,8 @@ android {
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
-
+        // ImageViewPro默认颜色
+        buildConfigField("int", "IMG_PRO_COLOR", "R.color.img_theme")
         // All flavors must now belong to a named flavor dimension.
         // Android Studio 3.0 之后 多渠道需要配置方向
         flavorDimensions "default"
