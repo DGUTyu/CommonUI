@@ -74,6 +74,8 @@ public class SecondActivity extends BaseTestActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.btn_test:
                 toast("测试");
+                finish();
+                break;
         }
     }
 }

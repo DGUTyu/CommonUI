@@ -1,6 +1,7 @@
 package com.wxdgut.commonui.test;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -13,14 +14,13 @@ import android.widget.TextView;
 import com.wxdgut.commonui.R;
 import com.wxdgut.uilibrary.iv.ImageViewPro;
 
-import java.text.SimpleDateFormat;
-
 public class TestActivity extends BaseTestActivity implements View.OnClickListener {
     //视图控件
     private TextView tv_welcome;
     private Button btn1, btn2, btn3, btn4;
     ImageView iv_business, iv_shop;
     ImageViewPro iv_man, iv_data;
+    boolean isClick = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +50,17 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
         btn2.setOnClickListener(this);
         btn3.setOnClickListener(this);
         btn4.setOnClickListener(this);
+        iv_data.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_welcome:
-                String date = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss").format(System.currentTimeMillis());
-                e(date + " onClick");
-                TestLibrary.test("测试TestActivity");
+                //String date = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss").format(System.currentTimeMillis());
+                //e(date + " onClick");
+                //TestLibrary.test("测试TestActivity");
+                SecondActivity.startActivity(baseContext, false, "one", "two");
                 break;
             case R.id.btn1:
                 //show("btn1");
@@ -71,14 +73,20 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
                 break;
             case R.id.btn3:
                 //toast("btn3");
-                iv_man.setColor(R.color.red);
+                iv_man.setColorId(R.color.red);
+                iv_man.setColor(Color.parseColor("#CF5FC0")); //粉色
+                iv_data.setColorId(R.color.red);
                 break;
             case R.id.btn4:
-                //changePngColor(this, iv_shop, R.drawable.img_shop, getResources().getColor(R.color.blue));
-                //iv_man.setImageResourceWithColor(R.drawable.img_man, R.color.blue);
-                //iv_data.setImageResourceWithColor(R.drawable.img_man,R.color.blue);
-                iv_data.setImageResourceWithColor(R.drawable.img_man, R.color.blue);
+                iv_man.setImageResourceWithColor(R.drawable.img_man, Color.parseColor("#FCC424")); //橙色
+                //iv_man.setImageResourceWithColor(R.drawable.img_man, Color.RED);
+                //iv_data.setImageResourceWithColorId(R.drawable.img_man, R.color.blue); //会覆盖img_man的上一次颜色的效果
+                iv_data.setImageResourceWithColorId(R.drawable.img_no_data, R.color.blue);
                 //toast("btn4");
+                break;
+            case R.id.iv_data:
+                isClick = !isClick;
+                iv_data.setColorId(isClick ? R.color.theme_color : R.color.img_default);
                 break;
         }
     }

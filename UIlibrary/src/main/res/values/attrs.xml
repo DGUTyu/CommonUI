@@ -41,4 +41,10 @@
         <!--是否使用触碰震动反馈-->
         <attr name="plv_enableHapticFeedback" format="boolean|reference" />
     </declare-styleable>
+
+    <!--ImageViewPro-->
+    <declare-styleable name="ImageViewPro">
+        <attr name="defaultColor" format="color"/>
+    </declare-styleable>
+
 </resources>
