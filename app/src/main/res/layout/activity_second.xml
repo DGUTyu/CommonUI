@@ -120,4 +120,11 @@
             android:src="@drawable/img_setting" />
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="#dddddd"
+        android:src="@drawable/shape_blue_btn_bg"/>
+
 </LinearLayout>

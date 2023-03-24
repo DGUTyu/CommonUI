@@ -111,7 +111,7 @@ public class ImageViewPro extends ImageView {
         if (drawable == null) {
             return;
         }
-        mColor = ContextCompat.getColor(getContext(), colorId); //API level 23 及以上
+        mColor = ContextCompat.getColor(getContext(), colorId); //所有版本均适用，无需特判 API level 23 (Build.VERSION_CODES.M) 以下的情况
         PorterDuffColorFilter colorFilter = new PorterDuffColorFilter(mColor, PorterDuff.Mode.SRC_ATOP);
         drawable.setColorFilter(colorFilter);
         setImageDrawable(drawable);
@@ -137,7 +137,7 @@ public class ImageViewPro extends ImageView {
         if (drawable == null) {
             return;
         }
-        mColor = ContextCompat.getColor(getContext(), colorId); //API level 23 及以上
+        mColor = ContextCompat.getColor(getContext(), colorId); //所有版本均适用，无需特判 API level 23 (Build.VERSION_CODES.M) 以下的情况
         PorterDuffColorFilter colorFilter = new PorterDuffColorFilter(mColor, PorterDuff.Mode.SRC_ATOP);
         drawable.setColorFilter(colorFilter);
         invalidate();
