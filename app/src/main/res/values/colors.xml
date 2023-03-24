@@ -36,6 +36,8 @@
     <!--颜色值-->
     <!--主题色-->
     <color name="theme_color">#3E7AF6</color>
+    <!--主题色 20透明度-->
+    <color name="theme_color_light">#333E7AF6</color>
     <color name="transparent">#00000000</color>
     <color name="light_gray">#DDDDDD</color>
     <color name="img_default">#F77234</color>

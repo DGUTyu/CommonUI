@@ -18,9 +18,9 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
     //视图控件
     private TextView tv_welcome;
     private Button btn1, btn2, btn3, btn4;
-    ImageView iv_business, iv_shop;
-    ImageViewPro iv_man, iv_data;
-    boolean isClick = false;
+    ImageView iv_business;
+    ImageViewPro iv_man, iv_data, iv_shop;
+    final boolean[] isClick = {false, false, false, false};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,7 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
         btn3.setOnClickListener(this);
         btn4.setOnClickListener(this);
         iv_data.setOnClickListener(this);
+        iv_shop.setOnClickListener(this);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
                 break;
             case R.id.btn2:
                 //toast("btn2");
-                changePngColor(this, iv_shop, R.drawable.img_shop, getResources().getColor(R.color.red));
+                changePngColor(this, iv_shop, R.drawable.shape_blue_btn_bg, getResources().getColor(R.color.red));
                 break;
             case R.id.btn3:
                 //toast("btn3");
@@ -81,12 +82,16 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
                 iv_man.setImageResourceWithColor(R.drawable.img_man, Color.parseColor("#FCC424")); //橙色
                 //iv_man.setImageResourceWithColor(R.drawable.img_man, Color.RED);
                 //iv_data.setImageResourceWithColorId(R.drawable.img_man, R.color.blue); //会覆盖img_man的上一次颜色的效果
-                iv_data.setImageResourceWithColorId(R.drawable.img_no_data, R.color.blue);
+                iv_data.setImageResourceWithColorId(R.drawable.img_reward, R.color.blue);
                 //toast("btn4");
                 break;
             case R.id.iv_data:
-                isClick = !isClick;
-                iv_data.setColorId(isClick ? R.color.theme_color : R.color.img_default);
+                isClick[0] = !isClick[0];
+                iv_data.setColorId(isClick[0] ? R.color.theme_color : R.color.img_default);
+                break;
+            case R.id.iv_shop:
+                isClick[1] = !isClick[1];
+                iv_shop.setColorId(isClick[1] ? R.color.theme_color : R.color.img_default);
                 break;
         }
     }

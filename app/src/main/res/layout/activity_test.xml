@@ -84,12 +84,12 @@
             android:background="#dddddd"
             android:src="@drawable/img_business" />
 
-        <ImageView
+        <com.wxdgut.uilibrary.iv.ImageViewPro
             android:id="@+id/iv_shop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:background="#dddddd"
-            android:src="@drawable/img_shop" />
+            android:src="@drawable/shape_blue_btn_bg" />
 
         <com.wxdgut.uilibrary.iv.ImageViewPro
             android:id="@+id/iv_man"
@@ -119,11 +119,11 @@
             android:background="#dddddd"
             android:src="@drawable/img_business" />
 
-        <com.wxdgut.uilibrary.iv.ImageViewPro
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:background="#dddddd"
-            android:src="@drawable/img_shop" />
+            android:src="@drawable/shape_blue_btn_bg" />
 
         <!--    app:defaultColor="@color/colorPrimary"    -->
         <com.wxdgut.uilibrary.iv.ImageViewPro
