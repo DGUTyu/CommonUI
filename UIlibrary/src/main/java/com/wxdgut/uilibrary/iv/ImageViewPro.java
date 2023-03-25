@@ -7,8 +7,9 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+import android.util.Log;
 
 import com.wxdgut.uilibrary.R;
 
@@ -44,7 +45,7 @@ import com.wxdgut.uilibrary.R;
  * 1、一个src图片仅需设置一次ImageViewPro即可达到全局替换效果
  * 2、如果需要设置app:defaultColor属性，仅需在src图片对应的、唯一一个的ImageViewPro中设置。
  */
-public class ImageViewPro extends ImageView {
+public class ImageViewPro extends AppCompatImageView {
     private int mImageResId = -1;
     private int mColor = Color.BLACK;
     private int defaultColor;
@@ -81,7 +82,6 @@ public class ImageViewPro extends ImageView {
             }
         }
         if (mImageResId != -1) {
-            //设置默认颜色
             int color = ImgProUtils.getDefaultColor();
             if (defaultColor != 0) {
                 setImageResourceWithColor(mImageResId, defaultColor);
@@ -106,15 +106,8 @@ public class ImageViewPro extends ImageView {
 
     //更换图片资源并着色
     public void setImageResourceWithColorId(int resId, int colorId) {
-        // 静态方法，通过传入一个 Context 对象和 Drawable 资源的 ID 来获取相应的 Drawable 对象
-        Drawable drawable = ContextCompat.getDrawable(getContext(), resId);
-        if (drawable == null) {
-            return;
-        }
-        mColor = ContextCompat.getColor(getContext(), colorId); //所有版本均适用，无需特判 API level 23 (Build.VERSION_CODES.M) 以下的情况
-        PorterDuffColorFilter colorFilter = new PorterDuffColorFilter(mColor, PorterDuff.Mode.SRC_ATOP);
-        drawable.setColorFilter(colorFilter);
-        setImageDrawable(drawable);
+        int color = ContextCompat.getColor(getContext(), colorId);
+        setImageResourceWithColor(resId, color);
     }
 
     // 在运行时动态改变 ImageView 的颜色，本质上和setImageResourceWithColor无差别
@@ -132,15 +125,8 @@ public class ImageViewPro extends ImageView {
 
     // 在运行时动态改变 ImageView 的颜色，本质上和setImageResourceWithColorId无差别
     public void setColorId(int colorId) {
-        //  ImageView 类中的非静态方法，只能在 ImageView 类及其子类中使用，用于获取当前 ImageView 中显示的 Drawable 对象。
-        Drawable drawable = getDrawable();
-        if (drawable == null) {
-            return;
-        }
-        mColor = ContextCompat.getColor(getContext(), colorId); //所有版本均适用，无需特判 API level 23 (Build.VERSION_CODES.M) 以下的情况
-        PorterDuffColorFilter colorFilter = new PorterDuffColorFilter(mColor, PorterDuff.Mode.SRC_ATOP);
-        drawable.setColorFilter(colorFilter);
-        invalidate();
+        int color = ContextCompat.getColor(getContext(), colorId);
+        setColor(color);
     }
 
     @Override
