@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.wxdgut.uilibrary.R;
 
@@ -22,11 +21,11 @@ import com.wxdgut.uilibrary.R;
  * 2.在Application的onCreate方法中初始化ImageViewPro
  *         ImgProUtils.init(new AppConfig() {
  *             @Override
- *             public int getDefaultColor() {
+ *             public int getDefaultColorId() {
  *                 return BuildConfig.IMG_PRO_COLOR;
  *             }
  *         });
- * 3.布局文件中使用ImageViewPro
+ * 3.布局文件中使用ImageViewPro，建议指明好src
  *         <com.wxdgut.uilibrary.iv.ImageViewPro
  *             android:id="@+id/iv_man"
  *             android:layout_width="wrap_content"
@@ -37,17 +36,11 @@ import com.wxdgut.uilibrary.R;
  * 5.代码中改ImageViewPro的颜色或图标及颜色
  *         iv_man.setImageResourceWithColor(R.drawable.img_woman, R.color.red);
  *         iv_data.setTint(R.color.red);
- *
- * 注意事项：
- * 1.一个src图片,如果在xml布局中使用了ImageViewPro，则在任何一个xml下该src图片使用ImageView时也会表现出ImageViewPro的效果
- * 2.想要ImageViewPro的app:defaultColor属性生效，则要确保该src图片对应的众多ImageViewPro中，最后一个要设置app:defaultColor。否则，app:defaultColor会被默认颜色替换。
- * 综上，即可得出：
- * 1、一个src图片仅需设置一次ImageViewPro即可达到全局替换效果
- * 2、如果需要设置app:defaultColor属性，仅需在src图片对应的、唯一一个的ImageViewPro中设置。
  */
 public class ImageViewPro extends AppCompatImageView {
     private int mImageResId = -1;
     private int mColor = Color.BLACK;
+    private int defaultColorId;
     private int defaultColor;
 
     public ImageViewPro(Context context) {
@@ -82,16 +75,20 @@ public class ImageViewPro extends AppCompatImageView {
             }
         }
         if (mImageResId != -1) {
-            int color = ImgProUtils.getDefaultColor();
+            defaultColorId = ImgProUtils.getDefaultColorId();
             if (defaultColor != 0) {
                 setImageResourceWithColor(mImageResId, defaultColor);
             } else {
-                setImageResourceWithColorId(mImageResId, color);
+                setImageResourceWithColorId(mImageResId, defaultColorId);
             }
+
+//            if (defaultColor == 0)
+//                defaultColor = ContextCompat.getColor(getContext(), defaultColorId);
+//            setImageResourceWithColor(mImageResId, defaultColor);
         }
     }
 
-    //更换图片资源并着色
+    // 在运行时动态更换图片资源并着色
     public void setImageResourceWithColor(int resId, int color) {
         // 静态方法，通过传入一个 Context 对象和 Drawable 资源的 ID 来获取相应的 Drawable 对象
         Drawable drawable = ContextCompat.getDrawable(getContext(), resId);
@@ -104,13 +101,18 @@ public class ImageViewPro extends AppCompatImageView {
         setImageDrawable(drawable);
     }
 
-    //更换图片资源并着色
+    // 在运行时动态更换图片资源并着色
     public void setImageResourceWithColorId(int resId, int colorId) {
         int color = ContextCompat.getColor(getContext(), colorId);
         setImageResourceWithColor(resId, color);
     }
 
-    // 在运行时动态改变 ImageView 的颜色，本质上和setImageResourceWithColor无差别
+    // 在运行时动态更换图片资源并着主题色
+    public void setImageResource(int resId) {
+        setImageResourceWithColorId(resId, defaultColorId);
+    }
+
+    // 在运行时动态改变 ImageView 的颜色
     public void setColor(int color) {
         //  ImageView 类中的非静态方法，只能在 ImageView 类及其子类中使用，用于获取当前 ImageView 中显示的 Drawable 对象。
         Drawable drawable = getDrawable();
@@ -123,10 +125,35 @@ public class ImageViewPro extends AppCompatImageView {
         invalidate();
     }
 
-    // 在运行时动态改变 ImageView 的颜色，本质上和setImageResourceWithColorId无差别
+    // 在运行时动态改变 ImageView 的颜色
     public void setColorId(int colorId) {
         int color = ContextCompat.getColor(getContext(), colorId);
         setColor(color);
+    }
+
+    // 在运行时动态恢复 ImageView 的颜色
+    public void setDefaultColor() {
+        int color = ContextCompat.getColor(getContext(), defaultColorId);
+        setColor(color);
+    }
+
+    // 在运行时动态恢复 ImageView 的图片及颜色
+    public void setDefault() {
+        if (mImageResId == -1) return;
+        setImageResourceWithColorId(mImageResId, defaultColorId);
+    }
+
+    // 运行时，批量修改该页面中其他图标的颜色。此方法也可以当做工具类方法来使用，new一个ImageViewPro对象来执行此种方法。
+    public void changeOtherImgByColor(int color, int... resIds) {
+        for (int i = 0; i < resIds.length; i++) {
+            setImageResourceWithColor(resIds[i], color);
+        }
+    }
+
+    // 运行时，批量修改该页面中其他图标的颜色。此方法也可以当做工具类方法来使用，new一个ImageViewPro对象来执行此种方法。
+    public void changeOtherImgByColorId(int colorId, int... resIds) {
+        int color = ContextCompat.getColor(getContext(), colorId);
+        changeOtherImgByColor(color, resIds);
     }
 
     @Override

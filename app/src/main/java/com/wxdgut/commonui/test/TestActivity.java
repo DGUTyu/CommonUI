@@ -19,7 +19,7 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
     private TextView tv_welcome;
     private Button btn1, btn2, btn3, btn4;
     ImageView iv_business;
-    ImageViewPro iv_man, iv_data, iv_shop;
+    ImageViewPro iv_man, iv_data, iv_shop,img_rv_icon_1;
     final boolean[] isClick = {false, false, false, false};
 
     @Override
@@ -41,6 +41,9 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
         iv_shop = findViewById(R.id.iv_shop);
         iv_man = findViewById(R.id.iv_man);
         iv_data = findViewById(R.id.iv_data);
+        img_rv_icon_1 = findViewById(R.id.img_rv_icon_1);
+        ImageViewPro imageViewPro = new ImageViewPro(this);
+        imageViewPro.changeOtherImgByColorId(R.color.red, R.drawable.img_reward, R.drawable.img_no_data);
     }
 
     //初始化事件
@@ -67,10 +70,13 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
                 //show("btn1");
                 //SecondActivity.startActivity(baseContext, false, "one", "two");
                 changePngColor(this, iv_business, R.drawable.img_business, getResources().getColor(R.color.red));
+                img_rv_icon_1.setImageResourceWithColorId(R.drawable.img_reward,R.color.red);
                 break;
             case R.id.btn2:
                 //toast("btn2");
-                changePngColor(this, iv_shop, R.drawable.shape_blue_btn_bg, getResources().getColor(R.color.red));
+                //changePngColor(this, iv_shop, R.drawable.shape_blue_btn_bg, getResources().getColor(R.color.red));
+                iv_shop.setColorId(R.color.red);
+                img_rv_icon_1.setDefault();
                 break;
             case R.id.btn3:
                 //toast("btn3");

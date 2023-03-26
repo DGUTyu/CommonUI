@@ -146,11 +146,18 @@
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
+        <com.wxdgut.uilibrary.iv.ImageViewPro
+            android:id="@+id/img_rv_icon_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#dddddd"
+            android:src="@drawable/img_money" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#dddddd"
-            android:src="@drawable/img_rv_icon_1" />
+            android:src="@drawable/img_money" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -192,7 +199,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#dddddd"
-            android:src="@drawable/img_reward" />
+            android:src="@drawable/img_reward"
+            app:defaultColor="@color/black"/>
 
         <ImageView
             android:layout_width="wrap_content"

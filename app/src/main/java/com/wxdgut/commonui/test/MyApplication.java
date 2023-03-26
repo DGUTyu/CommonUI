@@ -12,7 +12,7 @@ public class MyApplication extends Application {
         super.onCreate();
         ImgProUtils.init(new AppConfig() {
             @Override
-            public int getDefaultColor() {
+            public int getDefaultColorId() {
                 return BuildConfig.IMG_PRO_COLOR;
             }
         });
