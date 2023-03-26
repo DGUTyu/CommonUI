@@ -81,10 +81,6 @@ public class ImageViewPro extends AppCompatImageView {
             } else {
                 setImageResourceWithColorId(mImageResId, defaultColorId);
             }
-
-//            if (defaultColor == 0)
-//                defaultColor = ContextCompat.getColor(getContext(), defaultColorId);
-//            setImageResourceWithColor(mImageResId, defaultColor);
         }
     }
 
@@ -143,14 +139,16 @@ public class ImageViewPro extends AppCompatImageView {
         setImageResourceWithColorId(mImageResId, defaultColorId);
     }
 
-    // 运行时，批量修改该页面中其他图标的颜色。此方法也可以当做工具类方法来使用，new一个ImageViewPro对象来执行此种方法。
+    // 编译时，批量修改该页面中其他图标的颜色。
+    // 此方法也可以当做工具类方法来使用，new一个ImageViewPro对象来执行此种方法。
+    // 如果该resId之前未被ImageViewPro引用过（可以理解为保持原有颜色），则其他页面的该resId颜色也会发生变化。
     public void changeOtherImgByColor(int color, int... resIds) {
         for (int i = 0; i < resIds.length; i++) {
             setImageResourceWithColor(resIds[i], color);
         }
     }
 
-    // 运行时，批量修改该页面中其他图标的颜色。此方法也可以当做工具类方法来使用，new一个ImageViewPro对象来执行此种方法。
+    // 编译时，批量修改该页面中其他图标的颜色。
     public void changeOtherImgByColorId(int colorId, int... resIds) {
         int color = ContextCompat.getColor(getContext(), colorId);
         changeOtherImgByColor(color, resIds);
