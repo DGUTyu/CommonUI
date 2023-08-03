@@ -178,12 +178,13 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+        app:layout_constraintTop_toBottomOf="@id/linearLayout6">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -221,6 +222,29 @@
             android:src="@drawable/img_setting"
             app:defaultColor="@color/img_default"/>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout7">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#dddddd"
+            android:src="@drawable/img_money" />
+
+        <com.wxdgut.uilibrary.switchview.SwitchView
+            android:id="@+id/sw3"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:onColor="@color/theme_color"
+            app:offColor="#F76560"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

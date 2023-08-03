@@ -47,4 +47,20 @@
         <attr name="defaultColor" format="color"/>
     </declare-styleable>
 
+    <!--SwitchView-->
+    <declare-styleable name="SwitchView">
+        <attr name="circlePadding" format="dimension" />
+        <attr name="switchWidth" format="dimension" />
+        <attr name="switchHeight" format="dimension" />
+        <attr name="borderWidth" format="dimension" />
+        <attr name="borderColor" format="color" />
+        <attr name="onColor" format="color" />
+        <attr name="onColorBg" format="color" />
+        <attr name="onAlpha" format="float" />
+        <attr name="offColor" format="color" />
+        <attr name="offColorBg" format="color" />
+        <attr name="offAlpha" format="float" />
+        <attr name="isChecked" format="boolean" />
+    </declare-styleable>
+
 </resources>

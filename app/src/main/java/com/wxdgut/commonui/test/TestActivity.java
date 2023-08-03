@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.wxdgut.commonui.R;
 import com.wxdgut.uilibrary.iv.ImageViewPro;
+import com.wxdgut.uilibrary.switchview.SwitchView;
 
 public class TestActivity extends BaseTestActivity implements View.OnClickListener {
     //视图控件
@@ -28,6 +30,13 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
         setContentView(R.layout.activity_test);
         initView();
         initEvent();
+        SwitchView sw3 = findViewById(R.id.sw3);
+        sw3.setClickListener(new SwitchView.ClickListener() {
+            @Override
+            public void onSwitchStateChanged(boolean isChecked) {
+                Log.i("SwitchView", "onSwitchStateChanged: " + isChecked);
+            }
+        });
     }
 
     //初始化视图控件
