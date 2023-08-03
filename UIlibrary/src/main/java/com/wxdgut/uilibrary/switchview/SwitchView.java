@@ -64,7 +64,7 @@ public class SwitchView extends View {
     private void init(AttributeSet attrs) {
         // 获取其他属性
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.SwitchView);
-        circlePadding = ta.getDimensionPixelSize(R.styleable.SwitchView_circlePadding, 0);
+        circlePadding = ta.getDimensionPixelSize(R.styleable.SwitchView_circlePadding, DensityUtil.dpToPx(3));
         switchWidth = ta.getDimensionPixelSize(R.styleable.SwitchView_switchWidth, DensityUtil.dpToPx(60));
         switchHeight = ta.getDimensionPixelSize(R.styleable.SwitchView_switchHeight, DensityUtil.dpToPx(30));
         borderWidth = ta.getDimensionPixelSize(R.styleable.SwitchView_borderWidth, DensityUtil.dpToPx(2));
@@ -95,11 +95,17 @@ public class SwitchView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(switchWidth, switchHeight);
+        // 增加对padding的处理
+        int desiredWidth = switchWidth + getPaddingLeft() + getPaddingRight();
+        int desiredHeight = switchHeight + getPaddingTop() + getPaddingBottom();
+        int width = resolveSize(desiredWidth, widthMeasureSpec);
+        int height = resolveSize(desiredHeight, heightMeasureSpec);
+        setMeasuredDimension(width, height);
+
         // 计算圆形的半径，这里使用switchHeight的一半作为圆形的半径
-        radius = switchHeight / 2;
+        radius = (height - getPaddingTop() - getPaddingBottom()) / 2;
         // 设置边框矩形
-        borderRectF = new RectF(0, 0, switchWidth, switchHeight);
+        borderRectF = new RectF(getPaddingLeft(), getPaddingTop(), width - getPaddingRight(), height - getPaddingBottom());
     }
 
     @Override
@@ -116,14 +122,14 @@ public class SwitchView extends View {
         canvas.drawColor(backgroundColor);
 
         // 绘制开或关对应的圆形
-        int centerX = isChecked ? switchWidth - radius : radius;
-        int centerY = switchHeight / 2;
+        int centerX = isChecked ? getWidth() - getPaddingRight() - radius : getPaddingLeft() + radius;
+        int centerY = getHeight() / 2;
 
         // 绘制圆形
         int circleColor = isChecked ? onColor : offColor;
         switchPaint.setColor(circleColor);
         switchPaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(centerX, centerY, radius, switchPaint);
+        canvas.drawCircle(centerX, centerY, radius - circlePadding, switchPaint);
 
         // 绘制边框
         borderPath.reset();
