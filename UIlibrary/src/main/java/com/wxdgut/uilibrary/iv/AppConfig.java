@@ -1,15 +1,24 @@
 package com.wxdgut.uilibrary.iv;
 
+import com.wxdgut.uilibrary.R;
+
 /**
- * 接口 AppConfig，用于访问 调用者的 BuildConfigField 变量
+ * 抽象类 AppConfig，用于访问 调用者的 BuildConfigField 变量
  */
-public interface AppConfig {
-    int getDefaultColorId();
+public abstract class AppConfig {
+    public int getDefaultColorId() {
+        return R.color.theme_color;
+    }
 
-    int getDefaultImgColorId();
+    public int getDefaultImgColorId() {
+        return R.color.theme_img;
+    }
 
-    int getDefaultSwitchOnColorId();
+    public int getDefaultSwitchOnColorId() {
+        return R.color.theme_switch_on;
+    }
 
-    int getDefaultSwitchOffColorId();
+    public int getDefaultSwitchOffColorId() {
+        return R.color.theme_switch_off;
+    }
 }
-
