@@ -6,11 +6,19 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.wxdgut.uilibrary.R;
+import com.wxdgut.uilibrary.iv.ColorConfigUtils;
 
+/**
+ * 自定义开关View
+ *
+ * 如果buildConfigField没有指明图片开关的颜色，则控件使用默认的颜色。
+ * 开关图片的背景色如果没有指明，则采用当前颜色的0.2透明度的值。也可以指明当前颜色的透明度或当前颜色
+ */
 public class SwitchView extends View {
     private int circlePadding;
     private int switchWidth;
@@ -20,6 +28,8 @@ public class SwitchView extends View {
     private int offColorBg;
     private int onColor;
     private int offColor;
+    private float onAlpha;
+    private float offAlpha;
     private int borderColor;
 
     private boolean isChecked;
@@ -69,11 +79,11 @@ public class SwitchView extends View {
         switchHeight = ta.getDimensionPixelSize(R.styleable.SwitchView_switchHeight, DensityUtil.dpToPx(30));
         borderWidth = ta.getDimensionPixelSize(R.styleable.SwitchView_borderWidth, DensityUtil.dpToPx(2));
         // 使用透明度属性来设置 onColorBg 和 offColorBg 的透明度
-        float onAlpha = ta.getFloat(R.styleable.SwitchView_onAlpha, 0.2f);
-        float offAlpha = ta.getFloat(R.styleable.SwitchView_offAlpha, 0.2f);
-        onColor = ta.getColor(R.styleable.SwitchView_onColor, 0xFF7BE188);
+        onAlpha = ta.getFloat(R.styleable.SwitchView_onAlpha, 0.2f);
+        offAlpha = ta.getFloat(R.styleable.SwitchView_offAlpha, 0.2f);
+        onColor = ta.getColor(R.styleable.SwitchView_onColor, getColorById(ColorConfigUtils.getDefaultSwitchOnColorId()));
         onColorBg = ta.getColor(R.styleable.SwitchView_onColorBg, addAlpha(onColor, onAlpha));
-        offColor = ta.getColor(R.styleable.SwitchView_offColor, 0xFF86909C);
+        offColor = ta.getColor(R.styleable.SwitchView_offColor, getColorById(ColorConfigUtils.getDefaultSwitchOffColorId()));
         offColorBg = ta.getColor(R.styleable.SwitchView_offColorBg, addAlpha(offColor, offAlpha));
         borderColor = ta.getColor(R.styleable.SwitchView_borderColor, 0xFFE5E6EB);
         isChecked = ta.getBoolean(R.styleable.SwitchView_isChecked, false);
@@ -163,5 +173,9 @@ public class SwitchView extends View {
 
     public interface ClickListener {
         void onSwitchStateChanged(boolean isChecked);
+    }
+
+    public int getColorById(int colorId) {
+        return ContextCompat.getColor(getContext(), colorId);
     }
 }

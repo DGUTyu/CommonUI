@@ -36,6 +36,9 @@ import com.wxdgut.uilibrary.R;
  * 5.代码中改ImageViewPro的颜色或图标及颜色
  *         iv_man.setImageResourceWithColor(R.drawable.img_woman, R.color.red);
  *         iv_data.setTint(R.color.red);
+ *
+ * 如果buildConfigField没有指明图片颜色，则控件使用默认的颜色。
+ * 如果buildConfigField指明图片颜色同时指定了defaultColor，则该控件（有明确指示的）优先显示defaultColor，其余显示buildConfigField指明的颜色
  */
 public class ImageViewPro extends AppCompatImageView {
     private int mImageResId = -1;
@@ -75,7 +78,7 @@ public class ImageViewPro extends AppCompatImageView {
             }
         }
         if (mImageResId != -1) {
-            defaultColorId = ImgProUtils.getDefaultColorId();
+            defaultColorId = ColorConfigUtils.getDefaultImgColorId();
             if (defaultColor != 0) {
                 setImageResourceWithColor(mImageResId, defaultColor);
             } else {

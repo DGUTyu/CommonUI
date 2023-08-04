@@ -243,8 +243,18 @@
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:onColor="@color/theme_color"
-            app:offColor="#F76560"/>
+            app:switchWidth="100dp"
+            app:switchHeight="50dp"
+            app:isChecked="true"
+            app:onColor="@color/black"
+            app:onAlpha="0.5"/>
+        <com.wxdgut.uilibrary.switchview.SwitchView
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:switchWidth="100dp"
+            app:isChecked="true"
+            app:switchHeight="50dp"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

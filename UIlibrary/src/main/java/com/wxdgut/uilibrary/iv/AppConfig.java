@@ -5,5 +5,11 @@ package com.wxdgut.uilibrary.iv;
  */
 public interface AppConfig {
     int getDefaultColorId();
+
+    int getDefaultImgColorId();
+
+    int getDefaultSwitchOnColorId();
+
+    int getDefaultSwitchOffColorId();
 }
 

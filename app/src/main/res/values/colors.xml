@@ -33,13 +33,17 @@
     <!-- SwitchCompat默认状态（关闭时）的颜色-->
     <color name="colorSwitchThumbNormal">#7C4DFF</color>
 
-    <!--颜色值-->
     <!--主题色-->
     <color name="theme_color">#3E7AF6</color>
     <!--主题色 20透明度-->
     <color name="theme_color_light">#333E7AF6</color>
+    <!--ImageViewPro-->
+    <color name="img_theme">#FADC19</color>
+    <!--SwitchView-->
+    <color name="switch_on_theme">#5F940A</color>
+    <color name="switch_off_theme">#FB9DC7</color>
+    <!--颜色值-->
     <color name="transparent">#00000000</color>
     <color name="light_gray">#DDDDDD</color>
     <color name="img_default">#F77234</color>
-    <color name="img_theme">#14C9C9</color>
 </resources>
