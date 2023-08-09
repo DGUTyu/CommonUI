@@ -1,5 +1,6 @@
 package com.wxdgut.commonui.test;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -7,12 +8,15 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wxdgut.commonui.R;
+import com.wxdgut.uilibrary.dialog.AnimModel;
+import com.wxdgut.uilibrary.dialog.CommonDialog;
 import com.wxdgut.uilibrary.iv.ImageViewPro;
 import com.wxdgut.uilibrary.switchview.SwitchView;
 
@@ -78,8 +82,48 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
             case R.id.btn1:
                 //show("btn1");
                 //SecondActivity.startActivity(baseContext, false, "one", "two");
-                changePngColor(this, iv_business, R.drawable.img_business, getResources().getColor(R.color.red));
-                img_rv_icon_1.setImageResourceWithColorId(R.drawable.img_reward,R.color.red);
+//                changePngColor(this, iv_business, R.drawable.img_business, getResources().getColor(R.color.red));
+//                img_rv_icon_1.setImageResourceWithColorId(R.drawable.img_reward,R.color.red);
+                CommonDialog dialog1 = CommonDialog.newBuilder(this).layout(R.layout.dialog_fingerprint).draggable(true).cancelable(false).priority(1).build();
+                dialog1.setClick(R.id.tv_sure, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        toast("1111");
+                        dialog1.dismissDialog();
+                    }
+                });
+                dialog1.setClick(R.id.tv_cancel, new CommonDialog.MyListener() {
+                    @Override
+                    public void click(View view, boolean isChange) {
+                        ObjectAnimator animator = dialog1.getAnimator(R.id.iv_fingerprint);
+                        if (animator == null) return;
+                        if (isChange) animator.pause();
+                        else animator.start();
+                    }
+                });
+                AnimModel model = new AnimModel(1);
+                dialog1.setAnimView(R.id.iv_fingerprint, model);
+                //dialog1.showDialog();
+
+                CommonDialog dialog2 = CommonDialog.newBuilder(this).layout(R.layout.dialog_fingerprint2).priority(0).gravity(Gravity.TOP).build();
+                dialog2.setClick(R.id.tv_sure, new CommonDialog.MyListener() {
+                    @Override
+                    public void click(View view, boolean isChange) {
+                        toast("2222");
+                        dialog2.dismissDialog();
+                    }
+                });
+                //dialog2.showDialog();
+
+                CommonDialog dialog3 = CommonDialog.newBuilder(this).layout(R.layout.dialog_fingerprint3).priority(2).anim(R.style.anim_dialog_upIn_downOut).endOfQueue(true).build();
+                dialog3.setClick(R.id.tv_sure, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        toast("3333");
+                        dialog3.dismissDialog();
+                    }
+                });
+                //dialog3.showDialog();
                 break;
             case R.id.btn2:
                 //toast("btn2");

@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.wxdgut.uilibrary.R;
 
 import java.lang.ref.WeakReference;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import static android.content.Context.WINDOW_SERVICE;
 
@@ -75,6 +77,9 @@ public class CommonDialog extends Dialog {
     final boolean cancelable; //Dialog 是否支持自动关闭
     final boolean clearShadow; //Dialog 是否去除阴影
     final float dimAmount; //Dialog 明暗度
+    final int priority; //显示优先级，不能为负数。相同优先级，先添加的先显示。
+    final boolean endOfQueue; //优先级队列是否输入完毕
+    private static final Queue<CommonDialog> dialogQueue = new LinkedList<>(); //优先级队列
     WeakReference<View> anchorWR;
     int anchorGravity;
     int xOff;
@@ -434,10 +439,15 @@ public class CommonDialog extends Dialog {
 
     //显示Dialog
     public void showDialog() {
-        if (this != null && !isShowing()) {
-            handleAnim(1);
-            Log.i(TAG, "show");
-            show();
+        if (priority >= 0) {
+            // 直接调用 handleNextDialog 方法
+            handleNextDialog();
+        } else {
+            if (this != null && !isShowing()) {
+                handleAnim(1);
+                Log.i(TAG, "show");
+                show();
+            }
         }
     }
 
@@ -462,7 +472,42 @@ public class CommonDialog extends Dialog {
                 anchorWR.clear();
                 anchorWR = null;
             }
+            if (priority >= 0) {
+                // 在弹窗消失后触发，继续显示下一个弹窗
+                handleNextDialog();
+            }
         }
+    }
+
+    /**
+     * 处理下一个弹窗
+     */
+    private void handleNextDialog() {
+        // 从队列中取出下一个弹窗并显示
+        CommonDialog nextDialog = getHighestPriorityDialog();
+        if (nextDialog != null) {
+            dialogQueue.remove(nextDialog);
+            nextDialog.handleAnim(1);
+            //Log.i(TAG, "show, priority:" + nextDialog.priority);
+            nextDialog.show();
+        }
+    }
+
+    /**
+     * 选出优先级最高的弹窗对象
+     *
+     * @return
+     */
+    private CommonDialog getHighestPriorityDialog() {
+        int highestPriority = Integer.MAX_VALUE;
+        CommonDialog highestPriorityDialog = null;
+        for (CommonDialog dialog : dialogQueue) {
+            if (dialog.priority < highestPriority) {
+                highestPriority = dialog.priority;
+                highestPriorityDialog = dialog;
+            }
+        }
+        return highestPriorityDialog;
     }
 
     /**
@@ -509,6 +554,9 @@ public class CommonDialog extends Dialog {
         this.anchorGravity = builder.anchorGravity;
         this.xOff = builder.xOff;
         this.yOff = builder.yOff;
+        this.priority = builder.priority; // 保存传入的优先级
+        this.endOfQueue = builder.endOfQueue; //优先级队列是否输入完毕
+        if (priority >= 0) dialogQueue.add(this); //有设置优先级，则把将当前对话框添加到优先级队列中
         //设置布局
         setContentView(layout);
         mViews = new SparseArray<>();
@@ -535,6 +583,10 @@ public class CommonDialog extends Dialog {
         setCancelable(cancelable);
         //初始化事件
         initEvent(window.getDecorView());
+        //判断优先级队列是否输入完毕，如果当前是弹窗队列形式且输入完毕且优先级有效，自动显示弹窗
+        if (endOfQueue && priority >= 0) {
+            showDialog();
+        }
     }
 
     /**
@@ -626,6 +678,8 @@ public class CommonDialog extends Dialog {
         boolean clearShadow;
         int animId;
         float dimAmount;
+        int priority;
+        boolean endOfQueue;
         WeakReference<View> anchorWR;
         int anchorGravity;
         int xOff;
@@ -650,6 +704,8 @@ public class CommonDialog extends Dialog {
             this.cancelable = true;
             this.clearShadow = false;
             this.dimAmount = 0.1f;  //完全透明不变暗是0.0f，完全变暗不透明是1.0f
+            this.priority = -1;     //默认负数，即默认不加入弹窗队列
+            this.endOfQueue = false;
         }
 
         /**
@@ -748,6 +804,28 @@ public class CommonDialog extends Dialog {
 
         public Builder showAsDropDown(View anchor, int anchorGravity) {
             return showAsDropDown(anchor, anchorGravity, 0, 0);
+        }
+
+        /**
+         * 弹窗队列中的优先级
+         *
+         * @param priority
+         * @return
+         */
+        public Builder priority(int priority) {
+            this.priority = priority;
+            return this;
+        }
+
+        /**
+         * 弹窗队列是否已经输入完毕
+         *
+         * @param endOfQueue
+         * @return
+         */
+        public Builder endOfQueue(boolean endOfQueue) {
+            this.endOfQueue = endOfQueue;
+            return this;
         }
 
         /**
