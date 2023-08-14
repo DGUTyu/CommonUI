@@ -78,7 +78,7 @@ public class ImageViewPro extends AppCompatImageView {
             }
         }
         if (mImageResId != -1) {
-            defaultColorId = ColorConfigUtils.getDefaultImgColorId();
+            defaultColorId = UIConfigUtils.getDefaultImgColorId();
             if (defaultColor != 0) {
                 setImageResourceWithColor(mImageResId, defaultColor);
             } else {

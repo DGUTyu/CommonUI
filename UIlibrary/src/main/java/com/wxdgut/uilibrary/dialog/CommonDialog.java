@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wxdgut.uilibrary.R;
+import com.wxdgut.uilibrary.iv.UIConfigUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;
@@ -42,7 +43,7 @@ public class CommonDialog extends Dialog {
     //TAG
     protected String TAG = CommonDialog.class.getCanonicalName();
     //默认弹窗无动画效果，用-1表示
-    protected static final int DEFAULT_ANIM = -1;
+    public static final int DEFAULT_ANIM = -1;
     //取消类型
     public static final int NORMAL_CANCEL = 1;
     public static final int BACK_CANCEL = 2;
@@ -694,8 +695,8 @@ public class CommonDialog extends Dialog {
             this.context = context;
             this.widthMatch = false;
             this.gravity = Gravity.CENTER;
-            this.layout = R.layout.dialog_fingerprint;
-            this.animId = DEFAULT_ANIM;
+            this.layout = UIConfigUtils.getDefaultDialogLayoutId();
+            this.animId = UIConfigUtils.getDefaultDialogAnimId();
             //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //API 21
             //this.styleId = android.R.style.Theme_Material_Dialog_NoActionBar;
             //}

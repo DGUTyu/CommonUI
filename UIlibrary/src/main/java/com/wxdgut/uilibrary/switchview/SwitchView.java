@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.wxdgut.uilibrary.R;
-import com.wxdgut.uilibrary.iv.ColorConfigUtils;
+import com.wxdgut.uilibrary.iv.UIConfigUtils;
 
 /**
  * 自定义开关View
@@ -81,9 +81,9 @@ public class SwitchView extends View {
         // 使用透明度属性来设置 onColorBg 和 offColorBg 的透明度
         onAlpha = ta.getFloat(R.styleable.SwitchView_onAlpha, 0.2f);
         offAlpha = ta.getFloat(R.styleable.SwitchView_offAlpha, 0.2f);
-        onColor = ta.getColor(R.styleable.SwitchView_onColor, getColorById(ColorConfigUtils.getDefaultSwitchOnColorId()));
+        onColor = ta.getColor(R.styleable.SwitchView_onColor, getColorById(UIConfigUtils.getDefaultSwitchOnColorId()));
         onColorBg = ta.getColor(R.styleable.SwitchView_onColorBg, addAlpha(onColor, onAlpha));
-        offColor = ta.getColor(R.styleable.SwitchView_offColor, getColorById(ColorConfigUtils.getDefaultSwitchOffColorId()));
+        offColor = ta.getColor(R.styleable.SwitchView_offColor, getColorById(UIConfigUtils.getDefaultSwitchOffColorId()));
         offColorBg = ta.getColor(R.styleable.SwitchView_offColorBg, addAlpha(offColor, offAlpha));
         borderColor = ta.getColor(R.styleable.SwitchView_borderColor, 0xFFE5E6EB);
         isChecked = ta.getBoolean(R.styleable.SwitchView_isChecked, false);

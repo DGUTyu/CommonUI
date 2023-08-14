@@ -82,7 +82,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="切换验证方式"
-            android:textColor="#3F73F2"
+            android:textColor="@color/theme_color"
             android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

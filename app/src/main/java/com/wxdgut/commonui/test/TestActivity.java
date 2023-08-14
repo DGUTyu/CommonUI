@@ -115,7 +115,7 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
                 });
                 //dialog2.showDialog();
 
-                CommonDialog dialog3 = CommonDialog.newBuilder(this).layout(R.layout.dialog_fingerprint3).priority(2).anim(R.style.anim_dialog_upIn_downOut).endOfQueue(true).build();
+                CommonDialog dialog3 = CommonDialog.newBuilder(this).anim(CommonDialog.DEFAULT_ANIM).priority(2).endOfQueue(true).build();
                 dialog3.setClick(R.id.tv_sure, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
