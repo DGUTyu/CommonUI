@@ -1,7 +1,8 @@
-package com.wxdgut.uilibrary.iv;
+package com.wxdgut.uilibrary.utils;
 
 import com.wxdgut.uilibrary.R;
 import com.wxdgut.uilibrary.dialog.CommonDialog;
+import com.wxdgut.uilibrary.config.UIConfig;
 
 /**
  * ImageViewPro的初始化工具类

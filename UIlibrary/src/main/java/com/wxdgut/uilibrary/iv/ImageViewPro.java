@@ -11,6 +11,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
 import com.wxdgut.uilibrary.R;
+import com.wxdgut.uilibrary.utils.UIConfigUtils;
 
 /**
  * 支持变色的ImageView

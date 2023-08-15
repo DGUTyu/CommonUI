@@ -1,4 +1,4 @@
-package com.wxdgut.uilibrary.switchview;
+package com.wxdgut.uilibrary.utils;
 
 import android.content.res.Resources;
 

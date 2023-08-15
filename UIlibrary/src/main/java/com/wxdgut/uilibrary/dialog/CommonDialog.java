@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wxdgut.uilibrary.R;
-import com.wxdgut.uilibrary.iv.UIConfigUtils;
+import com.wxdgut.uilibrary.utils.UIConfigUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;

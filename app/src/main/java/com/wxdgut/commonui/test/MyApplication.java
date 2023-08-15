@@ -4,8 +4,8 @@ import android.app.Application;
 
 import com.wxdgut.commonui.BuildConfig;
 import com.wxdgut.commonui.R;
-import com.wxdgut.uilibrary.iv.UIConfig;
-import com.wxdgut.uilibrary.iv.UIConfigUtils;
+import com.wxdgut.uilibrary.config.UIConfig;
+import com.wxdgut.uilibrary.utils.UIConfigUtils;
 
 public class MyApplication extends Application {
     @Override

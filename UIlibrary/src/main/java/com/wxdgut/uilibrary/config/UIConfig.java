@@ -1,4 +1,4 @@
-package com.wxdgut.uilibrary.iv;
+package com.wxdgut.uilibrary.config;
 
 import com.wxdgut.uilibrary.R;
 import com.wxdgut.uilibrary.dialog.CommonDialog;

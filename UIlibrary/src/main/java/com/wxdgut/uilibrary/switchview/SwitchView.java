@@ -11,7 +11,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.wxdgut.uilibrary.R;
-import com.wxdgut.uilibrary.iv.UIConfigUtils;
+import com.wxdgut.uilibrary.utils.DensityUtil;
+import com.wxdgut.uilibrary.utils.UIConfigUtils;
 
 /**
  * 自定义开关View
