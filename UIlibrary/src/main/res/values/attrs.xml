@@ -63,4 +63,33 @@
         <attr name="isChecked" format="boolean" />
     </declare-styleable>
 
+    <!--公共属性-->
+    <attr name="bgColor" format="color" />
+    <attr name="bgColorPress" format="color" />
+    <attr name="bgImg" format="reference" />
+    <attr name="bgImgPress" format="reference" />
+    <attr name="tvColor" format="color" />
+    <attr name="tvColorPress" format="color" />
+    <attr name="iconDrawable" format="reference" />
+    <attr name="iconDrawablePress" format="reference" />
+    <attr name="text" format="string" />
+    <attr name="textSize" format="float" />
+    <!--CommonButton-->
+    <declare-styleable name="CommonButton">
+        <attr name="bgColor" />
+        <attr name="bgColorPress" />
+        <attr name="bgImg" />
+        <attr name="bgImgPress" />
+        <attr name="tvColor" />
+        <attr name="tvColorPress" />
+        <attr name="fillet" format="boolean" />
+        <attr name="radius" format="float" />
+        <attr name="shape">
+            <enum name="rectangle" value="0" />
+            <enum name="oval" value="1" />
+            <enum name="line" value="2" />
+            <enum name="ring" value="3" />
+        </attr>
+    </declare-styleable>
+
 </resources>

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wxdgut.commonui.R;
+import com.wxdgut.uilibrary.btn.CommonButton;
 import com.wxdgut.uilibrary.dialog.AnimModel;
 import com.wxdgut.uilibrary.dialog.CommonDialog;
 import com.wxdgut.uilibrary.iv.ImageViewPro;
@@ -27,6 +28,7 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
     ImageView iv_business;
     ImageViewPro iv_man, iv_data, iv_shop,img_rv_icon_1;
     final boolean[] isClick = {false, false, false, false};
+    private CommonButton common_btn1, common_btn2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,22 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
         img_rv_icon_1 = findViewById(R.id.img_rv_icon_1);
         ImageViewPro imageViewPro = new ImageViewPro(this);
         imageViewPro.changeOtherImgByColorId(R.color.red, R.drawable.img_reward, R.drawable.img_no_data);
+        common_btn1 = findViewById(R.id.common_btn1);
+        common_btn2 = findViewById(R.id.common_btn2);
+        //testCommonBtn(common_btn1);
+        testCommonBtn(common_btn2);
+    }
+
+    private void testCommonBtn(CommonButton btn) {
+        btn.setText("123456");
+        btn.setFillet(true);
+        btn.setRadius(30);
+        btn.setTvColor(Color.parseColor("#000000"));
+        btn.setTvColorPress(Color.parseColor("#00ffff"));
+        btn.setBgColor(Color.parseColor("#ff0000"));
+        btn.setBgColorPress(Color.parseColor("#0000ff"));
+        btn.setBgDrawable(getResources().getDrawable(R.drawable.img_rv_icon_2));
+        btn.setBgDrawablePress(getResources().getDrawable(R.drawable.img_rv_icon_3));
     }
 
     //初始化事件
