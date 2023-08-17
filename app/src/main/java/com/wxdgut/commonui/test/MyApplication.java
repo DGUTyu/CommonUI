@@ -26,6 +26,21 @@ public class MyApplication extends Application {
             public int getDefaultDialogAnimId() {
                 return R.style.anim_dialog_upIn_downOut;
             }
+
+            @Override
+            public int getDefaultBtnBgColorId() {
+                return R.color.colorControlNormal;
+            }
+
+            @Override
+            public int getDefaultBtnBgPressColorId() {
+                return  R.color.colorAccent;
+            }
+
+            @Override
+            public int getDefaultBtnTvColorId() {
+                return R.color.black;
+            }
         });
     }
 

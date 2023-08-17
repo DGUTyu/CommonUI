@@ -83,7 +83,7 @@
         <attr name="tvColor" />
         <attr name="tvColorPress" />
         <attr name="fillet" format="boolean" />
-        <attr name="radius" format="float" />
+        <attr name="radius" format="dimension" />
         <attr name="shape">
             <enum name="rectangle" value="0" />
             <enum name="oval" value="1" />

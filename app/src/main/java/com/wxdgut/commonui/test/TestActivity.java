@@ -62,7 +62,7 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
         common_btn1 = findViewById(R.id.common_btn1);
         common_btn2 = findViewById(R.id.common_btn2);
         //testCommonBtn(common_btn1);
-        testCommonBtn(common_btn2);
+        //testCommonBtn(common_btn2);
     }
 
     private void testCommonBtn(CommonButton btn) {

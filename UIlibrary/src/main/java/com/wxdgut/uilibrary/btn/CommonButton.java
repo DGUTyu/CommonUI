@@ -5,12 +5,14 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
 import com.wxdgut.uilibrary.R;
+import com.wxdgut.uilibrary.utils.UIConfigUtils;
 
 /**
  * Created by landptf on 2016/10/25.
@@ -56,11 +58,17 @@ public class CommonButton extends Button {
                 if (bgColor != 0) {
                     setBackgroundColor(bgColor);
                 }
+            } else {
+                bgColor = getColorById(UIConfigUtils.getDefaultBtnBgColorId());
+                setBackgroundColor(bgColor);
             }
             //记录按钮被按下时的背景色
             ColorStateList colorListPress = a.getColorStateList(R.styleable.CommonButton_bgColorPress);
             if (colorListPress != null) {
                 bgColorPress = colorListPress.getColorForState(getDrawableState(), 0);
+            } else {
+                bgColorPress = getColorById(UIConfigUtils.getDefaultBtnBgPressColorId());
+                setBackgroundColor(bgColorPress);
             }
             //设置背景图片，若backColor与backGroundDrawable同时存在，则backGroundDrawable将覆盖backColor
             bgDrawable = a.getDrawable(R.styleable.CommonButton_bgImg);
@@ -73,11 +81,19 @@ public class CommonButton extends Button {
             textColor = a.getColorStateList(R.styleable.CommonButton_tvColor);
             if (textColor != null) {
                 setTextColor(textColor);
+            }else {
+                int defaultColor = getColorById(UIConfigUtils.getDefaultBtnTvColorId());
+                textColor = ColorStateList.valueOf(defaultColor); // 默认颜色
+                setTextColor(textColor);
             }
             //记录按钮被按下时文字的颜色
             textColorPress = a.getColorStateList(R.styleable.CommonButton_tvColorPress);
+            if (textColorPress == null) {
+                int pressColor = getColorById(UIConfigUtils.getDefaultBtnTvPressColorId());
+                textColorPress = ColorStateList.valueOf(pressColor); // 按压颜色
+            }
             //设置圆角或圆形等样式的背景色
-            fillet = a.getBoolean(R.styleable.CommonButton_fillet, false);
+            fillet = a.getBoolean(R.styleable.CommonButton_fillet, true);
             if (fillet) {
                 getGradientDrawable();
                 if (bgColor != 0) {
@@ -86,7 +102,7 @@ public class CommonButton extends Button {
                 }
             }
             //设置圆角矩形的角度，fillet为true时才生效
-            float radius = a.getFloat(R.styleable.CommonButton_radius, 0);
+            int radius = a.getDimensionPixelSize(R.styleable.CommonButton_radius, UIConfigUtils.getDefaultBtnRadius());
             if (fillet && radius != 0) {
                 setRadius(radius);
             }
@@ -230,5 +246,9 @@ public class CommonButton extends Button {
         if (gradientDrawable == null) {
             gradientDrawable = new GradientDrawable();
         }
+    }
+
+    public int getColorById(int colorId) {
+        return ContextCompat.getColor(getContext(), colorId);
     }
 }

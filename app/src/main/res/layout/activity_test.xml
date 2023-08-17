@@ -269,7 +269,7 @@
             app:tvColor="@color/white"
             app:tvColorPress="@color/black"
             app:fillet="true"
-            app:radius="30"/>
+            app:radius="30dp"/>
 
         <com.wxdgut.uilibrary.btn.CommonButton
             android:id="@+id/common_btn2"
@@ -277,6 +277,15 @@
             android:layout_height="50dp"
             android:gravity="center"
             android:text="123" />
+
+        <com.wxdgut.uilibrary.btn.CommonButton
+            android:id="@+id/common_btn3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            app:bgColor="@color/blue"
+            android:text="456"
+            app:radius="10dp"/>
 
     </LinearLayout>
 

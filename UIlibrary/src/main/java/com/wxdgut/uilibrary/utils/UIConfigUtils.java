@@ -71,6 +71,41 @@ public class UIConfigUtils {
         return uiConfig.getDefaultDialogAnimId();
     }
 
+    public static int getDefaultBtnBgColorId() {
+        if (!isInitialized()) {
+            return R.color.theme_btn_bg;
+        }
+        return uiConfig.getDefaultBtnBgColorId();
+    }
+
+    public static int getDefaultBtnBgPressColorId() {
+        if (!isInitialized()) {
+            return R.color.theme_btn_bg_press;
+        }
+        return uiConfig.getDefaultBtnBgPressColorId();
+    }
+
+    public static int getDefaultBtnTvColorId() {
+        if (!isInitialized()) {
+            return R.color.theme_btn_tv;
+        }
+        return uiConfig.getDefaultBtnTvColorId();
+    }
+
+    public static int getDefaultBtnTvPressColorId() {
+        if (!isInitialized()) {
+            return R.color.theme_btn_tv_press;
+        }
+        return uiConfig.getDefaultBtnTvPressColorId();
+    }
+
+    public static int getDefaultBtnRadius() {
+        if (!isInitialized()) {
+            return DensityUtil.dpToPx(6);
+        }
+        return uiConfig.getDefaultBtnRadius();
+    }
+
     private static boolean validateAppConfig(UIConfig uiConfig) {
         if (uiConfig == null) {
             return false;
@@ -84,6 +119,11 @@ public class UIConfigUtils {
             uiConfig.getDefaultSwitchOffColorId();
             uiConfig.getDefaultDialogLayoutId();
             uiConfig.getDefaultDialogAnimId();
+            uiConfig.getDefaultBtnBgColorId();
+            uiConfig.getDefaultBtnBgPressColorId();
+            uiConfig.getDefaultBtnTvColorId();
+            uiConfig.getDefaultBtnTvPressColorId();
+            uiConfig.getDefaultBtnRadius();
         } catch (Exception e) {
             return false;
         }
