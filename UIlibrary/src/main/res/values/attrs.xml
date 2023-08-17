@@ -92,4 +92,27 @@
         </attr>
     </declare-styleable>
 
+    <!--************** CommonImageView ****************-->
+    <attr name="imgBorderWidth" format="dimension"/>
+    <attr name="imgBorderColor" format="color"/>
+    <attr name="imgSelectedMaskColor" format="color"/>
+    <attr name="imgSelectedBorderColor" format="color"/>
+    <attr name="imgSelectedBorderWidth" format="dimension"/>
+    <attr name="imgCornerRadius" format="dimension"/>
+    <attr name="imgIsOval" format="boolean"/>
+    <attr name="imgIsCircle" format="boolean"/>
+    <attr name="imgTouchSelectEnabled" format="boolean"/>
+    <declare-styleable name="CommonImageView">
+        <attr name="imgBorderWidth"/>
+        <attr name="imgBorderColor"/>
+        <attr name="imgSelectedMaskColor"/>
+        <attr name="imgSelectedBorderColor"/>
+        <attr name="imgSelectedBorderWidth"/>
+        <attr name="imgCornerRadius"/>
+        <attr name="imgIsOval"/>
+        <attr name="imgIsCircle"/>
+        <attr name="imgTouchSelectEnabled"/>
+    </declare-styleable>
+
+    <attr name="CommonImageViewStyle" format="reference"/>
 </resources>

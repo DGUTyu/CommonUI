@@ -19,6 +19,7 @@ import com.wxdgut.uilibrary.btn.CommonButton;
 import com.wxdgut.uilibrary.dialog.AnimModel;
 import com.wxdgut.uilibrary.dialog.CommonDialog;
 import com.wxdgut.uilibrary.iv.ImageViewPro;
+import com.wxdgut.uilibrary.iv.CommonImageView;
 import com.wxdgut.uilibrary.switchview.SwitchView;
 
 public class TestActivity extends BaseTestActivity implements View.OnClickListener {
@@ -42,6 +43,12 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
             public void onSwitchStateChanged(boolean isChecked) {
                 Log.i("SwitchView", "onSwitchStateChanged: " + isChecked);
             }
+        });
+        CommonImageView commonImageView = findViewById(R.id.my_iv);
+        boolean[] flag = {false};
+        commonImageView.setOnClickListener(v -> {
+            flag[0] = !flag[0];
+            v.setSelected(flag[0]);
         });
     }
 
