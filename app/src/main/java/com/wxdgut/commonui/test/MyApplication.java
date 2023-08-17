@@ -13,11 +13,6 @@ public class MyApplication extends Application {
         super.onCreate();
         UIConfigUtils.init(new UIConfig() {
             @Override
-            public int getDefaultSwitchOnColorId() {
-                return BuildConfig.SWITCH_ON_COLOR;
-            }
-
-            @Override
             public int getDefaultDialogLayoutId() {
                 return R.layout.dialog_with_et;
             }
@@ -25,21 +20,6 @@ public class MyApplication extends Application {
             @Override
             public int getDefaultDialogAnimId() {
                 return R.style.anim_dialog_upIn_downOut;
-            }
-
-            @Override
-            public int getDefaultBtnBgColorId() {
-                return R.color.colorControlNormal;
-            }
-
-            @Override
-            public int getDefaultBtnBgPressColorId() {
-                return  R.color.colorAccent;
-            }
-
-            @Override
-            public int getDefaultBtnTvColorId() {
-                return R.color.black;
             }
         });
     }

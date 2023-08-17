@@ -255,12 +255,12 @@
             android:layout_height="wrap_content"
             app:switchWidth="100dp"
             app:isChecked="true"
-            android:visibility="gone"
+            android:visibility="visible"
             app:switchHeight="50dp"/>
 
         <com.wxdgut.uilibrary.btn.CommonButton
             android:id="@+id/common_btn1"
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_height="50dp"
             android:gravity="center"
             android:text="点击改变背景色"
@@ -277,15 +277,6 @@
             android:layout_height="50dp"
             android:gravity="center"
             android:text="123" />
-
-        <com.wxdgut.uilibrary.btn.CommonButton
-            android:id="@+id/common_btn3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:gravity="center"
-            app:bgColor="@color/blue"
-            android:text="456"
-            app:radius="10dp"/>
 
     </LinearLayout>
 

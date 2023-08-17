@@ -9,7 +9,7 @@
     <color name="theme_switch_off">#FF86909C</color>
     <color name="theme_btn_bg">#57A9FB</color>
     <color name="theme_btn_bg_press">#3491FA</color>
-    <color name="theme_btn_tv">#ffffff</color>
+    <color name="theme_btn_tv">#000000</color>
     <color name="theme_btn_tv_press">#000000</color>
     <!--颜色值-->
     <color name="transparent">#00000000</color>
