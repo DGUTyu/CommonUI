@@ -49,42 +49,42 @@
 
     <!--SwitchView-->
     <declare-styleable name="SwitchView">
-        <attr name="circlePadding" format="dimension" />
-        <attr name="switchWidth" format="dimension" />
-        <attr name="switchHeight" format="dimension" />
-        <attr name="borderWidth" format="dimension" />
-        <attr name="borderColor" format="color" />
-        <attr name="onColor" format="color" />
-        <attr name="onColorBg" format="color" />
-        <attr name="onAlpha" format="float" />
-        <attr name="offColor" format="color" />
-        <attr name="offColorBg" format="color" />
-        <attr name="offAlpha" format="float" />
-        <attr name="isChecked" format="boolean" />
+        <attr name="swCirclePadding" format="dimension" />
+        <attr name="swWidth" format="dimension" />
+        <attr name="swHeight" format="dimension" />
+        <attr name="swBorderWidth" format="dimension" />
+        <attr name="swBorderColor" format="color" />
+        <attr name="swOnColor" format="color" />
+        <attr name="swOnColorBg" format="color" />
+        <attr name="swOnAlpha" format="float" />
+        <attr name="swOffColor" format="color" />
+        <attr name="swOffColorBg" format="color" />
+        <attr name="swOffAlpha" format="float" />
+        <attr name="swIsChecked" format="boolean" />
     </declare-styleable>
 
     <!--公共属性-->
-    <attr name="bgColor" format="color" />
-    <attr name="bgColorPress" format="color" />
-    <attr name="bgImg" format="reference" />
-    <attr name="bgImgPress" format="reference" />
-    <attr name="tvColor" format="color" />
-    <attr name="tvColorPress" format="color" />
+    <attr name="btnBgColor" format="color" />
+    <attr name="btnBgColorPress" format="color" />
+    <attr name="btnBgImg" format="reference" />
+    <attr name="btnBgImgPress" format="reference" />
+    <attr name="btnTvColor" format="color" />
+    <attr name="btnTvColorPress" format="color" />
     <attr name="iconDrawable" format="reference" />
     <attr name="iconDrawablePress" format="reference" />
     <attr name="text" format="string" />
     <attr name="textSize" format="float" />
     <!--CommonButton-->
     <declare-styleable name="CommonButton">
-        <attr name="bgColor" />
-        <attr name="bgColorPress" />
-        <attr name="bgImg" />
-        <attr name="bgImgPress" />
-        <attr name="tvColor" />
-        <attr name="tvColorPress" />
-        <attr name="fillet" format="boolean" />
-        <attr name="radius" format="dimension" />
-        <attr name="shape">
+        <attr name="btnBgColor" />
+        <attr name="btnBgColorPress" />
+        <attr name="btnBgImg" />
+        <attr name="btnBgImgPress" />
+        <attr name="btnTvColor" />
+        <attr name="btnTvColorPress" />
+        <attr name="btnFillet" format="boolean" />
+        <attr name="btnRadius" format="dimension" />
+        <attr name="btnShape">
             <enum name="rectangle" value="0" />
             <enum name="oval" value="1" />
             <enum name="line" value="2" />

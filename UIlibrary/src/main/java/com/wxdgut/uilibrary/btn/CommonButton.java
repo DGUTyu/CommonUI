@@ -60,7 +60,7 @@ public class CommonButton extends Button {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CommonButton, defStyle, 0);
         if (a != null) {
             //圆角
-            radius = a.getDimensionPixelSize(R.styleable.CommonButton_radius, UIConfigUtils.getDefaultBtnRadius());
+            radius = a.getDimensionPixelSize(R.styleable.CommonButton_btnRadius, UIConfigUtils.getDefaultBtnRadius());
             //边框属性
             borderWidth = a.getDimensionPixelSize(R.styleable.CommonButton_btnBorderWidth, 0);
             borderColor = a.getColor(R.styleable.CommonButton_btnBorderColor, Color.TRANSPARENT);
@@ -72,7 +72,7 @@ public class CommonButton extends Button {
                 selectedBorderWidth = selectedBorderWidth > radius ? radius : selectedBorderWidth;
             }
             //设置背景色
-            ColorStateList colorList = a.getColorStateList(R.styleable.CommonButton_bgColor);
+            ColorStateList colorList = a.getColorStateList(R.styleable.CommonButton_btnBgColor);
             if (colorList != null) {
                 bgColor = colorList.getColorForState(getDrawableState(), 0);
                 if (bgColor != 0) {
@@ -83,7 +83,7 @@ public class CommonButton extends Button {
                 setBackgroundColor(bgColor);
             }
             //记录按钮被按下时的背景色
-            ColorStateList colorListPress = a.getColorStateList(R.styleable.CommonButton_bgColorPress);
+            ColorStateList colorListPress = a.getColorStateList(R.styleable.CommonButton_btnBgColorPress);
             if (colorListPress != null) {
                 bgColorPress = colorListPress.getColorForState(getDrawableState(), 0);
             } else {
@@ -91,14 +91,14 @@ public class CommonButton extends Button {
                 setBackgroundColor(bgColorPress);
             }
             //设置背景图片，若backColor与backGroundDrawable同时存在，则backGroundDrawable将覆盖backColor
-            bgDrawable = a.getDrawable(R.styleable.CommonButton_bgImg);
+            bgDrawable = a.getDrawable(R.styleable.CommonButton_btnBgImg);
             if (bgDrawable != null) {
                 setBackground(bgDrawable);
             }
             //记录按钮被按下时的背景图片
-            bgDrawablePress = a.getDrawable(R.styleable.CommonButton_bgImgPress);
+            bgDrawablePress = a.getDrawable(R.styleable.CommonButton_btnBgImgPress);
             //设置文字的颜色
-            textColor = a.getColorStateList(R.styleable.CommonButton_tvColor);
+            textColor = a.getColorStateList(R.styleable.CommonButton_btnTvColor);
             if (textColor != null) {
                 setTextColor(textColor);
             }else {
@@ -107,13 +107,13 @@ public class CommonButton extends Button {
                 setTextColor(textColor);
             }
             //记录按钮被按下时文字的颜色
-            textColorPress = a.getColorStateList(R.styleable.CommonButton_tvColorPress);
+            textColorPress = a.getColorStateList(R.styleable.CommonButton_btnTvColorPress);
             if (textColorPress == null) {
                 int pressColor = getColorById(UIConfigUtils.getDefaultBtnTvPressColorId());
                 textColorPress = ColorStateList.valueOf(pressColor); // 按压颜色
             }
             //设置圆角或圆形等样式的背景色
-            fillet = a.getBoolean(R.styleable.CommonButton_fillet, true);
+            fillet = a.getBoolean(R.styleable.CommonButton_btnFillet, true);
             if (fillet) {
                 getGradientDrawable();
                 gradientDrawable.setStroke(borderWidth, borderColor); // 设置边框
@@ -127,7 +127,7 @@ public class CommonButton extends Button {
                 setRadius(radius);
             }
             //设置按钮形状，fillet为true时才生效
-            int shape = a.getInteger(R.styleable.CommonButton_shape, 0);
+            int shape = a.getInteger(R.styleable.CommonButton_btnShape, 0);
             if (fillet && shape != 0) {
                 setShape(shape);
             }

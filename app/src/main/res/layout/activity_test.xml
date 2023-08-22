@@ -245,20 +245,20 @@
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:switchWidth="100dp"
-            app:switchHeight="50dp"
-            app:isChecked="true"
-            app:onColor="@color/black"
+            app:swWidth="100dp"
+            app:swHeight="50dp"
+            app:swIsChecked="true"
+            app:swOnColor="@color/black"
             android:visibility="gone"
-            app:onAlpha="0.5"/>
+            app:swOnAlpha="0.5"/>
         <com.wxdgut.uilibrary.switchview.SwitchView
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:switchWidth="100dp"
-            app:isChecked="true"
+            app:swWidth="100dp"
+            app:swIsChecked="true"
             android:visibility="visible"
-            app:switchHeight="50dp"/>
+            app:swHeight="50dp"/>
 
         <com.wxdgut.uilibrary.btn.CommonButton
             android:id="@+id/common_btn1"
@@ -266,12 +266,12 @@
             android:layout_height="50dp"
             android:gravity="center"
             android:text="点击改变背景色"
-            app:bgColor="#ff3300"
-            app:bgColorPress="#ff33ff"
-            app:tvColor="@color/white"
-            app:tvColorPress="@color/black"
-            app:fillet="true"
-            app:radius="30dp"/>
+            app:btnBgColor="#ff3300"
+            app:btnBgColorPress="#ff33ff"
+            app:btnTvColor="@color/white"
+            app:btnTvColorPress="@color/black"
+            app:btnFillet="true"
+            app:btnRadius="30dp"/>
 
         <com.wxdgut.uilibrary.btn.CommonButton
             android:id="@+id/common_btn2"
@@ -304,7 +304,9 @@
                 app:btnSelectedBorderColor="@color/red"
                 app:btnSelectedBorderWidth="5dp"
                 android:text="123"
-                app:radius="0dp"/>
+                app:btnBgColorPress="@color/green"
+                app:btnTvColorPress="@color/white"
+                app:btnRadius="5dp"/>
 
 
             <com.wxdgut.uilibrary.btn.CommonButton
@@ -313,9 +315,9 @@
                 android:layout_margin="5dp"
                 android:gravity="center"
                 android:text="123"
-                app:bgColor="@color/green"
-                app:bgColorPress="@color/theme_color"
-                app:radius="10dp"/>
+                app:btnBgColor="@color/green"
+                app:btnBgColorPress="@color/theme_color"
+                app:btnRadius="10dp"/>
         </LinearLayout>
 
         <com.wxdgut.uilibrary.iv.CommonImageView

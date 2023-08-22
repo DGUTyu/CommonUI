@@ -75,19 +75,19 @@ public class SwitchView extends View {
     private void init(AttributeSet attrs) {
         // 获取其他属性
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.SwitchView);
-        circlePadding = ta.getDimensionPixelSize(R.styleable.SwitchView_circlePadding, DensityUtil.dpToPx(3));
-        switchWidth = ta.getDimensionPixelSize(R.styleable.SwitchView_switchWidth, DensityUtil.dpToPx(60));
-        switchHeight = ta.getDimensionPixelSize(R.styleable.SwitchView_switchHeight, DensityUtil.dpToPx(30));
-        borderWidth = ta.getDimensionPixelSize(R.styleable.SwitchView_borderWidth, DensityUtil.dpToPx(2));
+        circlePadding = ta.getDimensionPixelSize(R.styleable.SwitchView_swCirclePadding, DensityUtil.dpToPx(3));
+        switchWidth = ta.getDimensionPixelSize(R.styleable.SwitchView_swWidth, DensityUtil.dpToPx(60));
+        switchHeight = ta.getDimensionPixelSize(R.styleable.SwitchView_swHeight, DensityUtil.dpToPx(30));
+        borderWidth = ta.getDimensionPixelSize(R.styleable.SwitchView_swBorderWidth, DensityUtil.dpToPx(2));
         // 使用透明度属性来设置 onColorBg 和 offColorBg 的透明度
-        onAlpha = ta.getFloat(R.styleable.SwitchView_onAlpha, 0.2f);
-        offAlpha = ta.getFloat(R.styleable.SwitchView_offAlpha, 0.2f);
-        onColor = ta.getColor(R.styleable.SwitchView_onColor, getColorById(UIConfigUtils.getDefaultSwitchOnColorId()));
-        onColorBg = ta.getColor(R.styleable.SwitchView_onColorBg, addAlpha(onColor, onAlpha));
-        offColor = ta.getColor(R.styleable.SwitchView_offColor, getColorById(UIConfigUtils.getDefaultSwitchOffColorId()));
-        offColorBg = ta.getColor(R.styleable.SwitchView_offColorBg, addAlpha(offColor, offAlpha));
-        borderColor = ta.getColor(R.styleable.SwitchView_borderColor, 0xFFE5E6EB);
-        isChecked = ta.getBoolean(R.styleable.SwitchView_isChecked, false);
+        onAlpha = ta.getFloat(R.styleable.SwitchView_swOnAlpha, 0.2f);
+        offAlpha = ta.getFloat(R.styleable.SwitchView_swOffAlpha, 0.2f);
+        onColor = ta.getColor(R.styleable.SwitchView_swOnColor, getColorById(UIConfigUtils.getDefaultSwitchOnColorId()));
+        onColorBg = ta.getColor(R.styleable.SwitchView_swOnColorBg, addAlpha(onColor, onAlpha));
+        offColor = ta.getColor(R.styleable.SwitchView_swOffColor, getColorById(UIConfigUtils.getDefaultSwitchOffColorId()));
+        offColorBg = ta.getColor(R.styleable.SwitchView_swOffColorBg, addAlpha(offColor, offAlpha));
+        borderColor = ta.getColor(R.styleable.SwitchView_swBorderColor, 0xFFE5E6EB);
+        isChecked = ta.getBoolean(R.styleable.SwitchView_swIsChecked, false);
         ta.recycle();
 
         // 初始化画笔
