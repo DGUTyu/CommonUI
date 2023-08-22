@@ -3,6 +3,7 @@ package com.wxdgut.uilibrary.btn;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
@@ -38,6 +39,13 @@ public class CommonButton extends Button {
     private boolean fillet = false;
     //标示onTouch方法的返回值，用来解决onClick和onTouch冲突问题
     private boolean isCost = true;
+    //圆角
+    private int radius;
+    //边框属性
+    private int borderWidth;
+    private int borderColor;
+    private int selectedBorderWidth;
+    private int selectedBorderColor;
 
     public CommonButton(Context context) {
         this(context, null, 0);
@@ -51,6 +59,18 @@ public class CommonButton extends Button {
         super(context, attrs, defStyle);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CommonButton, defStyle, 0);
         if (a != null) {
+            //圆角
+            radius = a.getDimensionPixelSize(R.styleable.CommonButton_radius, UIConfigUtils.getDefaultBtnRadius());
+            //边框属性
+            borderWidth = a.getDimensionPixelSize(R.styleable.CommonButton_btnBorderWidth, 0);
+            borderColor = a.getColor(R.styleable.CommonButton_btnBorderColor, Color.TRANSPARENT);
+            selectedBorderWidth = a.getDimensionPixelSize(R.styleable.CommonButton_btnSelectedBorderWidth, borderWidth);
+            selectedBorderColor = a.getColor(R.styleable.CommonButton_btnSelectedBorderColor, borderColor);
+            //设置边框宽度限制
+            if (radius > 0) {
+                borderWidth = borderWidth > radius ? radius : borderWidth;
+                selectedBorderWidth = selectedBorderWidth > radius ? radius : selectedBorderWidth;
+            }
             //设置背景色
             ColorStateList colorList = a.getColorStateList(R.styleable.CommonButton_bgColor);
             if (colorList != null) {
@@ -96,13 +116,13 @@ public class CommonButton extends Button {
             fillet = a.getBoolean(R.styleable.CommonButton_fillet, true);
             if (fillet) {
                 getGradientDrawable();
+                gradientDrawable.setStroke(borderWidth, borderColor); // 设置边框
                 if (bgColor != 0) {
                     gradientDrawable.setColor(bgColor);
                     setBackground(gradientDrawable);
                 }
             }
             //设置圆角矩形的角度，fillet为true时才生效
-            int radius = a.getDimensionPixelSize(R.styleable.CommonButton_radius, UIConfigUtils.getDefaultBtnRadius());
             if (fillet && radius != 0) {
                 setRadius(radius);
             }
@@ -135,10 +155,12 @@ public class CommonButton extends Button {
         if (state == MotionEvent.ACTION_DOWN) {
             if (bgColorPress != 0) {
                 if (fillet) {
-                    gradientDrawable.setColor(bgColorPress);
-                    setBackground(gradientDrawable);
+                    gradientDrawable.setCornerRadius(radius); // 设置圆角
+                    gradientDrawable.setStroke(selectedBorderWidth, selectedBorderColor); // 设置按压状态的边框
+                    gradientDrawable.setColor(bgColorPress); // 设置按压状态的背景颜色
+                    setBackground(gradientDrawable); // 应用设置
                 } else {
-                    setBackgroundColor(bgColorPress);
+                    setBackgroundColor(bgColorPress); // 设置按压状态的背景颜色
                 }
             }
             if (bgDrawablePress != null) {
@@ -151,10 +173,12 @@ public class CommonButton extends Button {
         if (state == MotionEvent.ACTION_UP) {
             if (bgColor != 0) {
                 if (fillet) {
-                    gradientDrawable.setColor(bgColor);
-                    setBackground(gradientDrawable);
+                    gradientDrawable.setCornerRadius(radius); // 设置圆角
+                    gradientDrawable.setStroke(borderWidth, borderColor); // 设置边框
+                    gradientDrawable.setColor(bgColor); // 设置背景颜色
+                    setBackground(gradientDrawable); // 应用设置
                 } else {
-                    setBackgroundColor(bgColor);
+                    setBackgroundColor(bgColor); // 设置背景颜色
                 }
             }
             if (bgDrawable != null) {

@@ -90,6 +90,10 @@
             <enum name="line" value="2" />
             <enum name="ring" value="3" />
         </attr>
+        <attr name="btnBorderWidth" format="dimension"/>
+        <attr name="btnBorderColor" format="color"/>
+        <attr name="btnSelectedBorderWidth" format="dimension"/>
+        <attr name="btnSelectedBorderColor" format="color"/>
     </declare-styleable>
 
     <!--************** CommonImageView ****************-->

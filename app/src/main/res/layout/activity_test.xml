@@ -289,11 +289,35 @@
         android:orientation="horizontal"
         android:background="@color/theme_switch_off"
         app:layout_constraintTop_toBottomOf="@id/linearLayout6">
-        <com.wxdgut.uilibrary.iv.CommonImageView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_share"
-            android:background="@color/theme_color"/>
+            android:orientation="vertical">
+
+            <com.wxdgut.uilibrary.btn.CommonButton
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                app:btnBorderWidth="5dp"
+                app:btnBorderColor="@color/black"
+                app:btnSelectedBorderColor="@color/red"
+                app:btnSelectedBorderWidth="5dp"
+                android:text="123"
+                app:radius="0dp"/>
+
+
+            <com.wxdgut.uilibrary.btn.CommonButton
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text="123"
+                app:bgColor="@color/green"
+                app:bgColorPress="@color/theme_color"
+                app:radius="10dp"/>
+        </LinearLayout>
+
         <com.wxdgut.uilibrary.iv.CommonImageView
             android:id="@+id/my_iv"
             android:layout_width="wrap_content"
