@@ -47,6 +47,33 @@ public class CommonButton extends Button {
     private int selectedBorderWidth;
     private int selectedBorderColor;
 
+    //触摸监听器
+    private TouchListener listener;
+
+    public interface TouchListener {
+        void onTouch(MotionEvent event);
+    }
+
+    //设置触摸监听器
+    public void setTouchListener(TouchListener listener) {
+        this.listener = listener;
+    }
+
+    //处理点击事件的接口,isChange用于记录点击状态（按需采用）
+    public interface MyListener {
+        //isChange 能起到类似开关标志的作用，isChange首次回调为true，此后依次反转
+        void click(View view, boolean isChange);
+    }
+
+    //设置点击监听器，也可以不用此做法
+    public void setClick(MyListener myListener) {
+        final boolean[] state = {false};
+        setOnClickListener(v -> {
+            state[0] = !state[0];
+            myListener.click(v, state[0]);
+        });
+    }
+
     public CommonButton(Context context) {
         this(context, null, 0);
     }
@@ -136,6 +163,9 @@ public class CommonButton extends Button {
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if (listener != null) {
+                    listener.onTouch(event);
+                }
                 //根据touch事件设置按下抬起的样式
                 return setTouchStyle(event.getAction());
             }

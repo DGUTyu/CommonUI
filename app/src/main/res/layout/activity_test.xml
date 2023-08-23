@@ -295,6 +295,7 @@
             android:orientation="vertical">
 
             <com.wxdgut.uilibrary.btn.CommonButton
+                android:id="@+id/common_btn3"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
@@ -310,6 +311,7 @@
 
 
             <com.wxdgut.uilibrary.btn.CommonButton
+                android:id="@+id/common_btn4"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"

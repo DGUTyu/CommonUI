@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,7 +30,7 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
     ImageView iv_business;
     ImageViewPro iv_man, iv_data, iv_shop,img_rv_icon_1;
     final boolean[] isClick = {false, false, false, false};
-    private CommonButton common_btn1, common_btn2;
+    private CommonButton common_btn1, common_btn2, common_btn3, common_btn4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,35 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
         imageViewPro.changeOtherImgByColorId(R.color.red, R.drawable.img_reward, R.drawable.img_no_data);
         common_btn1 = findViewById(R.id.common_btn1);
         common_btn2 = findViewById(R.id.common_btn2);
+        common_btn3 = findViewById(R.id.common_btn3);
+        common_btn4 = findViewById(R.id.common_btn4);
+//        common_btn3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                e("onClick");
+//                toast("onClick");
+//            }
+//        });
+        common_btn3.setClick(new CommonButton.MyListener() {
+            @Override
+            public void click(View view, boolean isChange) {
+                e("onClick：" + isChange);
+                toast("onClick：" + isChange);
+            }
+        });
+        common_btn3.setTouchListener(new CommonButton.TouchListener() {
+            @Override
+            public void onTouch(MotionEvent event) {
+                e("onTouch：" + event.getAction());
+                toast("onTouch：" + event.getAction());
+            }
+        });
+        common_btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toast("666");
+            }
+        });
         //testCommonBtn(common_btn1);
         //testCommonBtn(common_btn2);
     }
