@@ -307,7 +307,9 @@
                 android:text="123"
                 app:btnBgColorPress="@color/green"
                 app:btnTvColorPress="@color/white"
-                app:btnRadius="5dp"/>
+                app:btnRadiusBottomLeft="0dp"
+                app:btnRadiusBottomRight="20dp"
+                app:btnRadius="0dp"/>
 
 
             <com.wxdgut.uilibrary.btn.CommonButton

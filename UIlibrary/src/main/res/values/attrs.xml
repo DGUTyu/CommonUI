@@ -94,6 +94,10 @@
         <attr name="btnBorderColor" format="color"/>
         <attr name="btnSelectedBorderWidth" format="dimension"/>
         <attr name="btnSelectedBorderColor" format="color"/>
+        <attr name="btnRadiusTopLeft" format="dimension" />
+        <attr name="btnRadiusTopRight" format="dimension" />
+        <attr name="btnRadiusBottomRight" format="dimension" />
+        <attr name="btnRadiusBottomLeft" format="dimension" />
     </declare-styleable>
 
     <!--************** CommonImageView ****************-->

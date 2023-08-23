@@ -16,9 +16,7 @@ import com.wxdgut.uilibrary.R;
 import com.wxdgut.uilibrary.utils.UIConfigUtils;
 
 /**
- * Created by landptf on 2016/10/25.
- * 自定义Button，支持圆角矩形，圆形按钮等样式，可通过配置文件改变按下后的样式
- * 若通过代码设置圆角或者圆形，需要先调用setFillet方法将fillet设置为true
+ * 自定义Button，支持圆角矩形，圆形按钮等样式
  */
 public class CommonButton extends Button {
     //按钮的背景色
@@ -41,6 +39,8 @@ public class CommonButton extends Button {
     private boolean isCost = true;
     //圆角
     private int radius;
+    //圆角
+    private float[] radii;
     //边框属性
     private int borderWidth;
     private int borderColor;
@@ -98,6 +98,17 @@ public class CommonButton extends Button {
                 borderWidth = borderWidth > radius ? radius : borderWidth;
                 selectedBorderWidth = selectedBorderWidth > radius ? radius : selectedBorderWidth;
             }
+            //圆角属性
+            int mRadiusTopLeft = a.getDimensionPixelSize(R.styleable.CommonButton_btnRadiusTopLeft, radius);
+            int mRadiusTopRight = a.getDimensionPixelSize(R.styleable.CommonButton_btnRadiusTopRight, radius);
+            int mRadiusBottomRight = a.getDimensionPixelSize(R.styleable.CommonButton_btnRadiusBottomRight, radius);
+            int mRadiusBottomLeft = a.getDimensionPixelSize(R.styleable.CommonButton_btnRadiusBottomLeft, radius);
+            radii = new float[]{
+                    mRadiusTopLeft, mRadiusTopLeft,
+                    mRadiusTopRight, mRadiusTopRight,
+                    mRadiusBottomRight, mRadiusBottomRight,
+                    mRadiusBottomLeft, mRadiusBottomLeft
+            };
             //设置背景色
             ColorStateList colorList = a.getColorStateList(R.styleable.CommonButton_btnBgColor);
             if (colorList != null) {
@@ -143,15 +154,12 @@ public class CommonButton extends Button {
             fillet = a.getBoolean(R.styleable.CommonButton_btnFillet, true);
             if (fillet) {
                 getGradientDrawable();
+                gradientDrawable.setCornerRadii(radii);
                 gradientDrawable.setStroke(borderWidth, borderColor); // 设置边框
                 if (bgColor != 0) {
                     gradientDrawable.setColor(bgColor);
                     setBackground(gradientDrawable);
                 }
-            }
-            //设置圆角矩形的角度，fillet为true时才生效
-            if (fillet && radius != 0) {
-                setRadius(radius);
             }
             //设置按钮形状，fillet为true时才生效
             int shape = a.getInteger(R.styleable.CommonButton_btnShape, 0);
@@ -185,7 +193,7 @@ public class CommonButton extends Button {
         if (state == MotionEvent.ACTION_DOWN) {
             if (bgColorPress != 0) {
                 if (fillet) {
-                    gradientDrawable.setCornerRadius(radius); // 设置圆角
+                    gradientDrawable.setCornerRadii(radii); // 设置圆角
                     gradientDrawable.setStroke(selectedBorderWidth, selectedBorderColor); // 设置按压状态的边框
                     gradientDrawable.setColor(bgColorPress); // 设置按压状态的背景颜色
                     setBackground(gradientDrawable); // 应用设置
@@ -203,7 +211,7 @@ public class CommonButton extends Button {
         if (state == MotionEvent.ACTION_UP) {
             if (bgColor != 0) {
                 if (fillet) {
-                    gradientDrawable.setCornerRadius(radius); // 设置圆角
+                    gradientDrawable.setCornerRadii(radii); // 设置圆角
                     gradientDrawable.setStroke(borderWidth, borderColor); // 设置边框
                     gradientDrawable.setColor(bgColor); // 设置背景颜色
                     setBackground(gradientDrawable); // 应用设置
@@ -284,6 +292,14 @@ public class CommonButton extends Button {
         if (!fillet) return;
         getGradientDrawable();
         gradientDrawable.setCornerRadius(radius);
+        setBackground(gradientDrawable);
+    }
+
+    //设置圆角按钮的角度
+    public void setCornerRadii(float[] radii) {
+        if (!fillet) return;
+        getGradientDrawable();
+        gradientDrawable.setCornerRadii(radii);
         setBackground(gradientDrawable);
     }
 
