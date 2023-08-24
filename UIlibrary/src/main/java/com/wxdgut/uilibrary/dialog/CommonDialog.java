@@ -79,7 +79,7 @@ public class CommonDialog extends Dialog {
     final boolean clearShadow; //Dialog 是否去除阴影
     final float dimAmount; //Dialog 明暗度
     final int priority; //显示优先级，不能为负数。相同优先级，先添加的先显示。
-    final boolean endOfQueue; //优先级队列是否输入完毕
+    final boolean endOfQueue; //优先级队列是否输入完毕。这个一般用于最后生成的弹窗对象上。
     private static final Queue<CommonDialog> dialogQueue = new LinkedList<>(); //优先级队列
     WeakReference<View> anchorWR;
     int anchorGravity;
@@ -820,6 +820,8 @@ public class CommonDialog extends Dialog {
 
         /**
          * 弹窗队列是否已经输入完毕
+         * 这个一般用于最后生成的弹窗对象上。
+         * 不太适用于异步线程的弹窗队列优先级设置，使用者自行把握
          *
          * @param endOfQueue
          * @return

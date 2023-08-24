@@ -19,10 +19,13 @@ import com.wxdgut.commonui.R;
 import com.wxdgut.uilibrary.btn.CommonButton;
 import com.wxdgut.uilibrary.dialog.AnimModel;
 import com.wxdgut.uilibrary.dialog.CommonDialog;
+import com.wxdgut.uilibrary.dialog.DialogQueueManager;
 import com.wxdgut.uilibrary.iv.ImageViewPro;
 import com.wxdgut.uilibrary.iv.CommonImageView;
 import com.wxdgut.uilibrary.switchview.SwitchView;
 import com.wxdgut.uilibrary.utils.CommonUtils;
+
+import java.util.Random;
 
 public class TestActivity extends BaseTestActivity implements View.OnClickListener {
     //视图控件
@@ -54,8 +57,11 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
         });
     }
 
+    private DialogQueueManager<CommonDialog> dialogQueueManager;
+
     //初始化视图控件
     private void initView() {
+        dialogQueueManager = new DialogQueueManager<>();
         tv_welcome = findViewById(R.id.tv_welcome);
         btn1 = findViewById(R.id.btn1);
         btn2 = findViewById(R.id.btn2);
@@ -72,13 +78,6 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
         common_btn2 = findViewById(R.id.common_btn2);
         common_btn3 = findViewById(R.id.common_btn3);
         common_btn4 = findViewById(R.id.common_btn4);
-//        common_btn3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                e("onClick");
-//                toast("onClick");
-//            }
-//        });
         common_btn3.setClick(new CommonButton.MyListener() {
             @Override
             public void click(View view, boolean isChange) {
@@ -95,11 +94,51 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
         });
         CommonUtils.getLocationInWindow(btn2, (x, y) -> {
             e("Location X: " + x + ", Y: " + y);
-            CommonDialog.newBuilder(TestActivity.this).layout(R.layout.dialog_chat).widthMatch(true).showAsDropDown(btn2, Gravity.LEFT, 0, 0).dimAmount(0.0f).anim(CommonDialog.DEFAULT_ANIM).priority(2).build();
-            CommonDialog dialog2 = CommonDialog.newBuilder(TestActivity.this).layout(R.layout.dialog_ad).cancelable(false).dimAmount(0.8f).anim(CommonDialog.DEFAULT_ANIM).priority(3).endOfQueue(true).build();
-            dialog2.setClick(R.id.iv_close, v -> {
-                dialog2.dismissDialog();
-            });
+            Random random = new Random();
+            int ran1 = random.nextInt(5) + 1; // 生成1到5之间的随机数
+            int ran2 = random.nextInt(5) + 1; // 生成1到5之间的随机数
+            e("随机数 ran1：" + ran1 + "  ran2：" + ran2);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(ran1 * 1000); // delayMillis是延时的毫秒数
+                        // 在这里执行您想要延时执行的代码
+                        runOnUiThread(() -> {
+                            CommonDialog.newBuilder(TestActivity.this).layout(R.layout.dialog_chat).widthMatch(true).showAsDropDown(btn2, Gravity.LEFT, 0, 0).dimAmount(0.0f).anim(CommonDialog.DEFAULT_ANIM).priority(2).build();
+                            //CommonDialog build = CommonDialog.newBuilder(TestActivity.this).layout(R.layout.dialog_chat).widthMatch(true).showAsDropDown(btn2, Gravity.LEFT, 0, 0).dimAmount(0.0f).anim(CommonDialog.DEFAULT_ANIM).build();
+                            //e("add 聊天");
+                            //dialogQueueManager.addDialog(build);
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(ran2 * 1000); // delayMillis是延时的毫秒数
+                        // 在这里执行您想要延时执行的代码
+                        runOnUiThread(() -> {
+                            CommonDialog.newBuilder(TestActivity.this).priority(3).endOfQueue(true).build();
+                            //CommonDialog build = CommonDialog.newBuilder(TestActivity.this).build();
+                            //e("add 指纹");
+                            //dialogQueueManager.addDialog(build);
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        });
+        CommonDialog dialog2 = CommonDialog.newBuilder(TestActivity.this).layout(R.layout.dialog_ad).cancelable(false).dimAmount(0.8f).anim(CommonDialog.DEFAULT_ANIM).priority(4).build();
+        //CommonDialog dialog2 = CommonDialog.newBuilder(TestActivity.this).layout(R.layout.dialog_ad).cancelable(false).dimAmount(0.8f).anim(CommonDialog.DEFAULT_ANIM).build();
+        //e("add 广告");
+        //dialogQueueManager.addDialog(dialog2);
+        dialog2.setClick(R.id.iv_close, v -> {
+            dialog2.dismissDialog();
         });
         CommonUtils.setClick(common_btn4, (view, isChange) -> {
             e("common_btn4 click: " + isChange);
@@ -213,6 +252,8 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
                 isClick[1] = !isClick[1];
                 iv_shop.setColorId(isClick[1] ? R.color.theme_color : R.color.img_default);
                 break;
+            default:
+                break;
         }
     }
 
@@ -237,6 +278,13 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
             imageView.setImageResource(0); // 首先清除 ImageView 的现有图片
             imageView.setImageDrawable(modifiedDrawable);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 如果需要在页面销毁时清空队列，可以在这里调用
+        dialogQueueManager.clearQueue();
     }
 
 }
