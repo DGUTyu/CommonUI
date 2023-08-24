@@ -22,6 +22,7 @@ import com.wxdgut.uilibrary.dialog.CommonDialog;
 import com.wxdgut.uilibrary.iv.ImageViewPro;
 import com.wxdgut.uilibrary.iv.CommonImageView;
 import com.wxdgut.uilibrary.switchview.SwitchView;
+import com.wxdgut.uilibrary.utils.CommonUtils;
 
 public class TestActivity extends BaseTestActivity implements View.OnClickListener {
     //视图控件
@@ -92,11 +93,16 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
                 toast("onTouch：" + event.getAction());
             }
         });
-        common_btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toast("666");
-            }
+        CommonUtils.getLocationInWindow(btn2, (x, y) -> {
+            e("Location X: " + x + ", Y: " + y);
+            CommonDialog.newBuilder(TestActivity.this).layout(R.layout.dialog_chat).widthMatch(true).showAsDropDown(btn2, Gravity.LEFT, 0, 0).dimAmount(0.0f).anim(CommonDialog.DEFAULT_ANIM).priority(2).build();
+            CommonDialog dialog2 = CommonDialog.newBuilder(TestActivity.this).layout(R.layout.dialog_ad).cancelable(false).dimAmount(0.8f).anim(CommonDialog.DEFAULT_ANIM).priority(3).endOfQueue(true).build();
+            dialog2.setClick(R.id.iv_close, v -> {
+                dialog2.dismissDialog();
+            });
+        });
+        CommonUtils.setClick(common_btn4, (view, isChange) -> {
+            e("common_btn4 click: " + isChange);
         });
         //testCommonBtn(common_btn1);
         //testCommonBtn(common_btn2);

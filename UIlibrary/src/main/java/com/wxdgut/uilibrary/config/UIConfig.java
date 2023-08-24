@@ -2,7 +2,7 @@ package com.wxdgut.uilibrary.config;
 
 import com.wxdgut.uilibrary.R;
 import com.wxdgut.uilibrary.dialog.CommonDialog;
-import com.wxdgut.uilibrary.utils.DensityUtil;
+import com.wxdgut.uilibrary.utils.CommonUtils;
 
 /**
  * 抽象类 AppConfig，用于访问 调用者的 BuildConfigField 变量
@@ -49,6 +49,6 @@ public abstract class UIConfig {
     }
 
     public int getDefaultBtnRadius() {
-        return DensityUtil.dpToPx(6);
+        return CommonUtils.dpToPx(6);
     }
 }

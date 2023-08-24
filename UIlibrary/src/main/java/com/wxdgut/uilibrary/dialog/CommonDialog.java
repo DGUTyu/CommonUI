@@ -831,7 +831,7 @@ public class CommonDialog extends Dialog {
 
         /**
          * 设置Dialog显示的参考点（某个view的相对位置）
-         *
+         * 注意要在布局完成测量后再使用此方法。
          * @param anchor
          * @param anchorGravity
          * @param xOff

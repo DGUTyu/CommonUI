@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.wxdgut.uilibrary.R;
-import com.wxdgut.uilibrary.utils.DensityUtil;
+import com.wxdgut.uilibrary.utils.CommonUtils;
 import com.wxdgut.uilibrary.utils.UIConfigUtils;
 
 /**
@@ -75,10 +75,10 @@ public class SwitchView extends View {
     private void init(AttributeSet attrs) {
         // 获取其他属性
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.SwitchView);
-        circlePadding = ta.getDimensionPixelSize(R.styleable.SwitchView_swCirclePadding, DensityUtil.dpToPx(3));
-        switchWidth = ta.getDimensionPixelSize(R.styleable.SwitchView_swWidth, DensityUtil.dpToPx(60));
-        switchHeight = ta.getDimensionPixelSize(R.styleable.SwitchView_swHeight, DensityUtil.dpToPx(30));
-        borderWidth = ta.getDimensionPixelSize(R.styleable.SwitchView_swBorderWidth, DensityUtil.dpToPx(2));
+        circlePadding = ta.getDimensionPixelSize(R.styleable.SwitchView_swCirclePadding, CommonUtils.dpToPx(3));
+        switchWidth = ta.getDimensionPixelSize(R.styleable.SwitchView_swWidth, CommonUtils.dpToPx(60));
+        switchHeight = ta.getDimensionPixelSize(R.styleable.SwitchView_swHeight, CommonUtils.dpToPx(30));
+        borderWidth = ta.getDimensionPixelSize(R.styleable.SwitchView_swBorderWidth, CommonUtils.dpToPx(2));
         // 使用透明度属性来设置 onColorBg 和 offColorBg 的透明度
         onAlpha = ta.getFloat(R.styleable.SwitchView_swOnAlpha, 0.2f);
         offAlpha = ta.getFloat(R.styleable.SwitchView_swOffAlpha, 0.2f);

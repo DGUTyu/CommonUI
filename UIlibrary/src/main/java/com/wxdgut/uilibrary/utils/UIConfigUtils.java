@@ -101,7 +101,7 @@ public class UIConfigUtils {
 
     public static int getDefaultBtnRadius() {
         if (!isInitialized()) {
-            return DensityUtil.dpToPx(6);
+            return CommonUtils.dpToPx(6);
         }
         return uiConfig.getDefaultBtnRadius();
     }
