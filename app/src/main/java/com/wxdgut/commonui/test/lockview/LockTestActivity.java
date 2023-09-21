@@ -1,18 +1,19 @@
 package com.wxdgut.commonui.test.lockview;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
 import com.wxdgut.uilibrary.lockview.PatternIndicatorView;
 import com.wxdgut.uilibrary.lockview.PatternLockerView;
+import com.wxdgut.uilibrary.lockview.customized.MyLockerHitCellView;
+import com.wxdgut.uilibrary.lockview.customized.MyLockerLineView;
+import com.wxdgut.uilibrary.lockview.customized.MyLockerNormalCellView;
+import com.wxdgut.uilibrary.lockview.im.IHitCellView;
+import com.wxdgut.uilibrary.lockview.im.ILockerLinkedLineView;
+import com.wxdgut.uilibrary.lockview.im.INormalCellView;
 import com.wxdgut.uilibrary.lockview.im.OnPatternChangeListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LockTestActivity extends BaseTestActivity {
@@ -33,6 +34,15 @@ public class LockTestActivity extends BaseTestActivity {
         indicator_view = findViewById(R.id.indicator_view);
         //设置指示器初始图案
         indicator_view.updateState(1, 2, 3);
+
+        INormalCellView normalCellView = new MyLockerNormalCellView(lockerView.getStyleDecorator());
+        lockerView.setNormalCellView(normalCellView).build();
+
+        IHitCellView hitCellView = new MyLockerHitCellView(lockerView.getStyleDecorator());
+        lockerView.setHitCellView(hitCellView).build();
+
+        ILockerLinkedLineView view = new MyLockerLineView(lockerView.getStyleDecorator());
+        lockerView.setLinkedLineView(view).build();
     }
 
     private void initEvent() {

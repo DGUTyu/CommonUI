@@ -49,6 +49,8 @@
         <attr name="plv_enableSkip" format="boolean|reference" />
         <!--是否使用触碰震动反馈-->
         <attr name="plv_enableHapticFeedback" format="boolean|reference" />
+        <!--是否线在圆形之上，默认为false-->
+        <attr name="plv_lineAtTop" format="boolean|reference" />
     </declare-styleable>
 
     <!--ImageViewPro-->

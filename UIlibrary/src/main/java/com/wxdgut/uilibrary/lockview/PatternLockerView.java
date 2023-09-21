@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,7 +36,8 @@ public class PatternLockerView extends View {
     boolean enableHapticFeedback = false;
     //能否跳过中间点标志位，如果开启了该标志，则可以不用连续
     boolean enableSkip = false;
-
+    //是否线在圆形之上，默认为false
+    boolean lineAtTop = false;
 
     //真正的cell数组
     private List<CellBean> cellBeanList;
@@ -52,17 +54,18 @@ public class PatternLockerView extends View {
     private OnPatternChangeListener listener = null;
 
     //绘制未操作时的cell样式
-    INormalCellView normalCellView = null;
+    private INormalCellView normalCellView = null;
     //绘制操作时的cell样式
-    IHitCellView hitCellView = null;
+    private IHitCellView hitCellView = null;
     //绘制连接线
-    ILockerLinkedLineView linkedLineView = null;
+    private ILockerLinkedLineView linkedLineView = null;
 
     //终点x坐标
     private float endX = 0f;
 
     //终点y坐标
     private float endY = 0f;
+    private DefaultStyleDecorator styleDecorator = null;
 
     public PatternLockerView(Context context) {
         //super(context);
@@ -80,7 +83,7 @@ public class PatternLockerView extends View {
         this.mContext = context;
         initData();
         //更换默认配置时，修改这里即可
-        DefaultConfig config = DefaultConfig.newBuilder(mContext).defaultEnableHapticFeedback(true).build();
+        DefaultConfig config = DefaultConfig.newBuilder(mContext).defaultEnableHapticFeedback(true).defaultLineAtTop(false).build();
         init(attrs, defStyleAttr, config);
     }
 
@@ -135,11 +138,12 @@ public class PatternLockerView extends View {
         this.enableAutoClean = ta.getBoolean(R.styleable.PatternLockerView_plv_enableAutoClean, config.defaultEnableAutoClean);
         this.enableHapticFeedback = ta.getBoolean(R.styleable.PatternLockerView_plv_enableHapticFeedback, config.defaultEnableHapticFeedback);
         this.enableSkip = ta.getBoolean(R.styleable.PatternLockerView_plv_enableSkip, config.defaultEnableSkip);
+        this.lineAtTop = ta.getBoolean(R.styleable.PatternLockerView_plv_lineAtTop, config.defaultLineAtTop);
 
         ta.recycle();
 
         // style
-        DefaultStyleDecorator styleDecorator = new DefaultStyleDecorator(normalColor, normalInnerColor, innerPercent, innerHitPercent, fillColor, hitColor, errorColor, lineWidth);
+        styleDecorator = new DefaultStyleDecorator(normalColor, normalInnerColor, innerPercent, innerHitPercent, fillColor, hitColor, errorColor, lineWidth);
         this.normalCellView = new DefaultLockerNormalCellView(styleDecorator);
         this.hitCellView = new DefaultLockerHitCellView(styleDecorator);
         this.linkedLineView = new DefaultLockerLinkedLineView(styleDecorator);
@@ -170,8 +174,13 @@ public class PatternLockerView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         this.initCellBeanList();
-        this.drawLinkedLine(canvas);
-        this.drawCells(canvas);
+        if (lineAtTop) {
+            this.drawCells(canvas);
+            this.drawLinkedLine(canvas);
+        } else {
+            this.drawLinkedLine(canvas);
+            this.drawCells(canvas);
+        }
     }
 
     //初始化Cells
@@ -330,5 +339,54 @@ public class PatternLockerView extends View {
     private void startTimer() {
         isEnabled = false;
         this.postDelayed(timeRunnable, this.freezeDuration);
+    }
+
+    public PatternLockerView setStyleDecorator(DefaultStyleDecorator styleDecorator) {
+        this.styleDecorator = styleDecorator;
+        return this;
+    }
+
+    public DefaultStyleDecorator getStyleDecorator() {
+        return styleDecorator;
+    }
+
+    public PatternLockerView setNormalCellView(INormalCellView normalCellView) {
+        this.normalCellView = normalCellView;
+        return this;
+    }
+
+    public INormalCellView getNormalCellView() {
+        return normalCellView;
+    }
+
+    public PatternLockerView setHitCellView(IHitCellView hitCellView) {
+        this.hitCellView = hitCellView;
+        return this;
+    }
+
+    public IHitCellView getHitCellView() {
+        return hitCellView;
+    }
+
+    public PatternLockerView setLinkedLineView(ILockerLinkedLineView linkedLineView) {
+        this.linkedLineView = linkedLineView;
+        return this;
+    }
+
+    public ILockerLinkedLineView getLinkedLineView() {
+        return linkedLineView;
+    }
+
+    public void build() {
+        if (this.getNormalCellView() == null) {
+            //Log.e("PatternLockerView", "build(), normalCellView is null");
+        } else if (this.getHitCellView() == null) {
+            //Log.e("PatternLockerView", "build(), hitCellView is null");
+        } else {
+            if (this.getLinkedLineView() == null) {
+                //Log.w("PatternLockerView", "build(), linkedLineView is null");
+            }
+            this.postInvalidate();
+        }
     }
 }

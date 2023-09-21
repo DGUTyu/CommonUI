@@ -22,6 +22,7 @@ public class DefaultConfig {
     public final boolean defaultEnableHapticFeedback;
     public final boolean defaultEnableSkip;
     public final boolean defaultEnableLogger;
+    public final boolean defaultLineAtTop;
 
     private DefaultConfig(Builder builder) {
         //获取参数
@@ -36,6 +37,7 @@ public class DefaultConfig {
         this.defaultEnableHapticFeedback = builder.defaultEnableHapticFeedback;
         this.defaultEnableSkip = builder.defaultEnableSkip;
         this.defaultEnableLogger = builder.defaultEnableLogger;
+        this.defaultLineAtTop = builder.defaultLineAtTop;
     }
 
     //创建Builder对象
@@ -56,7 +58,7 @@ public class DefaultConfig {
         boolean defaultEnableHapticFeedback;
         boolean defaultEnableSkip;
         boolean defaultEnableLogger;
-
+        boolean defaultLineAtTop;
         /**
          * 默认配置
          *
@@ -74,6 +76,7 @@ public class DefaultConfig {
             this.defaultEnableHapticFeedback = false;
             this.defaultEnableSkip = false;
             this.defaultEnableLogger = false;
+            this.defaultLineAtTop = false;
         }
 
         public Builder normalColor(String normalColor) {
@@ -123,6 +126,11 @@ public class DefaultConfig {
 
         public Builder defaultEnableLogger(boolean defaultEnableLogger) {
             this.defaultEnableLogger = defaultEnableLogger;
+            return this;
+        }
+
+        public Builder defaultLineAtTop(boolean defaultLineAtTop) {
+            this.defaultLineAtTop = defaultLineAtTop;
             return this;
         }
 

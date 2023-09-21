@@ -25,12 +25,15 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginTop="50dp"
-        app:plv_color="@color/blue"
+        app:plv_color="@color/black"
         app:plv_innerColor="#D1C4C1"
+        app:plv_innerPercent="0.3"
+        app:plv_innerHitPercent="0.3"
         app:plv_errorColor="#ED6969"
         app:plv_fillColor="#ffffff"
         app:plv_hitColor="#A48985"
-        app:plv_lineWidth="1dp"
+        app:plv_lineWidth="2dp"
+        app:plv_lineAtTop="true"
         app:plv_enableSkip="false"/>
 
 </LinearLayout>

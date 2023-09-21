@@ -1,22 +1,24 @@
-package com.wxdgut.uilibrary.lockview.widget;
+package com.wxdgut.uilibrary.lockview.customized;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 
 import com.wxdgut.uilibrary.lockview.bean.CellBean;
-import com.wxdgut.uilibrary.lockview.im.ILockerLinkedLineView;
 import com.wxdgut.uilibrary.lockview.decorator.DefaultStyleDecorator;
+import com.wxdgut.uilibrary.lockview.im.ILockerLinkedLineView;
 import com.wxdgut.uilibrary.lockview.utils.CellUtils;
 
 import java.util.List;
 
-public class DefaultLockerLinkedLineView implements ILockerLinkedLineView {
+
+public class MyLockerLineView implements ILockerLinkedLineView {
 
     private Paint paint;
     private DefaultStyleDecorator styleDecorator;
 
-    public DefaultLockerLinkedLineView(DefaultStyleDecorator styleDecorator) {
+    public MyLockerLineView(DefaultStyleDecorator styleDecorator) {
         this.paint = CellUtils.createPaint();
         this.paint.setStyle(Paint.Style.STROKE);
         this.styleDecorator = styleDecorator;
@@ -53,8 +55,8 @@ public class DefaultLockerLinkedLineView implements ILockerLinkedLineView {
             path.lineTo(endX, endY);
         }
 
-        this.paint.setColor(this.getColor(isError));
-        this.paint.setStrokeWidth(this.styleDecorator.getLineWidth());
+        this.paint.setColor(Color.BLACK);
+        this.paint.setStrokeWidth(20);
         canvas.drawPath(path, this.paint);
         canvas.restoreToCount(saveCount);
     }
