@@ -123,6 +123,9 @@ public class PatternLockerView extends View {
         TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.PatternLockerView, defStyleAttr, 0);
 
         int normalColor = ta.getColor(R.styleable.PatternLockerView_plv_color, config.getNormalColor());
+        int normalInnerColor = ta.getColor(R.styleable.PatternLockerView_plv_innerColor, config.getClickColor());
+        float innerPercent = ta.getFloat(R.styleable.PatternLockerView_plv_innerPercent, 0.5f);
+        float innerHitPercent = ta.getFloat(R.styleable.PatternLockerView_plv_innerHitPercent, 0.5f);
         int hitColor = ta.getColor(R.styleable.PatternLockerView_plv_hitColor, config.getClickColor());
         int errorColor = ta.getColor(R.styleable.PatternLockerView_plv_errorColor, config.getErrorColor());
         int fillColor = ta.getColor(R.styleable.PatternLockerView_plv_fillColor, config.getFillColor());
@@ -136,7 +139,7 @@ public class PatternLockerView extends View {
         ta.recycle();
 
         // style
-        DefaultStyleDecorator styleDecorator = new DefaultStyleDecorator(normalColor, fillColor, hitColor, errorColor, lineWidth);
+        DefaultStyleDecorator styleDecorator = new DefaultStyleDecorator(normalColor, normalInnerColor, innerPercent, innerHitPercent, fillColor, hitColor, errorColor, lineWidth);
         this.normalCellView = new DefaultLockerNormalCellView(styleDecorator);
         this.hitCellView = new DefaultLockerHitCellView(styleDecorator);
         this.linkedLineView = new DefaultLockerLinkedLineView(styleDecorator);

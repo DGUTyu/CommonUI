@@ -51,6 +51,9 @@ public class PatternIndicatorView extends View {
     private void init(AttributeSet attrs, int defStyleAttr, DefaultConfig config) {
         final TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.PatternIndicatorView, defStyleAttr, 0);
         int normalColor = ta.getColor(R.styleable.PatternIndicatorView_piv_color, config.getNormalColor());
+        int normalInnerColor = ta.getColor(R.styleable.PatternIndicatorView_piv_innerColor, config.getNormalColor());
+        float innerPercent = ta.getFloat(R.styleable.PatternIndicatorView_piv_innerPercent, 0.5f);
+        float innerHitPercent = ta.getFloat(R.styleable.PatternIndicatorView_piv_innerHitPercent, 0.5f);
         int fillColor = ta.getColor(R.styleable.PatternIndicatorView_piv_fillColor, config.getFillColor());
         int hitColor = ta.getColor(R.styleable.PatternIndicatorView_piv_hitColor, config.getClickColor());
         int errorColor = ta.getColor(R.styleable.PatternIndicatorView_piv_errorColor, config.getErrorColor());
@@ -58,7 +61,7 @@ public class PatternIndicatorView extends View {
 
         ta.recycle();
 
-        DefaultStyleDecorator decorator = new DefaultStyleDecorator(normalColor, fillColor, hitColor, errorColor, lineWidth);
+        DefaultStyleDecorator decorator = new DefaultStyleDecorator(normalColor, normalInnerColor, innerPercent, innerHitPercent, fillColor, hitColor, errorColor, lineWidth);
         this.normalCellView = new DefaultIndicatorNormalCellView(decorator); // 正常布局样式
         this.hitCellView = new DefaultIndicatorHitCellView(decorator); // 点击后布局样式
         this.linkedLineView = new DefaultIndicatorLinkedLineView(decorator);
@@ -68,7 +71,9 @@ public class PatternIndicatorView extends View {
     public void updateState(boolean isError, int... hits) {
         ArrayList<Integer> integers = new ArrayList<>();
         for (int i = 0; i < hits.length; i++) {
-            if (hits[i] > 0 && hits[i] < 10) integers.add(hits[i] - 1);
+            if (hits[i] > 0 && hits[i] < 10) {
+                integers.add(hits[i] - 1);
+            }
         }
         this.hitIndexList = integers;
         this.isError = isError;

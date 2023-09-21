@@ -6,13 +6,19 @@ package com.wxdgut.uilibrary.lockview.decorator;
  */
 public class DefaultStyleDecorator {
     private int normalColor;
+    private int normalInnerColor;
+    private float innerPercent;
+    private float innerHitPercent;
     private int fillColor;
     private int clickColor;
     private int errorColor;
     private float lineWidth;
 
-    public DefaultStyleDecorator(int normalColor, int fillColor, int hitColor, int errorColor, float lineWidth) {
+    public DefaultStyleDecorator(int normalColor, int normalInnerColor, float innerPercent,  float innerHitPercent, int fillColor, int hitColor, int errorColor, float lineWidth) {
         this.normalColor = normalColor;
+        this.normalInnerColor = normalInnerColor;
+        this.innerPercent = innerPercent;
+        this.innerHitPercent = innerHitPercent;
         this.fillColor = fillColor;
         this.clickColor = hitColor;
         this.errorColor = errorColor;
@@ -25,6 +31,30 @@ public class DefaultStyleDecorator {
 
     public void setNormalColor(int normalColor) {
         this.normalColor = normalColor;
+    }
+
+    public int getNormalInnerColor() {
+        return normalInnerColor;
+    }
+
+    public void setNormalInnerColor(int normalInnerColor) {
+        this.normalInnerColor = normalInnerColor;
+    }
+
+    public float getInnerPercent() {
+        return innerPercent;
+    }
+
+    public void setInnerPercent(float innerPercent) {
+        this.innerPercent = innerPercent;
+    }
+
+    public float getInnerHitPercent() {
+        return innerHitPercent;
+    }
+
+    public void setInnerHitPercent(float innerHitPercent) {
+        this.innerHitPercent = innerHitPercent;
     }
 
     public int getFillColor() {

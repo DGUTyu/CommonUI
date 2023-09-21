@@ -34,7 +34,8 @@ public class DefaultLockerHitCellView implements IHitCellView {
 
         // draw inner circle 画内部圆
         this.paint.setColor(this.getColor(isError));
-        canvas.drawCircle(cellBean.getCenterX(), cellBean.getCenterY(), cellBean.getRadius() / 5f, this.paint);
+        float innerHitPercent = this.styleDecorator.getInnerHitPercent();
+        canvas.drawCircle(cellBean.getCenterX(), cellBean.getCenterY(), cellBean.getRadius() * innerHitPercent, this.paint);
 
         canvas.restoreToCount(saveCount);
     }

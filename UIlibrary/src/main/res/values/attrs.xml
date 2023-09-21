@@ -14,6 +14,9 @@
     <!--指示器视图-->
     <declare-styleable name="PatternIndicatorView">
         <attr name="piv_color" format="color|reference" />
+        <attr name="piv_innerColor" format="color|reference" />
+        <attr name="piv_innerPercent" format="float" />
+        <attr name="piv_innerHitPercent" format="float" />
         <attr name="piv_hitColor" format="color|reference" />
         <attr name="piv_errorColor" format="color|reference" />
         <attr name="piv_fillColor" format="color|reference" />
@@ -24,6 +27,12 @@
     <declare-styleable name="PatternLockerView">
         <!--默认不动时图案的颜色，即外圈颜色-->
         <attr name="plv_color" format="color|reference" />
+        <!--默认不动时，内部实心圆形的颜色-->
+        <attr name="plv_innerColor" format="color|reference" />
+        <!--内部实心圆形占外部圆形的百分比-->
+        <attr name="plv_innerPercent" format="float" />
+        <!--点击时，内部实心圆形占外部圆形的百分比-->
+        <attr name="plv_innerHitPercent" format="float" />
         <!--动时图案的颜色，即外圈颜色加内点颜色-->
         <attr name="plv_hitColor" format="color|reference" />
         <!--动时下错误图案的颜色，即外圈颜色加内点颜色-->

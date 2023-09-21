@@ -31,6 +31,11 @@ public class DefaultLockerNormalCellView implements INormalCellView {
         this.paint.setColor(this.styleDecorator.getFillColor());
         canvas.drawCircle(cellBean.getCenterX(), cellBean.getCenterY(), cellBean.getRadius() - this.styleDecorator.getLineWidth(), this.paint);
 
+        // draw inner circle 画内部圆
+        this.paint.setColor(this.styleDecorator.getNormalInnerColor());
+        float innerPercent = this.styleDecorator.getInnerPercent();
+        canvas.drawCircle(cellBean.getCenterX(), cellBean.getCenterY(), cellBean.getRadius() * innerPercent, this.paint);
+
         canvas.restoreToCount(saveCount);
     }
 }
