@@ -376,7 +376,20 @@ public class PatternLockerView extends View {
         return linkedLineView;
     }
 
+    public boolean isLineAtTop() {
+        return lineAtTop;
+    }
+
+    public void setLineAtTop(boolean lineAtTop) {
+        this.lineAtTop = lineAtTop;
+    }
+
     public void build() {
+        build(lineAtTop);
+    }
+
+    public void build(boolean lineAtTop) {
+        setLineAtTop(lineAtTop);
         if (this.getNormalCellView() == null) {
             //Log.e("PatternLockerView", "build(), normalCellView is null");
         } else if (this.getHitCellView() == null) {

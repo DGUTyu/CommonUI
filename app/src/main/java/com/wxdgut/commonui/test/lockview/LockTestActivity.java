@@ -74,8 +74,11 @@ public class LockTestActivity extends BaseTestActivity {
         styleDecorator2.setNormalBitmap(bitmap1);
         styleDecorator2.setHitBitmap(bitmap2);
         styleDecorator2.setErrorBitmap(bitmap3);
+        styleDecorator2.setLinkWidth(5);
+        styleDecorator2.setLinkColor(ContextCompat.getColor(this, R.color.colorControlActivated));
+        styleDecorator2.setLinkErrorColor(ContextCompat.getColor(this, R.color.colorControlHighlight));
         MyLockerNormalImgView normalImgView = new MyLockerNormalImgView(styleDecorator2);
-        lockerView2.setNormalCellView(normalImgView).build();
+        lockerView2.setNormalCellView(normalImgView).build(true);
 
         MyLockerHitImgView hitImgView = new MyLockerHitImgView(styleDecorator2);
         lockerView2.setHitCellView(hitImgView).build();
