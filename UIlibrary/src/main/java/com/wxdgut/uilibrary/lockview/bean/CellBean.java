@@ -10,25 +10,21 @@ package com.wxdgut.uilibrary.lockview.bean;
  * x 表示该cell的x坐标（点坐标）
  * y 表示该cell的y坐标（点坐标）
  * x,y 点坐标编号如下：
- * (0,0) (1,0) (2,0)
- * (0,1) (1,1) (2,1)
- * (0,2) (1,2) (2,2)
+ * (0,0) (1,0) (2,0) (3,0)
+ * (0,1) (1,1) (2,1) (3,1)
+ * (0,2) (1,2) (2,2) (3,2)
+ * (0,3) (1,3) (2,3) (3,3)
  * <p>
  * centerX 表示该cell的圆心x坐标（相对坐标）
  * centerY 表示该cell的圆心y坐标（相对坐标）
  * centerX, centerY 圆心坐标如下：
- * (radius, radius)  (4radius, radius)  (7radius, radius)
- * (radius, 4radius) (4radius, 4radius) (7radius, 4radius)
- * (radius, 7radius) (4radius, 7radius) (7radius, 7radius)
+ * (radius, radius)  (4radius, radius)  (7radius, radius)  (10radius, radius)
+ * (radius, 4radius) (4radius, 4radius) (7radius, 4radius)  (10radius, 4radius)
+ * (radius, 7radius) (4radius, 7radius) (7radius, 7radius)  (10radius, 7radius)
+ * (radius, 10radius) (4radius, 10radius) (7radius, 7radius) (10radius, 10radius)
  * <p>
  * radius 表示该cell的半径
  * isHit 表示该cell是否被设置的标记
- *
- * 假设整个手势区域宽高为576，则圆形的半径为72，圆与圆之间的间距为72
- * centerX, centerY 圆心坐标如下：
- * (72, 72)  (288, 72)  (504, 72)
- * (72, 288) (288, 288) (504, 288)
- * (72, 504) (288, 504) (504, 504)
  */
 public class CellBean {
     private int id;
