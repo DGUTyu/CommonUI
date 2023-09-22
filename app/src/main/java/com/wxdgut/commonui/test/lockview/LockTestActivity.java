@@ -1,5 +1,7 @@
 package com.wxdgut.commonui.test.lockview;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.wxdgut.commonui.R;
@@ -11,6 +13,7 @@ import com.wxdgut.uilibrary.lockview.customized.MyLockerHitImgView;
 import com.wxdgut.uilibrary.lockview.customized.MyLockerLineView;
 import com.wxdgut.uilibrary.lockview.customized.MyLockerNormalCellView;
 import com.wxdgut.uilibrary.lockview.customized.MyLockerNormalImgView;
+import com.wxdgut.uilibrary.lockview.decorator.DefaultStyleDecorator;
 import com.wxdgut.uilibrary.lockview.im.IHitCellView;
 import com.wxdgut.uilibrary.lockview.im.ILockerLinkedLineView;
 import com.wxdgut.uilibrary.lockview.im.INormalCellView;
@@ -47,13 +50,20 @@ public class LockTestActivity extends BaseTestActivity {
         ILockerLinkedLineView view = new MyLockerLineView(lockerView.getStyleDecorator());
         lockerView.setLinkedLineView(view).build();
 
-        MyLockerNormalImgView normalImgView = new MyLockerNormalImgView(LockTestActivity.this, lockerView2.getStyleDecorator());
+        DefaultStyleDecorator styleDecorator2 = lockerView2.getStyleDecorator();
+        Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.img_share);
+        Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.img_success);
+        Bitmap bitmap3 = BitmapFactory.decodeResource(getResources(), R.drawable.img_remind);
+        styleDecorator2.setNormalBitmap(bitmap1);
+        styleDecorator2.setHitBitmap(bitmap2);
+        styleDecorator2.setErrorBitmap(bitmap3);
+        MyLockerNormalImgView normalImgView = new MyLockerNormalImgView(styleDecorator2);
         lockerView2.setNormalCellView(normalImgView).build();
 
-        MyLockerHitImgView hitImgView = new MyLockerHitImgView(LockTestActivity.this, lockerView2.getStyleDecorator());
+        MyLockerHitImgView hitImgView = new MyLockerHitImgView(styleDecorator2);
         lockerView2.setHitCellView(hitImgView).build();
 
-        ILockerLinkedLineView lineView = new MyLockerLineView(lockerView2.getStyleDecorator());
+        ILockerLinkedLineView lineView = new MyLockerLineView(styleDecorator2);
         lockerView2.setLinkedLineView(lineView).build();
     }
 

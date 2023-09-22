@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
@@ -126,10 +125,10 @@ public class PatternLockerView extends View {
         TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.PatternLockerView, defStyleAttr, 0);
 
         int normalColor = ta.getColor(R.styleable.PatternLockerView_plv_color, config.getNormalColor());
-        int normalInnerColor = ta.getColor(R.styleable.PatternLockerView_plv_innerColor, config.getClickColor());
+        int normalInnerColor = ta.getColor(R.styleable.PatternLockerView_plv_innerColor, config.getHitColor());
         float innerPercent = ta.getFloat(R.styleable.PatternLockerView_plv_innerPercent, 0.5f);
         float innerHitPercent = ta.getFloat(R.styleable.PatternLockerView_plv_innerHitPercent, 0.5f);
-        int hitColor = ta.getColor(R.styleable.PatternLockerView_plv_hitColor, config.getClickColor());
+        int hitColor = ta.getColor(R.styleable.PatternLockerView_plv_hitColor, config.getHitColor());
         int errorColor = ta.getColor(R.styleable.PatternLockerView_plv_errorColor, config.getErrorColor());
         int fillColor = ta.getColor(R.styleable.PatternLockerView_plv_fillColor, config.getFillColor());
         float lineWidth = ta.getDimension(R.styleable.PatternLockerView_plv_lineWidth, config.getLineWidth());

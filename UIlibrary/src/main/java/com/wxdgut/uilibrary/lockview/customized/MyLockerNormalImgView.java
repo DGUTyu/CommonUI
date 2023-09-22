@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
@@ -17,16 +18,14 @@ public class MyLockerNormalImgView implements INormalCellView {
 
     private Paint paint;
     private DefaultStyleDecorator styleDecorator;
-    //上下文
-    private Context context;
     // 缓存图片资源
     private Bitmap bitmap;
 
-    public MyLockerNormalImgView(Context context,DefaultStyleDecorator styleDecorator) {
+    public MyLockerNormalImgView(DefaultStyleDecorator styleDecorator) {
         this.paint = CellUtils.createPaint();
         this.paint.setStyle(Paint.Style.FILL);
         this.styleDecorator = styleDecorator;
-        this.context = context;
+        this.bitmap = styleDecorator.getNormalBitmap();
     }
 
     @Override
@@ -40,7 +39,8 @@ public class MyLockerNormalImgView implements INormalCellView {
 
         // 如果图片未加载，进行加载
         if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.img_share);
+            bitmap = Bitmap.createBitmap(20, 20, Bitmap.Config.ARGB_8888);
+            bitmap.eraseColor(Color.parseColor("#7BC0FC"));
         }
 
         // 计算绘制图片时的矩形区域

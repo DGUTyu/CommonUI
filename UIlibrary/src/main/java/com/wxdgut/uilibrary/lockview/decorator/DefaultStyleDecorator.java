@@ -1,6 +1,8 @@
 package com.wxdgut.uilibrary.lockview.decorator;
 
 
+import android.graphics.Bitmap;
+
 /**
  * 默认样式装饰器
  */
@@ -10,9 +12,13 @@ public class DefaultStyleDecorator {
     private float innerPercent;
     private float innerHitPercent;
     private int fillColor;
-    private int clickColor;
+    private int hitColor;
     private int errorColor;
     private float lineWidth;
+    //Bitmap对象
+    private Bitmap normalBitmap;
+    private Bitmap hitBitmap;
+    private Bitmap errorBitmap;
 
     public DefaultStyleDecorator(int normalColor, int normalInnerColor, float innerPercent,  float innerHitPercent, int fillColor, int hitColor, int errorColor, float lineWidth) {
         this.normalColor = normalColor;
@@ -20,7 +26,7 @@ public class DefaultStyleDecorator {
         this.innerPercent = innerPercent;
         this.innerHitPercent = innerHitPercent;
         this.fillColor = fillColor;
-        this.clickColor = hitColor;
+        this.hitColor = hitColor;
         this.errorColor = errorColor;
         this.lineWidth = lineWidth;
     }
@@ -65,12 +71,12 @@ public class DefaultStyleDecorator {
         this.fillColor = fillColor;
     }
 
-    public int getClickColor() {
-        return clickColor;
+    public int getHitColor() {
+        return hitColor;
     }
 
-    public void setClickColor(int clickColor) {
-        this.clickColor = clickColor;
+    public void setHitColor(int hitColor) {
+        this.hitColor = hitColor;
     }
 
     public int getErrorColor() {
@@ -87,5 +93,29 @@ public class DefaultStyleDecorator {
 
     public void setLineWidth(float lineWidth) {
         this.lineWidth = lineWidth;
+    }
+
+    public Bitmap getNormalBitmap() {
+        return normalBitmap;
+    }
+
+    public void setNormalBitmap(Bitmap normalBitmap) {
+        this.normalBitmap = normalBitmap;
+    }
+
+    public Bitmap getHitBitmap() {
+        return hitBitmap;
+    }
+
+    public void setHitBitmap(Bitmap hitBitmap) {
+        this.hitBitmap = hitBitmap;
+    }
+
+    public Bitmap getErrorBitmap() {
+        return errorBitmap;
+    }
+
+    public void setErrorBitmap(Bitmap errorBitmap) {
+        this.errorBitmap = errorBitmap;
     }
 }

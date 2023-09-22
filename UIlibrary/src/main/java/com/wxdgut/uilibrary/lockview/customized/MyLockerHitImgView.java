@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
@@ -18,17 +19,16 @@ public class MyLockerHitImgView implements IHitCellView {
 
     private Paint paint;
     private DefaultStyleDecorator styleDecorator;
-    //上下文
-    private Context context;
     // 缓存图片资源
-    private Bitmap bitmap;
+    private Bitmap hitBitmap;
     private Bitmap errorBitmap;
 
-    public MyLockerHitImgView(Context context,DefaultStyleDecorator styleDecorator) {
+    public MyLockerHitImgView(DefaultStyleDecorator styleDecorator) {
         this.paint = CellUtils.createPaint();
         this.paint.setStyle(Paint.Style.FILL);
         this.styleDecorator = styleDecorator;
-        this.context = context;
+        this.hitBitmap = styleDecorator.getHitBitmap();
+        this.errorBitmap = styleDecorator.getErrorBitmap();
     }
 
     @Override
@@ -51,12 +51,14 @@ public class MyLockerHitImgView implements IHitCellView {
 
     private Bitmap getBitmap(boolean isError) {
         // 如果图片未加载，进行加载
-        if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.img_success);
+        if (hitBitmap == null) {
+            hitBitmap = Bitmap.createBitmap(20, 20, Bitmap.Config.ARGB_8888);
+            hitBitmap.eraseColor(Color.parseColor("#57A9FB"));
         }
         if (errorBitmap == null) {
-            errorBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.img_remind);
+            errorBitmap = Bitmap.createBitmap(20, 20, Bitmap.Config.ARGB_8888);
+            errorBitmap.eraseColor(Color.parseColor("#ED6969"));
         }
-        return isError ? errorBitmap : bitmap;
+        return isError ? errorBitmap : hitBitmap;
     }
 }

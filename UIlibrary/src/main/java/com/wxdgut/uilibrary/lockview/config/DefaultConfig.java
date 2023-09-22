@@ -13,7 +13,7 @@ public class DefaultConfig {
     //用于获取Builder 参数
     final Context context; //上下文，有可能为null
     final String normalColor; // 默认正常颜色
-    final String clickColor; // 默认点击颜色
+    final String hitColor; // 默认点击颜色
     final String errorColor; // 默认错误颜色
     final String fillColor; // 默认填充颜色
     public final int lineWidth;  // 默认线宽度
@@ -28,7 +28,7 @@ public class DefaultConfig {
         //获取参数
         this.context = builder.context;
         this.normalColor = builder.normalColor;
-        this.clickColor = builder.clickColor;
+        this.hitColor = builder.hitColor;
         this.errorColor = builder.errorColor;
         this.fillColor = builder.fillColor;
         this.lineWidth = builder.lineWidth;
@@ -49,7 +49,7 @@ public class DefaultConfig {
     public static class Builder {
         Context context;    //context有可能为空
         String normalColor; // 默认正常颜色
-        String clickColor; // 默认点击颜色
+        String hitColor; // 默认点击颜色
         String errorColor; // 默认错误颜色
         String fillColor; // 默认填充颜色
         int lineWidth;  // 默认线宽度
@@ -67,7 +67,7 @@ public class DefaultConfig {
         public Builder(Context context) { //context有可能为空
             this.context = context;
             this.normalColor = "#2196F3";
-            this.clickColor = "#3F51B5";
+            this.hitColor = "#3F51B5";
             this.errorColor = "#F44336";
             this.fillColor = "#FFFFFF";
             this.lineWidth = 1;
@@ -84,8 +84,8 @@ public class DefaultConfig {
             return this;
         }
 
-        public Builder clickColor(String clickColor) {
-            this.clickColor = clickColor;
+        public Builder hitColor(String hitColor) {
+            this.hitColor = hitColor;
             return this;
         }
 
@@ -155,8 +155,8 @@ public class DefaultConfig {
         return Color.parseColor(normalColor);
     }
 
-    public int getClickColor() {
-        return Color.parseColor(clickColor);
+    public int getHitColor() {
+        return Color.parseColor(hitColor);
     }
 
     public int getErrorColor() {

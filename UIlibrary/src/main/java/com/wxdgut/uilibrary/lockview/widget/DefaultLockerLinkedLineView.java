@@ -60,6 +60,6 @@ public class DefaultLockerLinkedLineView implements ILockerLinkedLineView {
     }
 
     private int getColor(boolean isError) {
-        return isError ? this.styleDecorator.getErrorColor() : this.styleDecorator.getClickColor();
+        return isError ? this.styleDecorator.getErrorColor() : this.styleDecorator.getHitColor();
     }
 }

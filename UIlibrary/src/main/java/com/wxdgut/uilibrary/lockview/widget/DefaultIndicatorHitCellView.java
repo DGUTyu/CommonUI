@@ -28,6 +28,6 @@ public class DefaultIndicatorHitCellView implements IHitCellView {
     }
 
     private int getColor(boolean isError) {
-        return isError ? this.styleDecorator.getErrorColor() : this.styleDecorator.getClickColor();
+        return isError ? this.styleDecorator.getErrorColor() : this.styleDecorator.getHitColor();
     }
 }

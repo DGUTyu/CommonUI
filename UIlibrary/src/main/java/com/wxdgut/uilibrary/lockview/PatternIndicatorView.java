@@ -55,7 +55,7 @@ public class PatternIndicatorView extends View {
         float innerPercent = ta.getFloat(R.styleable.PatternIndicatorView_piv_innerPercent, 0.5f);
         float innerHitPercent = ta.getFloat(R.styleable.PatternIndicatorView_piv_innerHitPercent, 0.5f);
         int fillColor = ta.getColor(R.styleable.PatternIndicatorView_piv_fillColor, config.getFillColor());
-        int hitColor = ta.getColor(R.styleable.PatternIndicatorView_piv_hitColor, config.getClickColor());
+        int hitColor = ta.getColor(R.styleable.PatternIndicatorView_piv_hitColor, config.getHitColor());
         int errorColor = ta.getColor(R.styleable.PatternIndicatorView_piv_errorColor, config.getErrorColor());
         float lineWidth = ta.getDimension(R.styleable.PatternIndicatorView_piv_lineWidth, config.getLineWidth());
 
