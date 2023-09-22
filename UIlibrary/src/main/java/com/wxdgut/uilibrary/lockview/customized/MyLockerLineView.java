@@ -9,6 +9,7 @@ import com.wxdgut.uilibrary.lockview.bean.CellBean;
 import com.wxdgut.uilibrary.lockview.decorator.DefaultStyleDecorator;
 import com.wxdgut.uilibrary.lockview.im.ILockerLinkedLineView;
 import com.wxdgut.uilibrary.lockview.utils.CellUtils;
+import com.wxdgut.uilibrary.utils.CommonUtils;
 
 import java.util.List;
 
@@ -17,11 +18,19 @@ public class MyLockerLineView implements ILockerLinkedLineView {
 
     private Paint paint;
     private DefaultStyleDecorator styleDecorator;
+    //连接线颜色、宽度（dp）
+    private int linkColor = -1;
+    private int linkErrorColor = -1;
+    private int linkWidth = -1;
 
     public MyLockerLineView(DefaultStyleDecorator styleDecorator) {
         this.paint = CellUtils.createPaint();
         this.paint.setStyle(Paint.Style.STROKE);
         this.styleDecorator = styleDecorator;
+        //getLinkColor、getLinkErrorColor、getLinkWidth 默认值为0
+        this.linkColor = styleDecorator.getLinkColor();
+        this.linkErrorColor = styleDecorator.getLinkErrorColor();
+        this.linkWidth = styleDecorator.getLinkWidth();
     }
 
     @Override
@@ -55,13 +64,27 @@ public class MyLockerLineView implements ILockerLinkedLineView {
             path.lineTo(endX, endY);
         }
 
-        this.paint.setColor(Color.BLACK);
-        this.paint.setStrokeWidth(20);
+        this.paint.setColor(getColor(isError));
+        this.paint.setStrokeWidth(getLinkWidth());
         canvas.drawPath(path, this.paint);
         canvas.restoreToCount(saveCount);
     }
 
     private int getColor(boolean isError) {
-        return isError ? this.styleDecorator.getErrorColor() : this.styleDecorator.getHitColor();
+        if (linkColor == 0) {
+            linkColor = styleDecorator.getHitColor();
+        }
+        if (linkErrorColor == 0) {
+            linkErrorColor = styleDecorator.getErrorColor();
+        }
+        return isError ? linkErrorColor : linkColor;
+    }
+
+    private int getLinkWidth() {
+        if (styleDecorator.getLinkWidth() == 0) {
+            linkWidth = Math.round(styleDecorator.getLineWidth());
+            return linkWidth;
+        }
+        return CommonUtils.dpToPx(linkWidth);
     }
 }

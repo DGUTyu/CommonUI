@@ -15,10 +15,14 @@ public class DefaultStyleDecorator {
     private int hitColor;
     private int errorColor;
     private float lineWidth;
-    //Bitmap对象
+    //扩展属性 设置图案在正常、点击、出错时的Bitmap对象
     private Bitmap normalBitmap;
     private Bitmap hitBitmap;
     private Bitmap errorBitmap;
+    //扩展属性 设置连接线颜色、宽度（dp）
+    private int linkColor;
+    private int linkErrorColor;
+    private int linkWidth;
 
     public DefaultStyleDecorator(int normalColor, int normalInnerColor, float innerPercent,  float innerHitPercent, int fillColor, int hitColor, int errorColor, float lineWidth) {
         this.normalColor = normalColor;
@@ -117,5 +121,29 @@ public class DefaultStyleDecorator {
 
     public void setErrorBitmap(Bitmap errorBitmap) {
         this.errorBitmap = errorBitmap;
+    }
+
+    public int getLinkColor() {
+        return linkColor;
+    }
+
+    public void setLinkColor(int linkColor) {
+        this.linkColor = linkColor;
+    }
+
+    public int getLinkErrorColor() {
+        return linkErrorColor;
+    }
+
+    public void setLinkErrorColor(int linkErrorColor) {
+        this.linkErrorColor = linkErrorColor;
+    }
+
+    public int getLinkWidth() {
+        return linkWidth;
+    }
+
+    public void setLinkWidth(int linkWidth) {
+        this.linkWidth = linkWidth;
     }
 }

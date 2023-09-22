@@ -2,7 +2,10 @@ package com.wxdgut.commonui.test.lockview;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.util.Pair;
 
 import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
@@ -19,6 +22,7 @@ import com.wxdgut.uilibrary.lockview.im.ILockerLinkedLineView;
 import com.wxdgut.uilibrary.lockview.im.INormalCellView;
 import com.wxdgut.uilibrary.lockview.im.OnPatternChangeListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LockTestActivity extends BaseTestActivity {
@@ -41,13 +45,26 @@ public class LockTestActivity extends BaseTestActivity {
         //设置指示器初始图案
         indicator_view.updateState(1, 2, 3);
 
-        INormalCellView normalCellView = new MyLockerNormalCellView(lockerView.getStyleDecorator());
+        DefaultStyleDecorator styleDecorator1 = lockerView.getStyleDecorator();
+        styleDecorator1.setLinkWidth(5);
+        styleDecorator1.setLinkColor(ContextCompat.getColor(this, R.color.switch_on_theme));
+        styleDecorator1.setLinkErrorColor(ContextCompat.getColor(this, R.color.switch_off_theme));
+        // 准备 pairList 列表，这里使用 Pair 类来表示颜色和比例
+        List<Pair<Integer, Float>> pairList = new ArrayList<>();
+        pairList.add(new Pair<>(Color.RED, 0.6f));
+        pairList.add(new Pair<>(Color.GREEN, 0.8f));
+        // 准备 pairList 列表，这里使用 Pair 类来表示颜色和比例
+        List<Pair<Integer, Float>> pairList2 = new ArrayList<>();
+        pairList2.add(new Pair<>(Color.YELLOW, 0.7f));
+        pairList2.add(new Pair<>(Color.BLUE, 0.6f));
+
+        INormalCellView normalCellView = new MyLockerNormalCellView(styleDecorator1, pairList);
         lockerView.setNormalCellView(normalCellView).build();
 
-        IHitCellView hitCellView = new MyLockerHitCellView(lockerView.getStyleDecorator());
+        IHitCellView hitCellView = new MyLockerHitCellView(styleDecorator1, pairList2);
         lockerView.setHitCellView(hitCellView).build();
 
-        ILockerLinkedLineView view = new MyLockerLineView(lockerView.getStyleDecorator());
+        ILockerLinkedLineView view = new MyLockerLineView(styleDecorator1);
         lockerView.setLinkedLineView(view).build();
 
         DefaultStyleDecorator styleDecorator2 = lockerView2.getStyleDecorator();
