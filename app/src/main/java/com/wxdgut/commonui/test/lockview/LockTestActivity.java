@@ -7,8 +7,10 @@ import com.wxdgut.commonui.test.BaseTestActivity;
 import com.wxdgut.uilibrary.lockview.PatternIndicatorView;
 import com.wxdgut.uilibrary.lockview.PatternLockerView;
 import com.wxdgut.uilibrary.lockview.customized.MyLockerHitCellView;
+import com.wxdgut.uilibrary.lockview.customized.MyLockerHitImgView;
 import com.wxdgut.uilibrary.lockview.customized.MyLockerLineView;
 import com.wxdgut.uilibrary.lockview.customized.MyLockerNormalCellView;
+import com.wxdgut.uilibrary.lockview.customized.MyLockerNormalImgView;
 import com.wxdgut.uilibrary.lockview.im.IHitCellView;
 import com.wxdgut.uilibrary.lockview.im.ILockerLinkedLineView;
 import com.wxdgut.uilibrary.lockview.im.INormalCellView;
@@ -18,7 +20,7 @@ import java.util.List;
 
 public class LockTestActivity extends BaseTestActivity {
 
-    private PatternLockerView lockerView;
+    private PatternLockerView lockerView, lockerView2;
     private PatternIndicatorView indicator_view;
 
     @Override
@@ -31,6 +33,7 @@ public class LockTestActivity extends BaseTestActivity {
 
     private void initView() {
         lockerView = findViewById(R.id.lock_view);
+        lockerView2 = findViewById(R.id.lock_view2);
         indicator_view = findViewById(R.id.indicator_view);
         //设置指示器初始图案
         indicator_view.updateState(1, 2, 3);
@@ -43,6 +46,15 @@ public class LockTestActivity extends BaseTestActivity {
 
         ILockerLinkedLineView view = new MyLockerLineView(lockerView.getStyleDecorator());
         lockerView.setLinkedLineView(view).build();
+
+        MyLockerNormalImgView normalImgView = new MyLockerNormalImgView(LockTestActivity.this, lockerView2.getStyleDecorator());
+        lockerView2.setNormalCellView(normalImgView).build();
+
+        MyLockerHitImgView hitImgView = new MyLockerHitImgView(LockTestActivity.this, lockerView2.getStyleDecorator());
+        lockerView2.setHitCellView(hitImgView).build();
+
+        ILockerLinkedLineView lineView = new MyLockerLineView(lockerView2.getStyleDecorator());
+        lockerView2.setLinkedLineView(lineView).build();
     }
 
     private void initEvent() {
@@ -56,6 +68,22 @@ public class LockTestActivity extends BaseTestActivity {
             public void onComplete(PatternLockerView view, List<Integer> hitIndexList) {
                 e("onComplete");
                 indicator_view.updateState(hitIndexList);
+                if (hitIndexList.size() < 4) {
+                    toast("手势密码不能少于4个点");
+                    view.updateStatus(true);
+                }
+            }
+        });
+
+        lockerView2.setOnPatternChangedListener(new OnPatternChangeListener() {
+            @Override
+            public void onChange(PatternLockerView view, List<Integer> hitIndexList) {
+                e("onChange");
+            }
+
+            @Override
+            public void onComplete(PatternLockerView view, List<Integer> hitIndexList) {
+                e("onComplete");
                 if (hitIndexList.size() < 4) {
                     toast("手势密码不能少于4个点");
                     view.updateStatus(true);

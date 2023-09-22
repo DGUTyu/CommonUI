@@ -23,6 +23,12 @@ package com.wxdgut.uilibrary.lockview.bean;
  * <p>
  * radius 表示该cell的半径
  * isHit 表示该cell是否被设置的标记
+ *
+ * 假设整个手势区域宽高为576，则圆形的半径为72，圆与圆之间的间距为72
+ * centerX, centerY 圆心坐标如下：
+ * (72, 72)  (288, 72)  (504, 72)
+ * (72, 288) (288, 288) (504, 288)
+ * (72, 504) (288, 504) (504, 504)
  */
 public class CellBean {
     private int id;
