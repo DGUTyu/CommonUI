@@ -32,7 +32,7 @@ public class CellUtils {
             int row = i / rows;
             // 计算列数
             int col = i % rows;
-            CellBean cellBean = new CellBean(i, i % rows, i / rows, (float) (1 + row * ITEM_NUM) * pWidth, (float) (1 + col * ITEM_NUM) * pHeight, pWidth);
+            CellBean cellBean = new CellBean(i, row, col, (float) (1 + row * ITEM_NUM) * pWidth, (float) (1 + col * ITEM_NUM) * pHeight, pWidth);
             result.add(cellBean);
         }
         return result;

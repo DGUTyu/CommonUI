@@ -66,9 +66,13 @@ public class DefaultConfig {
          */
         public Builder(Context context) { //context有可能为空
             this.context = context;
+            //蓝色
             this.normalColor = "#2196F3";
+            //蓝紫色
             this.hitColor = "#3F51B5";
+            //红色
             this.errorColor = "#F44336";
+            //白色
             this.fillColor = "#FFFFFF";
             this.lineWidth = 1;
             this.defaultFreezeDuration = 1000; //ms

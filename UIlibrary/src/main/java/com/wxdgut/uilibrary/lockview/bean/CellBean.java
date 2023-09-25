@@ -1,30 +1,33 @@
 package com.wxdgut.uilibrary.lockview.bean;
 
 /**
- * id 表示该cell的编号，9个cell的编号如下：
- * <p>
- * 0 1 2
- * 3 4 5
- * 6 7 8
- * <p>
- * x 表示该cell的x坐标（点坐标）
- * y 表示该cell的y坐标（点坐标）
- * x,y 点坐标编号如下：
- * (0,0) (1,0) (2,0) (3,0)
- * (0,1) (1,1) (2,1) (3,1)
- * (0,2) (1,2) (2,2) (3,2)
- * (0,3) (1,3) (2,3) (3,3)
- * <p>
+ * id 表示该cell的编号，
  * centerX 表示该cell的圆心x坐标（相对坐标）
  * centerY 表示该cell的圆心y坐标（相对坐标）
  * centerX, centerY 圆心坐标如下：
- * (radius, radius)  (4radius, radius)  (7radius, radius)  (10radius, radius)
- * (radius, 4radius) (4radius, 4radius) (7radius, 4radius)  (10radius, 4radius)
- * (radius, 7radius) (4radius, 7radius) (7radius, 7radius)  (10radius, 7radius)
- * (radius, 10radius) (4radius, 10radius) (7radius, 7radius) (10radius, 10radius)
- * <p>
+ * (radius, radius)  (radius, 4radius)  (radius, 7radius)  (radius, 10radius)
+ * (4radius, radius) (4radius, 4radius) (4radius, 7radius)  (4radius, 10radius)
+ * (7radius, radius) (7radius, 4radius) (7radius, 7radius)  (7radius, 10radius)
+ * (10radius, radius) (10radius, 4radius) (10radius, 7radius) (10radius, 10radius)
  * radius 表示该cell的半径
  * isHit 表示该cell是否被设置的标记
+ *
+ * {id=0, x=0, y=0, centerX=21.0, centerY=21.0, radius=21.0}
+ * {id=1, x=0, y=1, centerX=21.0, centerY=84.0, radius=21.0}
+ * {id=2, x=0, y=2, centerX=21.0, centerY=147.0, radius=21.0}
+ * {id=3, x=0, y=3, centerX=21.0, centerY=210.0, radius=21.0}
+ * {id=4, x=1, y=0, centerX=84.0, centerY=21.0, radius=21.0}
+ * {id=5, x=1, y=1, centerX=84.0, centerY=84.0, radius=21.0}
+ * {id=6, x=1, y=2, centerX=84.0, centerY=147.0, radius=21.0}
+ * {id=7, x=1, y=3, centerX=84.0, centerY=210.0, radius=21.0}
+ * {id=8, x=2, y=0, centerX=147.0, centerY=21.0, radius=21.0}
+ * {id=9, x=2, y=1, centerX=147.0, centerY=84.0, radius=21.0}
+ * {id=10, x=2, y=2, centerX=147.0, centerY=147.0, radius=21.0}
+ * {id=11, x=2, y=3, centerX=147.0, centerY=210.0, radius=21.0}
+ * {id=12, x=3, y=0, centerX=210.0, centerY=21.0, radius=21.0}
+ * {id=13, x=3, y=1, centerX=210.0, centerY=84.0, radius=21.0}
+ * {id=14, x=3, y=2, centerX=210.0, centerY=147.0, radius=21.0}
+ * {id=15, x=3, y=3, centerX=210.0, centerY=210.0, radius=21.0}
  */
 public class CellBean {
     private int id;

@@ -47,11 +47,12 @@ public class LockTestActivity extends BaseTestActivity {
 
         //testLockView1();
 
-        testLockView2();
+        //testLockView2();
     }
 
     private void testLockView1() {
         DefaultStyleDecorator styleDecorator1 = lockerView.getStyleDecorator();
+        styleDecorator1.setRows(4);
         styleDecorator1.setLinkWidth(5);
         styleDecorator1.setLinkColor(ContextCompat.getColor(this, R.color.switch_on_theme));
         styleDecorator1.setLinkErrorColor(ContextCompat.getColor(this, R.color.switch_off_theme));
@@ -105,7 +106,10 @@ public class LockTestActivity extends BaseTestActivity {
 
             @Override
             public void onComplete(PatternLockerView view, List<Integer> hitIndexList) {
-                e("onComplete");
+                //e("onComplete");
+                for (int i = 0; i < hitIndexList.size(); i++) {
+                    e("onComplete: "+hitIndexList.get(i).toString());
+                }
                 indicator_view.updateState(hitIndexList);
                 if (hitIndexList.size() < 4) {
                     toast("手势密码不能少于4个点");
@@ -122,7 +126,10 @@ public class LockTestActivity extends BaseTestActivity {
 
             @Override
             public void onComplete(PatternLockerView view, List<Integer> hitIndexList) {
-                e("onComplete");
+                //e("onComplete");
+                for (int i = 0; i < hitIndexList.size(); i++) {
+                    e("onComplete: "+hitIndexList.get(i).toString());
+                }
                 if (hitIndexList.size() < 4) {
                     toast("手势密码不能少于4个点");
                     view.updateStatus(true);

@@ -293,22 +293,69 @@ public class PatternLockerView extends View {
 
     //更新点击的状态
     private void updateHitState(MotionEvent event) {
-        for (CellBean it : this.cellBeanList) {
-            // 如果没有被点击过并且点击到了圆
-            if (!it.isHit() && it.of(event.getX(), event.getY())) {
+        // 遍历所有的 CellBean
+        for (CellBean targetCell : this.cellBeanList) {
+            // 判断是否未被击中且被点击到
+            if (!targetCell.isHit() && targetCell.of(event.getX(), event.getY())) {
+                // 如果不允许跳过并且已经有被击中的 CellBean
                 if (!enableSkip && this.hitIndexList.size() > 0) {
+                    // 获取上一个被击中的 CellBean
                     CellBean last = this.cellBeanList.get(this.hitIndexList.get(this.hitIndexList.size() - 1));
-                    int mayId = (last.getId() + it.getId()) / 2;
-                    if (!this.hitIndexList.contains(mayId) && (Math.abs(last.getX() - it.getX()) % 2 == 0) && (Math.abs(last.getY() - it.getY()) % 2 == 0)) {
-                        this.cellBeanList.get(mayId).setHit(true);
-                        this.hitIndexList.add(mayId);
+
+                    // 计算最小矩形区域的边界。两点连线为直线时，为矩形；两点连线为斜线时，为正方形；
+                    float startX = Math.min(targetCell.getCenterX(), last.getCenterX());
+                    float endX = Math.max(targetCell.getCenterX(), last.getCenterX());
+                    float startY = Math.min(targetCell.getCenterY(), last.getCenterY());
+                    float endY = Math.max(targetCell.getCenterY(), last.getCenterY());
+
+                    // 遍历所有的 CellBean
+                    for (CellBean cell : this.cellBeanList) {
+                        // 排除当前 CellBean 以及上一个被点击的 CellBean
+                        if (cell.getId() != targetCell.getId() && cell.getId() != last.getId()) {
+                            float centerX = cell.getCenterX();
+                            float centerY = cell.getCenterY();
+
+                            // 前提：判断该点是否在两点之间的连线上（直线）
+                            if (isPointOnLine(last.getCenterX(), last.getCenterY(), targetCell.getCenterX(), targetCell.getCenterY(), cell.getCenterX(), cell.getCenterY())) {
+                                // 再判断该点是否在最小矩形区域内。
+                                if (centerX >= startX && centerX <= endX && centerY >= startY && centerY <= endY) {
+                                    cell.setHit(true);
+                                    this.hitIndexList.add(cell.getId());
+                                }
+                            }
+                        }
                     }
                 }
-                it.setHit(true);
-                this.hitIndexList.add(it.getId());
+
+                // 设置当前 CellBean 为被击中状态
+                targetCell.setHit(true);
+                this.hitIndexList.add(targetCell.getId());
                 this.hapticFeedback();
             }
         }
+    }
+
+
+    /**
+     * 判断点是否在直线上
+     *
+     * @param x1 直线上的第一个点的x坐标
+     * @param y1 直线上的第一个点的y坐标
+     * @param x2 直线上的第二个点的x坐标
+     * @param y2 直线上的第二个点的y坐标
+     * @param cx 待判断的点的x坐标
+     * @param cy 待判断的点的y坐标
+     * @return 是否在直线上
+     */
+    private boolean isPointOnLine(float x1, float y1, float x2, float y2, float cx, float cy) {
+        // 计算直线的一般形式 Ax + By + C = 0 的系数 A, B, C
+        float A = y2 - y1;
+        float B = x1 - x2;
+        float C = x2 * y1 - x1 * y2;
+        // 计算点到直线的距离
+        float distance = Math.abs(A * cx + B * cy + C) / (float) Math.sqrt(A * A + B * B);
+        // 这里的0.1可以根据实际情况进行调整
+        return distance < 0.1;
     }
 
     //
