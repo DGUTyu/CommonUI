@@ -15,10 +15,11 @@
         android:layout_height="80dp"
         android:layout_marginTop="50dp"
         app:piv_color="@color/black"
-        app:plv_errorColor="#ED6969"
-        app:plv_fillColor="#ffffff"
-        app:plv_hitColor="#A48985"
-        app:plv_lineWidth="1dp" />
+        app:piv_errorColor="#ED6969"
+        app:piv_fillColor="#ffffff"
+        app:piv_hitColor="#A48985"
+        app:piv_rows="4"
+        app:piv_lineWidth="1dp"/>
 
     <com.wxdgut.uilibrary.lockview.PatternLockerView
         android:id="@+id/lock_view"
@@ -35,6 +36,7 @@
         app:plv_hitColor="#A48985"
         app:plv_lineWidth="2dp"
         app:plv_lineAtTop="true"
+        app:plv_rows="4"
         app:plv_enableSkip="false"/>
 
     <com.wxdgut.uilibrary.lockview.PatternLockerView

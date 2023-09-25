@@ -43,7 +43,7 @@ public class LockTestActivity extends BaseTestActivity {
         lockerView2 = findViewById(R.id.lock_view2);
         indicator_view = findViewById(R.id.indicator_view);
         //设置指示器初始图案
-        indicator_view.updateState(1, 2, 3);
+        indicator_view.updateState(1, 2, 3, 4, 5);
 
         DefaultStyleDecorator styleDecorator1 = lockerView.getStyleDecorator();
         styleDecorator1.setLinkWidth(5);
@@ -68,6 +68,7 @@ public class LockTestActivity extends BaseTestActivity {
         lockerView.setLinkedLineView(view).build();
 
         DefaultStyleDecorator styleDecorator2 = lockerView2.getStyleDecorator();
+        styleDecorator2.setRows(5);
         Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.img_share);
         Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.img_success);
         Bitmap bitmap3 = BitmapFactory.decodeResource(getResources(), R.drawable.img_remind);

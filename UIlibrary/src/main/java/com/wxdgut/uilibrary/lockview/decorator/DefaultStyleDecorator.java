@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
  * 默认样式装饰器
  */
 public class DefaultStyleDecorator {
+    private int rows;
     private int normalColor;
     private int normalInnerColor;
     private float innerPercent;
@@ -24,7 +25,8 @@ public class DefaultStyleDecorator {
     private int linkErrorColor;
     private int linkWidth;
 
-    public DefaultStyleDecorator(int normalColor, int normalInnerColor, float innerPercent,  float innerHitPercent, int fillColor, int hitColor, int errorColor, float lineWidth) {
+    public DefaultStyleDecorator(int rows, int normalColor, int normalInnerColor, float innerPercent,  float innerHitPercent, int fillColor, int hitColor, int errorColor, float lineWidth) {
+        this.rows = rows;
         this.normalColor = normalColor;
         this.normalInnerColor = normalInnerColor;
         this.innerPercent = innerPercent;
@@ -33,6 +35,14 @@ public class DefaultStyleDecorator {
         this.hitColor = hitColor;
         this.errorColor = errorColor;
         this.lineWidth = lineWidth;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
     }
 
     public int getNormalColor() {

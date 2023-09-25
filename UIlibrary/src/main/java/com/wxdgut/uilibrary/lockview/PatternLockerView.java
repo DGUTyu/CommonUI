@@ -124,6 +124,7 @@ public class PatternLockerView extends View {
     private void init(AttributeSet attrs, int defStyleAttr, DefaultConfig config) {
         TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.PatternLockerView, defStyleAttr, 0);
 
+        int rows = ta.getInteger(R.styleable.PatternLockerView_plv_rows, 3);
         int normalColor = ta.getColor(R.styleable.PatternLockerView_plv_color, config.getNormalColor());
         int normalInnerColor = ta.getColor(R.styleable.PatternLockerView_plv_innerColor, config.getHitColor());
         float innerPercent = ta.getFloat(R.styleable.PatternLockerView_plv_innerPercent, 0.5f);
@@ -142,7 +143,7 @@ public class PatternLockerView extends View {
         ta.recycle();
 
         // style
-        styleDecorator = new DefaultStyleDecorator(normalColor, normalInnerColor, innerPercent, innerHitPercent, fillColor, hitColor, errorColor, lineWidth);
+        styleDecorator = new DefaultStyleDecorator(rows, normalColor, normalInnerColor, innerPercent, innerHitPercent, fillColor, hitColor, errorColor, lineWidth);
         this.normalCellView = new DefaultLockerNormalCellView(styleDecorator);
         this.hitCellView = new DefaultLockerHitCellView(styleDecorator);
         this.linkedLineView = new DefaultLockerLinkedLineView(styleDecorator);
@@ -187,7 +188,7 @@ public class PatternLockerView extends View {
         if (this.cellBeanList == null) {
             int w = this.getWidth() - this.getPaddingLeft() - this.getPaddingRight();
             int h = this.getHeight() - this.getPaddingTop() - this.getPaddingBottom();
-            this.cellBeanList = CellUtils.buildCells(w, h);
+            this.cellBeanList = CellUtils.buildCells(w, h, getStyleDecorator().getRows());
         }
     }
 

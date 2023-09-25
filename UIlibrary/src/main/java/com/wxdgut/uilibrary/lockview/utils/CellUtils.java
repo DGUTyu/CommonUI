@@ -10,22 +10,29 @@ import java.util.List;
 public class CellUtils {
     //最小模块份数 圆形份数2 间距份数1（固定常量，为了保持正方形）
     private static final int ITEM_NUM = 3;
-    //行列数（自变量）
-    private static final int ROWS = 3;
-    //独立分数（因变量）
-    private static final float PER = ((ITEM_NUM * ROWS) - 1) * 1.0f;
 
     public static List<CellBean> buildCells(int width, int height) {
-        List<CellBean> result = new ArrayList<>();
-        float pWidth = (float) width / PER;
-        float pHeight = (float) height / PER;
+        return buildCells(width, height, 3);
+    }
 
-        for (int i = 0; i < ROWS * ROWS; i++) {
+    public static List<CellBean> buildCells(int width, int height, Integer rows) {
+        //行数
+        if (rows == null || rows < 1) {
+            rows = 1;
+        }
+        //份数
+        float per = ((ITEM_NUM * rows) - 1) * 1.0f;
+        List<CellBean> result = new ArrayList<>();
+        //每份的宽度、高度
+        float pWidth = (float) width / per;
+        float pHeight = (float) height / per;
+
+        for (int i = 0; i < rows * rows; i++) {
             // 计算行数
-            int row = i / ROWS;
+            int row = i / rows;
             // 计算列数
-            int col = i % ROWS;
-            CellBean cellBean = new CellBean(i, i % ROWS, i / ROWS, (float) (1 + row * ITEM_NUM) * pWidth, (float) (1 + col * ITEM_NUM) * pHeight, pWidth);
+            int col = i % rows;
+            CellBean cellBean = new CellBean(i, i % rows, i / rows, (float) (1 + row * ITEM_NUM) * pWidth, (float) (1 + col * ITEM_NUM) * pHeight, pWidth);
             result.add(cellBean);
         }
         return result;

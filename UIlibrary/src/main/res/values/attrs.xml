@@ -13,6 +13,7 @@
 
     <!--指示器视图-->
     <declare-styleable name="PatternIndicatorView">
+        <attr name="piv_rows" format="integer" />
         <attr name="piv_color" format="color|reference" />
         <attr name="piv_innerColor" format="color|reference" />
         <attr name="piv_innerPercent" format="float" />
@@ -25,6 +26,8 @@
 
     <!--锁屏视图-->
     <declare-styleable name="PatternLockerView">
+        <!--解锁图案的行数、列数-->
+        <attr name="plv_rows" format="integer" />
         <!--默认不动时图案的颜色，即外圈颜色-->
         <attr name="plv_color" format="color|reference" />
         <!--默认不动时，内部实心圆形的颜色-->

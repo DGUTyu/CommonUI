@@ -28,6 +28,7 @@ public class PatternIndicatorView extends View {
     private boolean isError = false;
     private List hitIndexList = new ArrayList<Integer>();
     private List<CellBean> cellBeanList;
+    private DefaultStyleDecorator styleDecorator = null;
 
     public PatternIndicatorView(Context context) {
         //super(context);
@@ -50,6 +51,7 @@ public class PatternIndicatorView extends View {
 
     private void init(AttributeSet attrs, int defStyleAttr, DefaultConfig config) {
         final TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.PatternIndicatorView, defStyleAttr, 0);
+        int rows = ta.getInteger(R.styleable.PatternIndicatorView_piv_rows, 3);
         int normalColor = ta.getColor(R.styleable.PatternIndicatorView_piv_color, config.getNormalColor());
         int normalInnerColor = ta.getColor(R.styleable.PatternIndicatorView_piv_innerColor, config.getNormalColor());
         float innerPercent = ta.getFloat(R.styleable.PatternIndicatorView_piv_innerPercent, 0.5f);
@@ -61,10 +63,10 @@ public class PatternIndicatorView extends View {
 
         ta.recycle();
 
-        DefaultStyleDecorator decorator = new DefaultStyleDecorator(normalColor, normalInnerColor, innerPercent, innerHitPercent, fillColor, hitColor, errorColor, lineWidth);
-        this.normalCellView = new DefaultIndicatorNormalCellView(decorator); // 正常布局样式
-        this.hitCellView = new DefaultIndicatorHitCellView(decorator); // 点击后布局样式
-        this.linkedLineView = new DefaultIndicatorLinkedLineView(decorator);
+        styleDecorator = new DefaultStyleDecorator(rows, normalColor, normalInnerColor, innerPercent, innerHitPercent, fillColor, hitColor, errorColor, lineWidth);
+        this.normalCellView = new DefaultIndicatorNormalCellView(styleDecorator); // 正常布局样式
+        this.hitCellView = new DefaultIndicatorHitCellView(styleDecorator); // 点击后布局样式
+        this.linkedLineView = new DefaultIndicatorLinkedLineView(styleDecorator);
     }
 
     //******************** 以下是公开方法 ********************
@@ -89,6 +91,14 @@ public class PatternIndicatorView extends View {
         this.hitIndexList = hitIndexList;
         this.isError = isError;
         invalidate();
+    }
+
+    public DefaultStyleDecorator getStyleDecorator() {
+        return styleDecorator;
+    }
+
+    public void setStyleDecorator(DefaultStyleDecorator styleDecorator) {
+        this.styleDecorator = styleDecorator;
     }
 
     public void updateState(List<Integer> hitIndexList) {
@@ -117,7 +127,7 @@ public class PatternIndicatorView extends View {
         if (this.cellBeanList == null) {
             int w = this.getWidth() - this.getPaddingLeft() - this.getPaddingRight();
             int h = this.getHeight() - this.getPaddingTop() - this.getPaddingBottom();
-            this.cellBeanList = CellUtils.buildCells(w, h);
+            this.cellBeanList = CellUtils.buildCells(w, h, getStyleDecorator().getRows());
         }
     }
 
