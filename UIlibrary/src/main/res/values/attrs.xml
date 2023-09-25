@@ -54,6 +54,12 @@
         <attr name="plv_enableHapticFeedback" format="boolean|reference" />
         <!--是否线在圆形之上，默认为false-->
         <attr name="plv_lineAtTop" format="boolean|reference" />
+        <!--解锁图案的默认图片样式-->
+        <attr name="plv_normalImg" format="reference" />
+        <!--解锁图案的点击图片样式-->
+        <attr name="plv_hitImg" format="reference" />
+        <!--解锁图案的错误图片样式-->
+        <attr name="plv_errorImg" format="reference" />
     </declare-styleable>
 
     <!--ImageViewPro-->

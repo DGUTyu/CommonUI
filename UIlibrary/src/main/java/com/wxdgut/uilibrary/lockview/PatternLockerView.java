@@ -2,6 +2,8 @@ package com.wxdgut.uilibrary.lockview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -140,13 +142,34 @@ public class PatternLockerView extends View {
         this.enableSkip = ta.getBoolean(R.styleable.PatternLockerView_plv_enableSkip, config.defaultEnableSkip);
         this.lineAtTop = ta.getBoolean(R.styleable.PatternLockerView_plv_lineAtTop, config.defaultLineAtTop);
 
+        int normalImgResId = ta.getResourceId(R.styleable.PatternLockerView_plv_normalImg, 0);
+        int hitImgResId = ta.getResourceId(R.styleable.PatternLockerView_plv_hitImg, 0);
+        int errorResId = ta.getResourceId(R.styleable.PatternLockerView_plv_errorImg, 0);
         ta.recycle();
 
         // style
         styleDecorator = new DefaultStyleDecorator(rows, normalColor, normalInnerColor, innerPercent, innerHitPercent, fillColor, hitColor, errorColor, lineWidth);
+        //设置扩展属性
+        setDefaultDecoratorExtend(normalImgResId, hitImgResId, errorResId);
         this.normalCellView = new DefaultLockerNormalCellView(styleDecorator);
         this.hitCellView = new DefaultLockerHitCellView(styleDecorator);
         this.linkedLineView = new DefaultLockerLinkedLineView(styleDecorator);
+    }
+
+    //设置默认样式的扩展属性
+    private void setDefaultDecoratorExtend(int normalImgResId, int hitImgResId, int errorResId) {
+        if (normalImgResId != 0) {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), normalImgResId);
+            styleDecorator.setNormalBitmap(bitmap);
+        }
+        if (hitImgResId != 0) {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), hitImgResId);
+            styleDecorator.setHitBitmap(bitmap);
+        }
+        if (errorResId != 0) {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), errorResId);
+            styleDecorator.setErrorBitmap(bitmap);
+        }
     }
 
     //******************** 以下是公开方法 ********************
