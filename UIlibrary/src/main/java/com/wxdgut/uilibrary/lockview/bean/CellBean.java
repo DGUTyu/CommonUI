@@ -5,28 +5,35 @@ package com.wxdgut.uilibrary.lockview.bean;
  * centerX 表示该cell的圆心x坐标（相对坐标）
  * centerY 表示该cell的圆心y坐标（相对坐标）
  * centerX, centerY 圆心坐标如下：
- * (radius, radius)  (radius, 4radius)  (radius, 7radius)  (radius, 10radius)
- * (4radius, radius) (4radius, 4radius) (4radius, 7radius)  (4radius, 10radius)
- * (7radius, radius) (7radius, 4radius) (7radius, 7radius)  (7radius, 10radius)
- * (10radius, radius) (10radius, 4radius) (10radius, 7radius) (10radius, 10radius)
+ * (radius, radius)  (4radius, radius)  (7radius, radius)  (10radius, radius)
+ * (radius, 4radius) (4radius, 4radius) (7radius, 4radius)  (10radius, 4radius)
+ * (radius, 7radius) (4radius, 7radius) (7radius, 7radius)  (10radius, 7radius)
+ * (radius, 10radius) (4radius, 10radius) (7radius, 10radius) (10radius, 10radius)
  * radius 表示该cell的半径
  * isHit 表示该cell是否被设置的标记
  *
+ * 4*4宫格示例：
+ * id:
+ * 0    1    2    3
+ * 4    5    6    7
+ * 8    9   10    11
+ * 12  13   14    15
+ * 具体信息
  * {id=0, x=0, y=0, centerX=21.0, centerY=21.0, radius=21.0}
- * {id=1, x=0, y=1, centerX=21.0, centerY=84.0, radius=21.0}
- * {id=2, x=0, y=2, centerX=21.0, centerY=147.0, radius=21.0}
- * {id=3, x=0, y=3, centerX=21.0, centerY=210.0, radius=21.0}
- * {id=4, x=1, y=0, centerX=84.0, centerY=21.0, radius=21.0}
+ * {id=1, x=1, y=0, centerX=84.0, centerY=21.0, radius=21.0}
+ * {id=2, x=2, y=0, centerX=147.0, centerY=21.0, radius=21.0}
+ * {id=3, x=3, y=0, centerX=210.0, centerY=21.0, radius=21.0}
+ * {id=4, x=0, y=1, centerX=21.0, centerY=84.0, radius=21.0}
  * {id=5, x=1, y=1, centerX=84.0, centerY=84.0, radius=21.0}
- * {id=6, x=1, y=2, centerX=84.0, centerY=147.0, radius=21.0}
- * {id=7, x=1, y=3, centerX=84.0, centerY=210.0, radius=21.0}
- * {id=8, x=2, y=0, centerX=147.0, centerY=21.0, radius=21.0}
- * {id=9, x=2, y=1, centerX=147.0, centerY=84.0, radius=21.0}
+ * {id=6, x=2, y=1, centerX=147.0, centerY=84.0, radius=21.0}
+ * {id=7, x=3, y=1, centerX=210.0, centerY=84.0, radius=21.0}
+ * {id=8, x=0, y=2, centerX=21.0, centerY=147.0, radius=21.0}
+ * {id=9, x=1, y=2, centerX=84.0, centerY=147.0, radius=21.0}
  * {id=10, x=2, y=2, centerX=147.0, centerY=147.0, radius=21.0}
- * {id=11, x=2, y=3, centerX=147.0, centerY=210.0, radius=21.0}
- * {id=12, x=3, y=0, centerX=210.0, centerY=21.0, radius=21.0}
- * {id=13, x=3, y=1, centerX=210.0, centerY=84.0, radius=21.0}
- * {id=14, x=3, y=2, centerX=210.0, centerY=147.0, radius=21.0}
+ * {id=11, x=3, y=2, centerX=210.0, centerY=147.0, radius=21.0}
+ * {id=12, x=0, y=3, centerX=21.0, centerY=210.0, radius=21.0}
+ * {id=13, x=1, y=3, centerX=84.0, centerY=210.0, radius=21.0}
+ * {id=14, x=2, y=3, centerX=147.0, centerY=210.0, radius=21.0}
  * {id=15, x=3, y=3, centerX=210.0, centerY=210.0, radius=21.0}
  */
 public class CellBean {

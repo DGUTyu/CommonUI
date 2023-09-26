@@ -28,11 +28,10 @@ public class CellUtils {
         float pHeight = (float) height / per;
 
         for (int i = 0; i < rows * rows; i++) {
-            // 计算行数
-            int row = i / rows;
-            // 计算列数
-            int col = i % rows;
-            CellBean cellBean = new CellBean(i, row, col, (float) (1 + row * ITEM_NUM) * pWidth, (float) (1 + col * ITEM_NUM) * pHeight, pWidth);
+            int col = i / rows;
+            int row = i % rows;
+            int id = col * rows + row;
+            CellBean cellBean = new CellBean(id, row, col, (float) (1 + row * ITEM_NUM) * pWidth, (float) (1 + col * ITEM_NUM) * pHeight, pWidth);
             result.add(cellBean);
         }
         return result;
