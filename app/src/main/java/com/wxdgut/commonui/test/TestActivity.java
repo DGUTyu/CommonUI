@@ -25,6 +25,7 @@ import com.wxdgut.uilibrary.iv.CommonImageView;
 import com.wxdgut.uilibrary.switchview.SwitchView;
 import com.wxdgut.uilibrary.utils.CommonUtils;
 
+import java.util.Queue;
 import java.util.Random;
 
 public class TestActivity extends BaseTestActivity implements View.OnClickListener {
@@ -93,11 +94,11 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
             }
         });
         CommonUtils.getLocationInWindow(btn2, (x, y) -> {
-            e("Location X: " + x + ", Y: " + y);
+            //e("Location X: " + x + ", Y: " + y);
             Random random = new Random();
             int ran1 = random.nextInt(5) + 1; // 生成1到5之间的随机数
             int ran2 = random.nextInt(5) + 1; // 生成1到5之间的随机数
-            e("随机数 ran1：" + ran1 + "  ran2：" + ran2);
+            //e("随机数 ran1：" + ran1 + "  ran2：" + ran2);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -122,7 +123,7 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
                         Thread.sleep(ran2 * 1000); // delayMillis是延时的毫秒数
                         // 在这里执行您想要延时执行的代码
                         runOnUiThread(() -> {
-                            CommonDialog.newBuilder(TestActivity.this).priority(3).endOfQueue(true).build();
+                            CommonDialog.newBuilder(TestActivity.this).priority(3).maxCount(3).build();
                             //CommonDialog build = CommonDialog.newBuilder(TestActivity.this).build();
                             //e("add 指纹");
                             //dialogQueueManager.addDialog(build);
@@ -205,7 +206,7 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
                 dialog1.setAnimView(R.id.iv_fingerprint, model);
                 //dialog1.showDialog();
 
-                CommonDialog dialog2 = CommonDialog.newBuilder(this).layout(R.layout.dialog_fingerprint2).priority(0).gravity(Gravity.TOP).build();
+                CommonDialog dialog2 = CommonDialog.newBuilder(this).layout(R.layout.dialog_fingerprint2).priority(0).maxCount(3).gravity(Gravity.TOP).build();
                 dialog2.setClick(R.id.tv_sure, new CommonDialog.MyListener() {
                     @Override
                     public void click(View view, boolean isChange) {
@@ -214,16 +215,21 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
                     }
                 });
                 //dialog2.showDialog();
-
-                CommonDialog dialog3 = CommonDialog.newBuilder(this).anim(CommonDialog.DEFAULT_ANIM).priority(2).endOfQueue(true).build();
-                dialog3.setClick(R.id.tv_sure, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        toast("3333");
-                        dialog3.dismissDialog();
-                    }
-                });
-                //dialog3.showDialog();
+                try {
+                    //模拟网络异常
+                    int i = Integer.parseInt("");
+                    CommonDialog dialog3 = CommonDialog.newBuilder(this).anim(CommonDialog.DEFAULT_ANIM).build();
+                    dialog3.setClick(R.id.tv_sure, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            toast("3333");
+                            dialog3.dismissDialog();
+                        }
+                    });
+                    //dialog3.showDialog();
+                } catch (Exception e) {
+                    CommonDialog.newBuilder(this).widthMatch(true).buildError(true);
+                }
                 break;
             case R.id.btn2:
                 //toast("btn2");
@@ -285,6 +291,14 @@ public class TestActivity extends BaseTestActivity implements View.OnClickListen
         super.onDestroy();
         // 如果需要在页面销毁时清空队列，可以在这里调用
         dialogQueueManager.clearQueue();
+        CommonDialog.clearQueue();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Queue<CommonDialog> dialogQueue = CommonDialog.getDialogQueue();
+        toast("" + dialogQueue.size());
+        CommonDialog.updateMaxCountAndStopInitMore(true);
+    }
 }
