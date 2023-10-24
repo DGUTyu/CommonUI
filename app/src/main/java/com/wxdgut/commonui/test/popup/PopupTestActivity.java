@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
 import com.wxdgut.uilibrary.popup.CommonPopup;
+import com.wxdgut.uilibrary.utils.CommonUtils;
 
 public class PopupTestActivity extends BaseTestActivity implements View.OnClickListener {
     private LinearLayout ll_root;
@@ -73,12 +74,15 @@ public class PopupTestActivity extends BaseTestActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.btn1:
                 toast("1");
+                CommonUtils.restartApp(this);
                 break;
             case R.id.btn2:
                 toast("2");
+                CommonUtils.grayView(getWindow().getDecorView(), true);
                 break;
             case R.id.btn3:
                 toast("3");
+                CommonUtils.grayView(getWindow().getDecorView(), false);
                 break;
             case R.id.btn4:
                 initPopu();

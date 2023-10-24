@@ -5,6 +5,7 @@ import android.app.Application;
 import com.wxdgut.commonui.BuildConfig;
 import com.wxdgut.commonui.R;
 import com.wxdgut.uilibrary.config.UIConfig;
+import com.wxdgut.uilibrary.utils.CommonUtils;
 import com.wxdgut.uilibrary.utils.UIConfigUtils;
 
 public class MyApplication extends Application {
@@ -22,6 +23,7 @@ public class MyApplication extends Application {
                 return R.style.anim_dialog_upIn_downOut;
             }
         });
+        //CommonUtils.globalGray(true);
     }
 
 }

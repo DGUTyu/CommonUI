@@ -1,7 +1,14 @@
 package com.wxdgut.uilibrary.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
@@ -9,6 +16,12 @@ import android.view.Display;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+
+import com.wxdgut.uilibrary.globalgray.ObservableArrayList;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommonUtils {
     //位置信息回调接口
@@ -121,5 +134,120 @@ public class CommonUtils {
     //返回的是屏幕尺寸的物理像素（px）
     public static int getScreenHeight(Context context) {
         return getScreenSize(context).y;
+    }
+
+    /**
+     * 对某个页面开启灰色调或恢复颜色
+     *
+     * @param view
+     * @param isGray
+     */
+    public static void grayView(View view, boolean isGray) {
+        try {
+            Paint paint = new Paint();
+            ColorMatrix cm = new ColorMatrix();
+            if (isGray) {
+                cm.setSaturation(0f);
+            } else {
+                cm.setSaturation(1f);
+            }
+            paint.setColorFilter(new ColorMatrixColorFilter(cm));
+            view.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 是否全局置灰。此方法一般用于Application的onCreate方法中
+     *
+     * @param isGray
+     */
+    public static void globalGray(boolean isGray) {
+        if (!isGray) {
+            return;
+        }
+        try {
+            //灰色调Paint
+            final Paint mPaint = new Paint();
+            ColorMatrix mColorMatrix = new ColorMatrix();
+            mColorMatrix.setSaturation(0f);
+            mPaint.setColorFilter(new ColorMatrixColorFilter(mColorMatrix));
+
+            //反射获取windowManagerGlobal
+            @SuppressLint("PrivateApi")
+            Class<?> windowManagerGlobal = Class.forName("android.view.WindowManagerGlobal");
+            @SuppressLint("DiscouragedPrivateApi")
+            java.lang.reflect.Method getInstanceMethod = windowManagerGlobal.getDeclaredMethod("getInstance");
+            getInstanceMethod.setAccessible(true);
+            Object windowManagerGlobalInstance = getInstanceMethod.invoke(windowManagerGlobal);
+
+            //反射获取mViews
+            Field mViewsField = windowManagerGlobal.getDeclaredField("mViews");
+            mViewsField.setAccessible(true);
+            Object mViewsObject = mViewsField.get(windowManagerGlobalInstance);
+
+            //创建具有数据感知能力的ObservableArrayList
+            ObservableArrayList<View> observerArrayList = new ObservableArrayList<>();
+            observerArrayList.addOnListChangedListener(new ObservableArrayList.OnListChangeListener() {
+                @Override
+                public void onChange(ArrayList list, int index, int count) {
+
+                }
+
+                @Override
+                public void onAdd(ArrayList list, int start, int count) {
+                    View view = (View) list.get(start);
+                    if (view != null) {
+                        view.setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
+                    }
+                }
+
+                @Override
+                public void onRemove(ArrayList list, int start, int count) {
+
+                }
+            });
+            //将原有的数据添加到新创建的list
+            observerArrayList.addAll((ArrayList<View>) mViewsObject);
+            //替换掉原有的mViews
+            mViewsField.set(windowManagerGlobalInstance, observerArrayList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 重启APP
+     *
+     * @param context
+     */
+    public static void restartApp(Context context) {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setClassName(context.getPackageName(),
+                getLauncherActivity(context, context.getPackageName()));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(0);
+    }
+
+    /**
+     * 获取指定包名 pkg 的启动器活动的完整类名。方法返回一个字符串，该字符串是启动器活动的完整类名。
+     *
+     * @param context
+     * @param pkg
+     * @return
+     */
+    public static String getLauncherActivity(Context context, String pkg) {
+        Intent intent = new Intent(Intent.ACTION_MAIN, null);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setPackage(pkg);
+        PackageManager pm = context.getPackageManager();
+        List<ResolveInfo> info = pm.queryIntentActivities(intent, 0);
+        return info.get(0).activityInfo.name;
     }
 }
