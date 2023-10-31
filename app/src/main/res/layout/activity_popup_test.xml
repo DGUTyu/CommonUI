@@ -68,4 +68,32 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_bomb"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/img_share" />
+        <TextView
+            android:id="@+id/tv_bomb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/theme_color"
+            android:gravity="center"
+            android:text="@string/app_name" />
+
+        <com.wxdgut.uilibrary.bubble.BubbleView
+            android:id="@+id/msg_view"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@color/light_gray"/>
+    </LinearLayout>
+
 </LinearLayout>

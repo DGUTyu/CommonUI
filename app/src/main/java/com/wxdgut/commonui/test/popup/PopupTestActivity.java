@@ -1,16 +1,18 @@
 package com.wxdgut.commonui.test.popup;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
+import com.wxdgut.uilibrary.bubble.BubbleTouchListener;
+import com.wxdgut.uilibrary.bubble.BubbleView;
 import com.wxdgut.uilibrary.popup.CommonPopup;
 import com.wxdgut.uilibrary.utils.CommonUtils;
 
@@ -20,6 +22,8 @@ public class PopupTestActivity extends BaseTestActivity implements View.OnClickL
     private Button btn1, btn2, btn3, btn4;
     private CommonPopup commonPopup;
     private EditText et;
+    private ImageView iv_bomb;
+    private TextView tv_bomb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,8 @@ public class PopupTestActivity extends BaseTestActivity implements View.OnClickL
         btn2 = findViewById(R.id.btn2);
         btn3 = findViewById(R.id.btn3);
         btn4 = findViewById(R.id.btn4);
+        iv_bomb = findViewById(R.id.iv_bomb);
+        tv_bomb = findViewById(R.id.tv_bomb);
         initPopu();
     }
 
@@ -57,7 +63,14 @@ public class PopupTestActivity extends BaseTestActivity implements View.OnClickL
                 })
                 .apply();
         //任意地方弹出
-        commonPopup.showEverywhereInView(PopupTestActivity.this, ll_root);
+        //commonPopup.showEverywhereInView(PopupTestActivity.this, ll_root);
+
+        BubbleView.attach(iv_bomb, new BubbleTouchListener.BubbleDismissListener() {
+            @Override
+            public void dismiss(View view) {
+                toast("消失了");
+            }
+        });
     }
 
     @SuppressLint("ClickableViewAccessibility")

@@ -10,6 +10,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.view.Display;
@@ -249,5 +250,71 @@ public class CommonUtils {
         PackageManager pm = context.getPackageManager();
         List<ResolveInfo> info = pm.queryIntentActivities(intent, 0);
         return info.get(0).activityInfo.name;
+    }
+
+    /**
+     * 获取状态栏高度
+     *
+     * @param context
+     * @return
+     */
+    public static int getStatusBarHeight(Context context) {
+        int statusBarHeight = 0;
+        try {
+            Class<?> c = Class.forName("com.android.internal.R$dimen");
+            Object object = c.newInstance();
+            Field field = c.getField("status_bar_height");
+            int x = (Integer) field.get(object);
+            statusBarHeight = context.getResources().getDimensionPixelSize(x);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (statusBarHeight == 0) {
+            statusBarHeight = dpToPx(25);
+        }
+        return statusBarHeight;
+    }
+
+    /**
+     * 获得两点之间的距离
+     * Math.pow() 计算一个数的指定次幂:第一个参数是底数,第二个参数是指数
+     *
+     * @param p1
+     * @param p2
+     * @return
+     */
+    public static float getDistanceBetweenTwoPoints(PointF p1, PointF p2) {
+        float distance = (float) Math.sqrt(Math.pow(p1.y - p2.y, 2) + Math.pow(p1.x - p2.x, 2));
+        return distance;
+    }
+
+    /**
+     * 根据百分比获取两点之间的某个点坐标
+     *
+     * @param p1
+     * @param p2
+     * @param percent
+     * @return
+     */
+    public static PointF getPointBetweenTwoPoints(PointF p1, PointF p2, float percent) {
+        //if (percent < 0 || percent > 1) { //不建议写
+        //throw new IllegalArgumentException("Percentage should be between 0 and 1");
+        //}
+        float x = evaluateValue(percent, p1.x, p2.x);
+        float y = evaluateValue(percent, p1.y, p2.y);
+        return new PointF(x, y);
+    }
+
+
+    /**
+     * 在两个数值之间按照指定的百分比进行插值计算。
+     *
+     * @param fraction
+     * @param start
+     * @param end
+     * @return
+     */
+    public static float evaluateValue(float fraction, Number start, Number end) {
+        return start.floatValue() + (end.floatValue() - start.floatValue()) * fraction;
     }
 }
