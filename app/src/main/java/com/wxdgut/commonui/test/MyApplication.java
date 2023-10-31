@@ -22,6 +22,16 @@ public class MyApplication extends Application {
             public int getDefaultDialogAnimId() {
                 return R.style.anim_dialog_upIn_downOut;
             }
+
+            @Override
+            public int getDefaultBubbleColorId() {
+                return R.color.teal_700;
+            }
+
+            @Override
+            public int getDefaultBubbleBombDrawableId() {
+                return super.getDefaultBubbleBombDrawableId();
+            }
         });
         //CommonUtils.globalGray(true);
     }

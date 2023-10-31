@@ -106,6 +106,34 @@ public class UIConfigUtils {
         return uiConfig.getDefaultBtnRadius();
     }
 
+    public static int getDefaultBubbleColorId() {
+        if (!isInitialized()) {
+            return R.color.red;
+        }
+        return uiConfig.getDefaultBubbleColorId();
+    }
+
+    public static int getDefaultBubbleBombDrawableId() {
+        if (!isInitialized()) {
+            return R.drawable.anim_bubble_pop;
+        }
+        return uiConfig.getDefaultBubbleBombDrawableId();
+    }
+
+    public static int getDefaultBubbleDragRadius() {
+        if (!isInitialized()) {
+            return 10;
+        }
+        return uiConfig.getDefaultBubbleDragRadius();
+    }
+
+    public static int getDefaultBubbleFixRadiusMin() {
+        if (!isInitialized()) {
+            return 3;
+        }
+        return uiConfig.getDefaultBubbleFixRadiusMin();
+    }
+
     private static boolean validateAppConfig(UIConfig uiConfig) {
         if (uiConfig == null) {
             return false;
@@ -124,6 +152,10 @@ public class UIConfigUtils {
             uiConfig.getDefaultBtnTvColorId();
             uiConfig.getDefaultBtnTvPressColorId();
             uiConfig.getDefaultBtnRadius();
+            uiConfig.getDefaultBubbleColorId();
+            uiConfig.getDefaultBubbleBombDrawableId();
+            uiConfig.getDefaultBubbleDragRadius();
+            uiConfig.getDefaultBubbleFixRadiusMin();
         } catch (Exception e) {
             return false;
         }

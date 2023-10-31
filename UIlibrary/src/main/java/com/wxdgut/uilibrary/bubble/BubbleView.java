@@ -8,17 +8,18 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
 import com.wxdgut.uilibrary.utils.CommonUtils;
+import com.wxdgut.uilibrary.utils.UIConfigUtils;
 
 public class BubbleView extends View {
     //是否是调试模式；在xml布局里直接引用BubbleView控件时，可以把这个设置为true，看实际效果
@@ -28,11 +29,11 @@ public class BubbleView extends View {
     // 画笔
     private Paint mPaint;
     // 拖拽圆的半径
-    private int mDragRadius = 10;
+    private int mDragRadius;
     // 固定圆的最小半径
-    private int mFixationRadiusMin = 3;
+    private int mFixationRadiusMin;
     // 固定圆的最大半径（初始半径，无固定要求，小于mDragRadius、大于mFixationRadiusMin即可）
-    private int mFixationRadiusMax = mDragRadius - mFixationRadiusMin / 2;
+    private int mFixationRadiusMax;
     // 固定圆的当前半径
     private int mFixationRadius;
     //缩放系数，影响曲线长度。值越大，线越长
@@ -61,20 +62,19 @@ public class BubbleView extends View {
     }
 
     public BubbleView(Context context) {
-        //super(context);
         this(context, null);
     }
 
     public BubbleView(Context context, @Nullable AttributeSet attrs) {
-        //super(context, attrs);
         this(context, attrs, 0);
     }
 
     public BubbleView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mDragRadius = dpToPx(mDragRadius);
-        mFixationRadiusMax = dpToPx(mFixationRadiusMax);
-        mFixationRadiusMin = dpToPx(mFixationRadiusMin);
+        mDragRadius = dpToPx(UIConfigUtils.getDefaultBubbleDragRadius());
+        mFixationRadiusMin = dpToPx(UIConfigUtils.getDefaultBubbleFixRadiusMin());
+        //此时mFixationRadiusMax的单位已经是 px
+        mFixationRadiusMax = mDragRadius - mFixationRadiusMin / 2;
         initPaint();
     }
 
@@ -106,7 +106,6 @@ public class BubbleView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        //super.onDraw(canvas);
         //画两个圆
         if (mDragPoint == null || mFixationPoint == null) {
             return;
@@ -135,15 +134,12 @@ public class BubbleView extends View {
             animator.setDuration(250);
             PointF start = new PointF(mDragPoint.x, mDragPoint.y);
             PointF end = new PointF(mFixationPoint.x, mFixationPoint.y);
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    // percent 的值超出了 0 到 1 的范围是因为使用了动画的插值器
-                    float percent = (float) animation.getAnimatedValue();
-                    PointF pointF = CommonUtils.getPointBetweenTwoPoints(start, end, percent);
-                    // 用代码更新拖拽点
-                    updateDragPoint(pointF.x, pointF.y);
-                }
+            animator.addUpdateListener(animation -> {
+                // percent 的值超出了 0 到 1 的范围是因为使用了动画的插值器
+                float percent = (float) animation.getAnimatedValue();
+                PointF pointF = CommonUtils.getPointBetweenTwoPoints(start, end, percent);
+                // 用代码更新拖拽点
+                updateDragPoint(pointF.x, pointF.y);
             });
             // OvershootInterpolator会在动画结束时产生超过终点的效果，它会让动画在结束时“超调”一段距离，然后再回弹到终点位置。
             // 设置一个差值器 在结束的时候回弹。tension 张力值越大，动画超调的幅度就越大
@@ -169,7 +165,8 @@ public class BubbleView extends View {
     //初始化画笔
     private void initPaint() {
         mPaint = new Paint();
-        mPaint.setColor(Color.RED);
+        int colorId = UIConfigUtils.getDefaultBubbleColorId();
+        mPaint.setColor(ContextCompat.getColor(getContext(), colorId));
         //抗锯齿
         mPaint.setAntiAlias(true);
         //开启抖动处理
@@ -180,7 +177,6 @@ public class BubbleView extends View {
     public void initPoint(float downX, float downY) {
         mFixationPoint = new PointF(downX, downY);
         mDragPoint = new PointF(downX, downY);
-        //invalidate();  //?
     }
 
     //dp转px
@@ -257,5 +253,10 @@ public class BubbleView extends View {
     public static void attach(View view, BubbleTouchListener.BubbleDismissListener listener) {
         BubbleTouchListener touchListener = new BubbleTouchListener(view, view.getContext(), listener);
         view.setOnTouchListener(touchListener);
+    }
+
+    //绑定视图
+    public static void attach(View view) {
+        attach(view, null);
     }
 }

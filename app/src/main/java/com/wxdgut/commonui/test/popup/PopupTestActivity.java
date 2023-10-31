@@ -71,6 +71,8 @@ public class PopupTestActivity extends BaseTestActivity implements View.OnClickL
                 toast("消失了");
             }
         });
+
+        BubbleView.attach(tv_bomb);
     }
 
     @SuppressLint("ClickableViewAccessibility")

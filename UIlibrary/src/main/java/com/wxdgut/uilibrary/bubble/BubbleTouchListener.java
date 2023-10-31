@@ -13,8 +13,8 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.wxdgut.uilibrary.R;
 import com.wxdgut.uilibrary.utils.CommonUtils;
+import com.wxdgut.uilibrary.utils.UIConfigUtils;
 
 
 public class BubbleTouchListener implements View.OnTouchListener, BubbleView.BubbleListener {
@@ -31,7 +31,8 @@ public class BubbleTouchListener implements View.OnTouchListener, BubbleView.Bub
     private BubbleDismissListener mDismissListener;
 
     public interface BubbleDismissListener {
-        void dismiss(View view);
+        //按需实现
+        default void dismiss(View view){};
     }
 
     public BubbleTouchListener(View staticView, Context context, BubbleDismissListener listener) {
@@ -59,11 +60,9 @@ public class BubbleTouchListener implements View.OnTouchListener, BubbleView.Bub
                 // 要在WindowManager上面画一个View
                 mWindowManager.addView(mBubbleView, mParams);
                 // 初始化贝塞尔View的点，保证固定圆的中心在View的中心
-                // event.getX() 是相对于父布局的View（该 View） 。应该要获取屏幕的位置event.getRawX()，同时还要考虑状态栏高度
-                // mBubbleView.initPoint(event.getRawX(),event.getRawY()- CommonUtils.getStatusBarHeight(mContext)); //不起效果
                 int[] location = new int[2];
                 mStaticView.getLocationOnScreen(location);
-                mBubbleView.initPoint(location[0] + mStaticView.getWidth() / 2.0f, location[1] + mStaticView.getWidth() / 2.0f - CommonUtils.getStatusBarHeight(mContext));
+                mBubbleView.initPoint(location[0] + mStaticView.getWidth() / 2.0f, location[1] + mStaticView.getHeight() / 2.0f - CommonUtils.getStatusBarHeight(mContext));
                 Bitmap bitmap = getBitmapByView(mStaticView);
                 mBubbleView.setDragBitmap(bitmap);
                 //把原来的View隐藏
@@ -96,7 +95,7 @@ public class BubbleTouchListener implements View.OnTouchListener, BubbleView.Bub
         mWindowManager.removeView(mBubbleView);
         // 要在 mWindowManager 添加一个爆炸动画
         mWindowManager.addView(mBombFrame, mParams);
-        mBombImage.setBackgroundResource(R.drawable.anim_bubble_pop);
+        mBombImage.setBackgroundResource(UIConfigUtils.getDefaultBubbleBombDrawableId());
 
         AnimationDrawable drawable = (AnimationDrawable) mBombImage.getBackground();
         mBombImage.setX(pointF.x - drawable.getIntrinsicWidth() / 2.0f);
@@ -104,21 +103,16 @@ public class BubbleTouchListener implements View.OnTouchListener, BubbleView.Bub
         drawable.start();
 
         // 等它执行完之后要移除掉这个View 爆炸动画也就是 mBombFrame
-        mBombImage.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mWindowManager.removeView(mBombFrame);
-                // 通知一下外面该消失
-                if (mDismissListener != null) {
-                    mDismissListener.dismiss(mStaticView);
-                }
+        mBombImage.postDelayed(() -> {
+            mWindowManager.removeView(mBombFrame);
+            // 通知一下外面该消失
+            if (mDismissListener != null) {
+                mDismissListener.dismiss(mStaticView);
             }
         }, getAnimationDrawableTime(drawable));
     }
 
     private Bitmap getBitmapByView(View view) {
-        //view.buildDrawingCache();
-        //return view.getDrawingCache();
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);

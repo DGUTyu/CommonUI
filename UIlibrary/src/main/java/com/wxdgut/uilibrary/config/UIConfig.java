@@ -51,4 +51,20 @@ public abstract class UIConfig {
     public int getDefaultBtnRadius() {
         return CommonUtils.dpToPx(6);
     }
+
+    public int getDefaultBubbleColorId() {
+        return R.color.red;
+    }
+
+    public int getDefaultBubbleBombDrawableId() {
+        return R.drawable.anim_bubble_pop;
+    }
+
+    public int getDefaultBubbleDragRadius() {
+        return 10;
+    }
+
+    public int getDefaultBubbleFixRadiusMin() {
+        return 3;
+    }
 }
