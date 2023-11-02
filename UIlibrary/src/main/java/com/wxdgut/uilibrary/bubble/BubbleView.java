@@ -250,13 +250,24 @@ public class BubbleView extends View {
     }
 
     //绑定视图
-    public static void attach(View view, BubbleTouchListener.BubbleDismissListener listener) {
-        BubbleTouchListener touchListener = new BubbleTouchListener(view, view.getContext(), listener);
-        view.setOnTouchListener(touchListener);
-    }
-
-    //绑定视图
     public static void attach(View view) {
         attach(view, null);
     }
+
+    //绑定视图
+    public static void attach(View view, boolean fullScreen) {
+        attach(view, fullScreen, null);
+    }
+
+    //绑定视图
+    public static void attach(View view, BubbleTouchListener.BubbleDismissListener listener) {
+        attach(view, false, listener);
+    }
+
+    //绑定视图
+    public static void attach(View view, boolean fullScreen, BubbleTouchListener.BubbleDismissListener listener) {
+        BubbleTouchListener touchListener = new BubbleTouchListener(view, view.getContext(), fullScreen, listener);
+        view.setOnTouchListener(touchListener);
+    }
+
 }

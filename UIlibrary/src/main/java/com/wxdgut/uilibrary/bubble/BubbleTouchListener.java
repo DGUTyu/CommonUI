@@ -36,10 +36,17 @@ public class BubbleTouchListener implements View.OnTouchListener, BubbleView.Bub
     }
 
     public BubbleTouchListener(View staticView, Context context, BubbleDismissListener listener) {
+        this(staticView, context, false, listener);
+    }
+
+    public BubbleTouchListener(View staticView, Context context, boolean fullScreen, BubbleDismissListener listener) {
         this.mStaticView = staticView;
         this.mContext = context;
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         mParams = new WindowManager.LayoutParams();
+        if (!fullScreen) {
+            mParams.height = CommonUtils.getScreenHeightWithoutStatusBar(context);
+        }
         // 背景要透明
         mParams.format = PixelFormat.TRANSPARENT;
         mBubbleView = new BubbleView(context);

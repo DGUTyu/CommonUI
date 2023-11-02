@@ -276,6 +276,16 @@ public class CommonUtils {
     }
 
     /**
+     * 获取状态栏以下的屏幕高度
+     *
+     * @param context
+     * @return
+     */
+    public static int getScreenHeightWithoutStatusBar(Context context) {
+        return getScreenHeight(context) - getStatusBarHeight(context);
+    }
+
+    /**
      * 获得两点之间的距离
      * Math.pow() 计算一个数的指定次幂:第一个参数是底数,第二个参数是指数
      *
