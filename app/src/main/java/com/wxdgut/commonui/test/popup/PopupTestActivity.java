@@ -70,6 +70,11 @@ public class PopupTestActivity extends BaseTestActivity implements View.OnClickL
             public void dismiss(View view) {
                 toast("消失了");
             }
+
+            @Override
+            public void onClick(View view) {
+                toast("点击了");
+            }
         });
 
         BubbleView.attach(tv_bomb);

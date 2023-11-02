@@ -23,7 +23,7 @@ import com.wxdgut.uilibrary.utils.UIConfigUtils;
 
 public class BubbleView extends View {
     //是否是调试模式；在xml布局里直接引用BubbleView控件时，可以把这个设置为true，看实际效果
-    private boolean DEBUG = true;
+    private boolean DEBUG = false;
     // 两个圆的圆形
     private PointF mFixationPoint, mDragPoint;
     // 画笔

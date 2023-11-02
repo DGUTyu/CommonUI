@@ -32,6 +32,8 @@ public class BubbleTouchListener implements View.OnTouchListener, BubbleView.Bub
 
     public interface BubbleDismissListener {
         //按需实现
+        default void onClick(View view){};
+        //按需实现
         default void dismiss(View view){};
     }
 
@@ -64,6 +66,9 @@ public class BubbleTouchListener implements View.OnTouchListener, BubbleView.Bub
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                if (mDismissListener != null) {
+                    mDismissListener.onClick(v);
+                }
                 // 要在WindowManager上面画一个View
                 mWindowManager.addView(mBubbleView, mParams);
                 // 初始化贝塞尔View的点，保证固定圆的中心在View的中心
