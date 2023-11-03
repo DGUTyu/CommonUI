@@ -13,6 +13,7 @@ import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
 import com.wxdgut.uilibrary.bubble.BubbleTouchListener;
 import com.wxdgut.uilibrary.bubble.BubbleView;
+import com.wxdgut.uilibrary.like.LoveLayout;
 import com.wxdgut.uilibrary.popup.CommonPopup;
 import com.wxdgut.uilibrary.utils.CommonUtils;
 
@@ -24,6 +25,7 @@ public class PopupTestActivity extends BaseTestActivity implements View.OnClickL
     private EditText et;
     private ImageView iv_bomb;
     private TextView tv_bomb;
+    private LoveLayout love_ll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class PopupTestActivity extends BaseTestActivity implements View.OnClickL
         btn4 = findViewById(R.id.btn4);
         iv_bomb = findViewById(R.id.iv_bomb);
         tv_bomb = findViewById(R.id.tv_bomb);
+        love_ll = findViewById(R.id.love_ll);
         initPopu();
     }
 
@@ -77,7 +80,22 @@ public class PopupTestActivity extends BaseTestActivity implements View.OnClickL
             }
         });
 
-        BubbleView.attach(tv_bomb);
+        //BubbleView.attach(tv_bomb);
+
+        tv_bomb.setOnClickListener(v->{
+            love_ll.addLove(3);
+        });
+
+        love_ll.setExternalClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toast("再次点击");
+            }
+        });
+
+        findViewById(R.id.tv_123).setOnClickListener(v->{
+            toast("123");
+        });
     }
 
     @SuppressLint("ClickableViewAccessibility")
