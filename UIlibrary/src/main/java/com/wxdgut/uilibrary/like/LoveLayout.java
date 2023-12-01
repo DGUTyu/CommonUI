@@ -26,7 +26,7 @@ import java.util.Random;
 
 public class LoveLayout extends RelativeLayout implements View.OnClickListener {
     //点击一次出现的爱心次数
-    private final int LIKE_PER_CLICK = 1;
+    private int likePerClick = 1;
     //出场动画时长
     private final int BEGIN_DURATION = 500;
     //运动动画时长
@@ -56,9 +56,15 @@ public class LoveLayout extends RelativeLayout implements View.OnClickListener {
         super(context, attrs, defStyleAttr);
         setOnClickListener(this);
         mRandom = new Random();
-        mImageRes = new int[]{R.drawable.img_like_blue, R.drawable.img_like_red, R.drawable.img_like_yellow};
+        mImageRes = new int[]{R.drawable.img_like_arcoblue, R.drawable.img_like_cyan,
+                R.drawable.img_like_gold, R.drawable.img_like_green,
+                R.drawable.img_like_blue, R.drawable.img_like_lime,
+                R.drawable.img_like_magenta, R.drawable.img_like_orange,
+                R.drawable.img_like_orangered, R.drawable.img_like_pinkpurple,
+                R.drawable.img_like_purple, R.drawable.img_like_red,
+                R.drawable.img_like_yellow};
 
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.img_like_blue);
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.img_like_red);
         mDrawableWidth = drawable.getIntrinsicWidth();
         mDrawableHeight = drawable.getIntrinsicHeight();
 
@@ -79,6 +85,12 @@ public class LoveLayout extends RelativeLayout implements View.OnClickListener {
 
     // 设置外部的点击监听器
     public void setExternalClickListener(OnClickListener listener) {
+        setExternalClickListener(listener, 1);
+    }
+
+    // 设置外部的点击监听器
+    public void setExternalClickListener(OnClickListener listener, int likePerClick) {
+        this.likePerClick = likePerClick;
         mExternalClickListener = listener;
     }
 
@@ -168,7 +180,7 @@ public class LoveLayout extends RelativeLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        addLove(LIKE_PER_CLICK);
+        addLove(likePerClick);
         if (mExternalClickListener != null) {
             mExternalClickListener.onClick(v);
         }
