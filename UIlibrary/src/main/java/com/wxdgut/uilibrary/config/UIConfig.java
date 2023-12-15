@@ -67,4 +67,18 @@ public abstract class UIConfig {
     public int getDefaultBubbleFixRadiusMin() {
         return 3;
     }
+
+    public int[] getDefaultLoveImgIds() {
+        return new int[]{R.drawable.img_like_red, R.drawable.img_like_cyan,
+                R.drawable.img_like_gold, R.drawable.img_like_green,
+                R.drawable.img_like_blue, R.drawable.img_like_lime,
+                R.drawable.img_like_magenta, R.drawable.img_like_orange,
+                R.drawable.img_like_orangered, R.drawable.img_like_pinkpurple,
+                R.drawable.img_like_purple, R.drawable.img_like_arcoblue,
+                R.drawable.img_like_yellow};
+    }
+
+    public int getDefaultLovePerClick() {
+        return 1;
+    }
 }
