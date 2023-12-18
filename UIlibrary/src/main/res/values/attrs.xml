@@ -92,8 +92,6 @@
     <attr name="btnTvColorPress" format="color" />
     <attr name="iconDrawable" format="reference" />
     <attr name="iconDrawablePress" format="reference" />
-    <attr name="text" format="string" />
-    <attr name="textSize" format="float" />
     <!--CommonButton-->
     <declare-styleable name="CommonButton">
         <attr name="btnBgColor" />
