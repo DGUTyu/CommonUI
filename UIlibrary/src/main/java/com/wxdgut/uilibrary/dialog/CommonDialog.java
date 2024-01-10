@@ -72,10 +72,12 @@ public class CommonDialog extends Dialog {
     final int layout; //Dialog 布局文件id
     final int animId; //动画效果id
     final boolean widthMatch; //弹窗宽度是否MATCH_PARENT
+    final int height;
     final int gravity; //居中方式
     final int styleId; //Dialog 默认样式id
     final boolean draggable; //Dialog 是否支持拖拽
     final boolean cancelable; //Dialog 是否支持自动关闭
+    final boolean autoDismiss; //Dialog 是否自动dimiss
     final boolean clearShadow; //Dialog 是否去除阴影
     final float dimAmount; //Dialog 明暗度
     final int priority; //显示优先级，不能为负数。相同优先级，先添加的先显示。
@@ -552,10 +554,12 @@ public class CommonDialog extends Dialog {
         this.layout = builder.layout;
         this.animId = builder.animId;
         this.widthMatch = builder.widthMatch;
+        this.height = builder.height;
         this.gravity = builder.gravity;
         this.styleId = builder.styleId;
         this.draggable = builder.draggable;
         this.cancelable = builder.cancelable;
+        this.autoDismiss = builder.autoDismiss;
         this.clearShadow = builder.clearShadow;
         this.dimAmount = builder.dimAmount;
         this.anchorWR = builder.anchorWR;
@@ -580,7 +584,7 @@ public class CommonDialog extends Dialog {
         layoutParams = window.getAttributes();
         wm = (WindowManager) context.getSystemService(WINDOW_SERVICE);
         layoutParams.width = widthMatch ? WindowManager.LayoutParams.MATCH_PARENT : WindowManager.LayoutParams.WRAP_CONTENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = height == -1 ? WindowManager.LayoutParams.WRAP_CONTENT : height;
         layoutParams.gravity = gravity;
         if (animId != DEFAULT_ANIM) layoutParams.windowAnimations = animId;
         if (clearShadow) window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -660,13 +664,25 @@ public class CommonDialog extends Dialog {
         Log.i(TAG, "initEvent");
         //setOnCancelListener(dialog -> dismissDialog());
         setOnCancelListener(dialogInterface -> {
-            dismissDialog();
+            if(autoDismiss){
+                dismissDialog();
+            }else {
+                hideDialog();
+            }
             if (cancelListener != null) cancelListener.afterCancel(NORMAL_CANCEL);
         });
         setOnKeyListener((OnKeyListener) (dialog, keyCode, event) -> {
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            //按键事件通常包括两个部分：按下事件（ACTION_DOWN）和释放事件（ACTION_UP）
+            //监听器会在每个事件发生时都执行一次检查
+            //因此，如果你点击一次返回键，就会有一个ACTION_DOWN事件和一个ACTION_UP事件被触发
+            //从而导致了两次if (cancelable) {}的执行
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 && event.getAction() == KeyEvent.ACTION_DOWN) {
                 if (cancelable) {
-                    dismissDialog();
+                    if(autoDismiss){
+                        dismissDialog();
+                    }else {
+                        hideDialog();
+                    }
                     if (cancelListener != null) cancelListener.afterCancel(BACK_CANCEL);
                     return true;
                 }
@@ -686,10 +702,12 @@ public class CommonDialog extends Dialog {
         Context context;
         int layout;
         boolean widthMatch;
+        int height;
         int gravity;
         int styleId;
         boolean draggable;
         boolean cancelable;
+        boolean autoDismiss;
         boolean clearShadow;
         int animId;
         float dimAmount;
@@ -709,6 +727,7 @@ public class CommonDialog extends Dialog {
         public Builder(Context context) {
             this.context = context;
             this.widthMatch = false;
+            this.height = -1;
             this.gravity = Gravity.CENTER;
             this.layout = UIConfigUtils.getDefaultDialogLayoutId();
             this.animId = UIConfigUtils.getDefaultDialogAnimId();
@@ -718,6 +737,7 @@ public class CommonDialog extends Dialog {
             this.styleId = R.style.My_Dialog_Theme;
             this.draggable = false;
             this.cancelable = true;
+            this.autoDismiss = true;
             this.clearShadow = false;
             this.dimAmount = 0.1f;  //完全透明不变暗是0.0f，完全变暗不透明是1.0f
             this.priority = -1;     //默认负数，即默认不加入弹窗队列
@@ -749,6 +769,15 @@ public class CommonDialog extends Dialog {
          */
         public Builder widthMatch(boolean widthMatch) {
             this.widthMatch = widthMatch;
+            return this;
+        }
+
+        /**
+         * @param height 弹窗高度
+         * @return
+         */
+        public Builder height(int height) {
+            this.height = height;
             return this;
         }
 
@@ -791,6 +820,16 @@ public class CommonDialog extends Dialog {
             return this;
         }
 
+        /**
+         * 是否支持自动Dismiss
+         *
+         * @param autoDismiss 是否支持自动 dismiss
+         * @return
+         */
+        public Builder autoDismiss(boolean autoDismiss) {
+            this.autoDismiss = autoDismiss;
+            return this;
+        }
 
         /**
          * 是否清除阴影

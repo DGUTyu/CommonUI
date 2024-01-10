@@ -13,6 +13,7 @@ import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
 import com.wxdgut.uilibrary.bubble.BubbleTouchListener;
 import com.wxdgut.uilibrary.bubble.BubbleView;
+import com.wxdgut.uilibrary.dialog.CommonDialog;
 import com.wxdgut.uilibrary.like.LoveLayout;
 import com.wxdgut.uilibrary.popup.CommonPopup;
 import com.wxdgut.uilibrary.utils.CommonUtils;
@@ -127,10 +128,21 @@ public class PopupTestActivity extends BaseTestActivity implements View.OnClickL
                 commonPopup.showAsDropDown();
                 break;
             case R.id.tv_pop:
-                toast("tv_pop");
+                //toast("tv_pop");
+                showDialog();
                 break;
             case R.id.et:
                 break;
         }
+    }
+
+    private void showDialog() {
+        int toBottom = CommonUtils.getViewDistanceToBottom(ll_root, tv_pop);
+        CommonDialog commonDialog = CommonDialog.newBuilder(this).layout(R.layout.dialog_fingerprint4)
+                .height(toBottom).widthMatch(true)
+                .showAsDropDown(tv_pop)
+                .autoDismiss(false)
+                .build();
+        commonDialog.showDialog();
     }
 }

@@ -11,6 +11,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.view.Display;
@@ -327,4 +328,45 @@ public class CommonUtils {
     public static float evaluateValue(float fraction, Number start, Number end) {
         return start.floatValue() + (end.floatValue() - start.floatValue()) * fraction;
     }
+
+    /**
+     * Activity中使用
+     * 计算目标视图到指定根视图底部的距离（以像素为单位）。
+     *
+     * @param root   根视图
+     * @param anchor 目标视图
+     * @return 返回目标视图底部到根视图底部的距离（以像素为单位）
+     */
+    public static int getViewDistanceToBottom(View root, View anchor) {
+        // 获取根视图在屏幕坐标系中的可见区域
+        Rect rootRect = new Rect();
+        root.getGlobalVisibleRect(rootRect);
+        int rootBottom = rootRect.bottom;
+
+        // 获取目标视图在屏幕坐标系中的可见区域
+        Rect anchorRect = new Rect();
+        anchor.getGlobalVisibleRect(anchorRect);
+        int anchorBottom = anchorRect.bottom;
+
+        // 计算目标视图底部到根视图底部的距离（以像素为单位）
+        int distanceToBottom = rootBottom - anchorBottom;
+        return distanceToBottom;
+    }
+
+    /**
+     * Fragment中使用
+     * 计算目标视图到指定根视图底部的距离（以像素为单位）。
+     *
+     * @param anchor 目标视图
+     * @return 返回目标视图底部到根视图底部的距离（以像素为单位）
+     */
+//    public static int getViewDistanceToBottom(View anchor) {
+//        // 获取当前 Fragment 的根视图
+//        View root = getView();
+//        if (root != null) {
+//            return getViewDistanceToBottom(root, anchor);
+//        }
+//        // 处理根视图为空的情况，返回一个默认值
+//        return 0;
+//    }
 }
