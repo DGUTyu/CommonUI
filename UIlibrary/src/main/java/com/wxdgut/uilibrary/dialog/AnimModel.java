@@ -8,31 +8,47 @@ import android.view.animation.LinearInterpolator;
  * 动画属性
  */
 public class AnimModel {
-    //预设动画属性名，必须用final，否则用不了switch
+    /**
+     * 预设动画属性名，必须用final，否则用不了switch
+     */
     public static final int ROTATION = 1, ROTATION_X = 2, ROTATION_Y = 3, TRANSLATION_X = 4, TRANSLATION_Y = 5;
 
-    //动画属性名 如 translationX，translationY，rotation，rotationX，rotationY
-    public String propertyName;
+    /**
+     * 动画属性名 如 translationX，translationY，rotation，rotationX，rotationY
+     */
+    private String propertyName;
 
-    //开始浮动值
-    public float startValues;
+    /**
+     * 开始浮动值
+     */
+    private float startValues;
 
-    //结束浮动值
-    public float endValues;
+    /**
+     * 结束浮动值
+     */
+    private float endValues;
 
-    //动画时长 毫秒
-    public long duration;
+    /**
+     * 动画时长 毫秒
+     */
+    private long duration;
 
-    //重复模式与重复次数缺一不可
-    //设置重复模式 ValueAnimator.RESTART正序重新开始  ValueAnimator.REVERSE逆序重新开始
-    public int repeatMode;
+    /**
+     * 重复模式与重复次数缺一不可
+     * 设置重复模式 ValueAnimator.RESTART正序重新开始  ValueAnimator.REVERSE逆序重新开始
+     */
+    private int repeatMode;
 
-    //动画的循环次数 ValueAnimator.INFINITE代表无限循环
-    public int repeatCount;
+    /**
+     * 动画的循环次数 ValueAnimator.INFINITE代表无限循环
+     */
+    private int repeatCount;
 
-    //设置 Interpolator 插值器,线性Interpolator,以常量速率改变
-    //Interpolator 其实就是速度设置器。你在参数里填入不同的 Interpolator ，动画就会以不同的速度模型来执行
-    public TimeInterpolator interpolator;
+    /**
+     * 设置 Interpolator 插值器,线性Interpolator,以常量速率改变
+     * Interpolator 其实就是速度设置器。你在参数里填入不同的 Interpolator ，动画就会以不同的速度模型来执行
+     */
+    private TimeInterpolator interpolator;
 
     public AnimModel() {
     }

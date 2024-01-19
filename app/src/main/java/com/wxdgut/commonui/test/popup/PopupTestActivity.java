@@ -13,7 +13,9 @@ import com.wxdgut.commonui.R;
 import com.wxdgut.commonui.test.BaseTestActivity;
 import com.wxdgut.uilibrary.bubble.BubbleTouchListener;
 import com.wxdgut.uilibrary.bubble.BubbleView;
-import com.wxdgut.uilibrary.dialog.CommonDialog;
+import com.wxdgut.uilibrary.dialog.AnimModel;
+import com.wxdgut.uilibrary.dialog.BaseDialog;
+import com.wxdgut.uilibrary.dialog.BaseDialogInitBean;
 import com.wxdgut.uilibrary.like.LoveLayout;
 import com.wxdgut.uilibrary.popup.CommonPopup;
 import com.wxdgut.uilibrary.utils.CommonUtils;
@@ -137,12 +139,31 @@ public class PopupTestActivity extends BaseTestActivity implements View.OnClickL
     }
 
     private void showDialog() {
-        int toBottom = CommonUtils.getViewDistanceToBottom(ll_root, tv_pop);
-        CommonDialog commonDialog = CommonDialog.newBuilder(this).layout(R.layout.dialog_fingerprint4)
-                .height(toBottom).widthMatch(true)
-                .showAsDropDown(tv_pop)
-                .autoDismiss(false)
-                .build();
-        commonDialog.showDialog();
+//        int toBottom = CommonUtils.getViewDistanceToBottom(ll_root, tv_pop);
+//        CommonDialog commonDialog = CommonDialog.newBuilder(this).layout(R.layout.dialog_fingerprint4)
+//                .height(toBottom).widthMatch(true)
+//                .showAsDropDown(tv_pop)
+//                .autoDismiss(false)
+//                .build();
+//        commonDialog.showDialog();
+        BaseDialogInitBean bean = new BaseDialogInitBean();
+        bean.setDraggable(true);
+        bean.setDimAmount(0.1f);
+        bean.setLayout(R.layout.dialog_fingerprint4);
+        BaseDialog baseDialog = BaseDialog.build(this, bean);
+        baseDialog.setAnimView(R.id.iv_fingerprint, new AnimModel(AnimModel.ROTATION));
+        baseDialog.setAnimView(R.id.tv_cancel, new AnimModel(AnimModel.TRANSLATION_X));
+        baseDialog.showDialog();
+
+        baseDialog.setClick(R.id.tv_cancel, v -> {
+            toast("666");
+            baseDialog.dismissDialog();
+        });
+
+        baseDialog.setClick(R.id.tv_sure, (view, isChange) -> {
+            toast("777");
+            baseDialog.setAnimatorStatus(isChange ? BaseDialog.ANIM_PAUSE : BaseDialog.ANIM_RESUME, R.id.iv_fingerprint, R.id.tv_cancel);
+        });
+
     }
 }
