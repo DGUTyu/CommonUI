@@ -149,8 +149,8 @@ public class PopupTestActivity extends BaseTestActivity implements View.OnClickL
         BaseDialogInitBean bean = new BaseDialogInitBean();
         bean.setDraggable(true);
         bean.setDimAmount(0.1f);
-        bean.setLayout(R.layout.dialog_fingerprint4);
-        BaseDialog baseDialog = BaseDialog.build(this, bean);
+        bean.setLayout(R.layout.dialog_fingerprint2);
+        BaseDialog baseDialog = new BaseDialog(this, bean);
         baseDialog.setAnimView(R.id.iv_fingerprint, new AnimModel(AnimModel.ROTATION));
         baseDialog.setAnimView(R.id.tv_cancel, new AnimModel(AnimModel.TRANSLATION_X));
         baseDialog.showDialog();

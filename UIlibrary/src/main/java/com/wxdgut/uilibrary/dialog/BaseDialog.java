@@ -156,24 +156,14 @@ public class BaseDialog extends Dialog {
         void click(View view, boolean isChange);
     }
 
-    /**
-     * 初始化方法（对外）
-     *
-     * @param context context
-     * @param bean    bean
-     * @return
-     */
-    public static BaseDialog build(Context context, BaseDialogInitBean bean) {
-        return new BaseDialog(context, bean);
-    }
 
     /**
-     * 私有化构造方法
+     * 构造方法
      *
-     * @param context context
-     * @param bean    bean
+     * @param context 上下文
+     * @param bean    用于初始化BaseDialog的参数bean
      */
-    private BaseDialog(Context context, BaseDialogInitBean bean) {
+    public BaseDialog(Context context, BaseDialogInitBean bean) {
         super(context, bean.getStyleId());
         this.mContext = context;
         this.mBean = bean;
