@@ -21,20 +21,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wxdgut.uilibrary.R;
-import com.wxdgut.uilibrary.utils.UIConfigUtils;
 
 import java.lang.ref.WeakReference;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import static android.content.Context.WINDOW_SERVICE;
 
 /**
- * FileName: CommonDialog2
+ * FileName: CommonDialog
  * Founder: lu yao
  * User: Administrator
  * Date: 2022年11月
- * Copyright (c) 2022 http://wxdgut.com
  * Email: hello_luyao@163.com
  * Profile: 万能的Dialog
  * 对页面回退做了监听，默认页面回退时关闭Dialog
@@ -80,11 +76,6 @@ public class CommonDialog extends Dialog {
     final boolean autoDismiss; //Dialog 是否自动dimiss
     final boolean clearShadow; //Dialog 是否去除阴影
     final float dimAmount; //Dialog 明暗度
-    final int priority; //显示优先级，不能为负数。相同优先级，先添加的先显示。
-    boolean isErrorDialog; //是否是错误弹窗
-    boolean showErrorDialog; //是否显示错误弹窗
-    static int maxCount; //使用一个静态变量来跟踪所有实例中的最大值
-    private static final Queue<CommonDialog> dialogQueue = new LinkedList<>(); //优先级队列
     WeakReference<View> anchorWR;
     int anchorGravity;
     int xOff;
@@ -444,21 +435,16 @@ public class CommonDialog extends Dialog {
 
     //显示Dialog
     public void showDialog() {
-        if (priority >= 0) {
-            // 直接调用 handleNextDialog 方法
-            handleNextDialog();
-        } else {
-            if (this != null && !isShowing()) {
-                handleAnim(1);
-                Log.i(TAG, "show");
-                show();
-            }
+        if (!isShowing()) {
+            handleAnim(1);
+            Log.i(TAG, "show");
+            show();
         }
     }
 
     //隐藏Dialog
     public void hideDialog() {
-        if (this != null && isShowing()) {
+        if (isShowing()) {
             handleAnim(2);
             Log.i(TAG, "hide");
             hide();
@@ -467,57 +453,15 @@ public class CommonDialog extends Dialog {
 
     //销毁Dialog
     public void dismissDialog() {
-        if (this != null) {
-            handleAnim(0);
-            Log.i(TAG, "dismiss");
-            dismiss();
-            mViews = null;
-            mAnims = null;
-            if (anchorWR != null) {
-                anchorWR.clear();
-                anchorWR = null;
-            }
-            if (priority >= 0) {
-                // 在弹窗消失后触发，继续显示下一个弹窗
-                handleNextDialog();
-            }
+        handleAnim(0);
+        Log.i(TAG, "dismiss");
+        dismiss();
+        mViews = null;
+        mAnims = null;
+        if (anchorWR != null) {
+            anchorWR.clear();
+            anchorWR = null;
         }
-    }
-
-    /**
-     * 处理下一个弹窗
-     */
-    private void handleNextDialog() {
-        // 从队列中取出下一个弹窗并显示
-        CommonDialog nextDialog = getHighestPriorityDialog();
-        if (nextDialog != null) {
-            dialogQueue.remove(nextDialog);
-            maxCount -= 1;
-            if (nextDialog.isErrorDialog && !nextDialog.showErrorDialog) {
-                nextDialog.dismissDialog();
-            } else {
-                nextDialog.handleAnim(1);
-                //Log.i(TAG, "show, priority:" + nextDialog.priority);
-                nextDialog.show();
-            }
-        }
-    }
-
-    /**
-     * 选出优先级最高的弹窗对象
-     *
-     * @return
-     */
-    private CommonDialog getHighestPriorityDialog() {
-        int highestPriority = Integer.MAX_VALUE;
-        CommonDialog highestPriorityDialog = null;
-        for (CommonDialog dialog : dialogQueue) {
-            if (dialog.priority <= highestPriority) {
-                highestPriority = dialog.priority;
-                highestPriorityDialog = dialog;
-            }
-        }
-        return highestPriorityDialog;
     }
 
     /**
@@ -566,15 +510,6 @@ public class CommonDialog extends Dialog {
         this.anchorGravity = builder.anchorGravity;
         this.xOff = builder.xOff;
         this.yOff = builder.yOff;
-        this.isErrorDialog = builder.isErrorDialog;
-        this.showErrorDialog = builder.showErrorDialog;
-        this.priority = builder.priority; // 保存传入的优先级
-        if (priority >= 0) {  //有设置优先级，则把将当前对话框添加到优先级队列中
-            dialogQueue.add(this);
-            if (builder.maxCount >= maxCount) { //更新最大值
-                maxCount = builder.maxCount;
-            }
-        }
         //设置布局
         setContentView(layout);
         mViews = new SparseArray<>();
@@ -601,11 +536,6 @@ public class CommonDialog extends Dialog {
         setCancelable(cancelable);
         //初始化事件
         initEvent(window.getDecorView());
-        //判断优先级队列是否输入完毕，如果当前是弹窗队列形式且输入完毕且优先级有效，自动显示弹窗
-        //Log.e(TAG, "maxCount:" + maxCount+" builder.maxCount:" + builder.maxCount  + " dialogQueue.size:" + dialogQueue.size() + " priority:" + priority);
-        if (maxCount == dialogQueue.size() && priority >= 0) {
-            showDialog();
-        }
     }
 
     /**
@@ -711,14 +641,10 @@ public class CommonDialog extends Dialog {
         boolean clearShadow;
         int animId;
         float dimAmount;
-        int priority;
         WeakReference<View> anchorWR;
         int anchorGravity;
         int xOff;
         int yOff;
-        int maxCount;
-        boolean isErrorDialog;
-        boolean showErrorDialog;
         /**
          * 默认配置
          *
@@ -729,8 +655,8 @@ public class CommonDialog extends Dialog {
             this.widthMatch = false;
             this.height = -1;
             this.gravity = Gravity.CENTER;
-            this.layout = UIConfigUtils.getDefaultDialogLayoutId();
-            this.animId = UIConfigUtils.getDefaultDialogAnimId();
+            this.layout = R.layout.dialog_fingerprint;
+            this.animId = DEFAULT_ANIM;
             //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //API 21
             //this.styleId = android.R.style.Theme_Material_Dialog_NoActionBar;
             //}
@@ -740,9 +666,6 @@ public class CommonDialog extends Dialog {
             this.autoDismiss = true;
             this.clearShadow = false;
             this.dimAmount = 0.1f;  //完全透明不变暗是0.0f，完全变暗不透明是1.0f
-            this.priority = -1;     //默认负数，即默认不加入弹窗队列
-            this.isErrorDialog = false;
-            this.showErrorDialog = false;
         }
 
         /**
@@ -863,17 +786,6 @@ public class CommonDialog extends Dialog {
         }
 
         /**
-         * 弹窗队列中的优先级
-         *
-         * @param priority
-         * @return
-         */
-        public Builder priority(int priority) {
-            this.priority = priority;
-            return this;
-        }
-
-        /**
          * 设置Dialog显示的参考点（某个view的相对位置）
          * 注意要在布局完成测量后再使用此方法。
          * @param anchor
@@ -888,61 +800,6 @@ public class CommonDialog extends Dialog {
             this.xOff = xOff;
             this.yOff = yOff;
             return this;
-        }
-
-        /**
-         * 弹窗队列最大数量。要确保maxCount一定会被执行，可多次调用该方法，只记录最大值
-         * 使用者自行处理好页面的生命周期
-         * 在没有生成maxCount个弹窗之前，弹窗只会存在队列中并不展示
-         *
-         * @param maxCount
-         * @return
-         */
-        public Builder maxCount(int maxCount) {
-            this.maxCount = maxCount;
-            return this;
-        }
-
-        /**
-         * 当前弹窗是否是异常弹窗，该方法不对外
-         * maxCount设定后，不一定会有maxCount个弹窗。
-         * 因此，当不能按预期产生maxCount个弹窗时，应该通过buildError方法补一个错误弹窗。
-         *
-         * @param isErrorDialog
-         * @return
-         */
-        private Builder isErrorDialog(boolean isErrorDialog) {
-            this.isErrorDialog = isErrorDialog;
-            return this;
-        }
-
-        /**
-         * 错误弹窗是否显示，默认不显示。该方法不对外
-         *
-         * @param showErrorDialog
-         * @return
-         */
-        private Builder showErrorDialog(boolean showErrorDialog) {
-            this.showErrorDialog = showErrorDialog;
-            return this;
-        }
-
-        /**
-         * 生成一个错误弹窗，默认不显示
-         *
-         * @return
-         */
-        public CommonDialog buildError() {
-            return buildError(false);
-        }
-
-        /**
-         * 生成一个错误弹窗
-         *
-         * @return
-         */
-        public CommonDialog buildError(boolean showError) {
-            return new CommonDialog(priority(Integer.MAX_VALUE).isErrorDialog(true).showErrorDialog(showError));
         }
 
         /**
@@ -1043,49 +900,4 @@ public class CommonDialog extends Dialog {
         }
         return true;
     }
-
-    /**
-     * 获取弹窗队列
-     *
-     * @return
-     */
-    public static Queue<CommonDialog> getDialogQueue() {
-        return dialogQueue;
-    }
-
-    /**
-     * 强制更新maxCount，不再继续实例化其他CommonDialog对象
-     * 可以用在Activity的onPause中
-     *
-     * @param showDialogQueue 是否显示弹窗队列。（如果是errorDialog,则以实际设定为准）
-     */
-    public static void updateMaxCountAndStopInitMore(boolean showDialogQueue) {
-        if (dialogQueue != null && dialogQueue.size() > 0) {
-            //Log.e("TAG", "updateMaxCountWhileOnPause maxCount " + maxCount + "  dialogQueue.size: " + dialogQueue.size());
-            maxCount = dialogQueue.size();
-            if (showDialogQueue) {
-                //只想获取队列中的第一个元素而不移除它，使用 peek() 方法；获取并移除队列中的第一个元素，使用 poll() 方法
-                dialogQueue.peek().showDialog();
-            }
-        }
-    }
-
-    public static void updateMaxCountAndStopInitMore() {
-        updateMaxCountAndStopInitMore(false);
-    }
-
-    /**
-     * 释放弹窗队列
-     * 建议在Activity的onDestroy方法中调用
-     *
-     * @return
-     */
-    public static void clearQueue() {
-        if (dialogQueue != null && dialogQueue.size() > 0) {
-            //Log.e("TAG", "clearQueue maxCount " + maxCount + "  dialogQueue.size: " + dialogQueue.size());
-            dialogQueue.clear();
-            maxCount = 0;
-        }
-    }
-
 }

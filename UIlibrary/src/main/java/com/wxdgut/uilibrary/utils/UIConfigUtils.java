@@ -57,13 +57,6 @@ public class UIConfigUtils {
         return uiConfig.getDefaultSwitchOffColorId();
     }
 
-    public static int getDefaultDialogLayoutId() {
-        if (!isInitialized()) {
-            return R.layout.dialog_fingerprint;
-        }
-        return uiConfig.getDefaultDialogLayoutId();
-    }
-
     public static int getDefaultDialogAnimId() {
         if (!isInitialized()) {
             return CommonDialog.DEFAULT_ANIM;
